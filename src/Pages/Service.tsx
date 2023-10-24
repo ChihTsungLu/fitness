@@ -1,12 +1,13 @@
 interface ServicesProps {}
-import Navbar from "../Components/Natbar";
+import Navbar from "../Components/Navbar";
+
 const Services = ({}: ServicesProps) => {
- return ( 
-        <div>
-            {/* <Navbar/> */}
-            123123123
-        </div>
-    );
+  return (
+    <div className="pt-40">
+      
+      <p className="text-lg">123123</p>
+    </div>
+  );
 };
 
 export default Services;
