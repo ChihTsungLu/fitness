@@ -28,12 +28,12 @@ const Navbar = ({}: NavbarProps) => {
     },
   ];
   return (
-    <div className="w-full h-[65px] fixed top-0 z-10 bg-white flex justify-end items-center pr-20 space-x-6">
+    <div className="w-full h-[65px] fixed top-0 z-10 bg-[#fafafa] flex justify-end items-center pr-20 space-x-6">
       {navOptions.map(({ route, optionTw, optionEn }, index) => (
         <NavLink
           to={`${route}`}
           key={index}
-          className={({ isActive }) => (isActive ? "text-[#FF7F00]" : "")}
+          className={({ isActive }) => (isActive ? "text-[#149e7a]" : "")}
         >
           <div
             className="text-xl hover:bg-gray-100 w-[100px] h-[65px] flexCenter"

@@ -35,10 +35,8 @@ const Hero = ({}: HeroProps) => {
   };
 
   return (
-    <div className="w-full h-[700px] mt-[65px]   ">
-      
-        <BezierCurve/>
-     
+    <div className="w-full md:w-fit h-[600px] mt-[65px]">
+      <BezierCurve />
     </div>
   );
 };
