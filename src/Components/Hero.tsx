@@ -1,25 +1,46 @@
+import {
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../firbase";
+import BezierCurve from "./BezierCurve";
+
 interface HeroProps {}
-import HeroImage from '../images/hero.avif'
+
 const Hero = ({}: HeroProps) => {
+  const colRef = collection(db, "trainer");
 
- return ( 
-        <div className="w-full h-[700px] mt-[65px] hero-image ">
-             <div className="flexCenter pt-40 space-x-96">
-                <div className="space-y-20">
-                    <p className="text-4xl text-[#FF7F00] font-mono pl-6">尋找您的專屬健身教練</p>
-                    <div className="bg-white w-[400px] h-[300px] rounded-xl">
+  const handleClick = async () => {
+    try {
+      await addDoc(colRef, {
+        name: "Angel",
+        age: "25",
+      }).then(() => {
+        console.log("Data added");
+      });
+    } catch (e) {
+      console.error("Error adding doc: ", e);
+    }
+  };
 
-                    </div>
-                </div>
-                <div className="space-y-20">
-                    <p className="text-4xl text-[#FF7F00] font-bold pl-10 font-sans">建立您的教練行銷</p>
-                    <div className="bg-white w-[400px] h-[300px] rounded-xl">
+  const handleDelete = () => {
+    const docRef = doc(db, "trainer", "KCipxg5VvUxoBG7amu4n");
 
-                    </div>
-                </div>
-             </div>
-        </div>
-    );
+    deleteDoc(docRef).then(() => {
+      console.log("Data deleted");
+    });
+  };
+
+  return (
+    <div className="w-full h-[700px] mt-[65px]   ">
+      
+        <BezierCurve/>
+     
+    </div>
+  );
 };
 
 export default Hero;
