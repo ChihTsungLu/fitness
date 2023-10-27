@@ -36,11 +36,11 @@ const Navbar = ({}: NavbarProps) => {
           className={({ isActive }) => (isActive ? "text-[#149e7a]" : "")}
         >
           <div
-            className="text-xl hover:bg-gray-100 w-[100px] h-[65px] flexCenter"
+            className="text-xl hover:bg-gray-100  flexCenter rounded-xl"
             // onMouseEnter={() => setHoveredIndex(index)}
             // onMouseLeave={() => setHoveredIndex(5)}
           >
-            <p className="flexCenter font-bold">{optionTw}</p>
+            <p className="flexCenter font-bold p-3">{optionTw}</p>
           </div>
         </NavLink>
       ))}

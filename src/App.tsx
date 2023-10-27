@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div>
-      <Navbar/>
+      {/* <Navbar/> */}
       {/* Render child components */}
       <Outlet/>  
     </div>

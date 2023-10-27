@@ -5,6 +5,7 @@ import Service from "./Service";
 import { collection, getDocs, onSnapshot, query, where, orderBy } from "firebase/firestore";
 import { db } from "../firbase";
 import { useState, useEffect } from "react";
+import Navbar from "../Components/Navbar";
 
 const Home = () => {
   const [data, setData] = useState<any[]>([]);
@@ -31,6 +32,7 @@ const Home = () => {
   console.log(data)
   return (
     <div>
+      <Navbar/>
       <Hero />
       <Feature />
     </div>
