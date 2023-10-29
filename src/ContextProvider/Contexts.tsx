@@ -6,6 +6,10 @@ interface StateContextProps {
     setIsTrainer: React.Dispatch<React.SetStateAction<boolean>>;
     isStudent: boolean;
     setIsStudent: React.Dispatch<React.SetStateAction<boolean>>;
+    isAuthed: boolean;
+    setIsAuthed: React.Dispatch<React.SetStateAction<boolean>>;
+    userName: string;
+    setUserName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 
@@ -15,14 +19,19 @@ export const ContextProvider = ({ children }: { children: React.ReactNode }) => 
  
   const [isTrainer, setIsTrainer] = useState(true);
   const [isStudent, setIsStudent] = useState(false)
-
+  const [isAuthed, setIsAuthed] = useState(false)
+  const [userName, setUserName] = useState<string>("")
   return (
     <StateContext.Provider
       value={{
         isTrainer,
         setIsTrainer,
         isStudent,
-        setIsStudent
+        setIsStudent,
+        isAuthed,
+        setIsAuthed,
+        userName,
+        setUserName
     }}
     >
       {children}

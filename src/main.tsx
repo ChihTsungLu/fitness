@@ -1,15 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
-import ErrorPage from "./ErrorPage.tsx";
+import ErrorPage from "./Pages/ErrorPage.tsx";
 import Trainer from "./Pages/Trainer.tsx";
 import { ContextProvider } from "./ContextProvider/Contexts.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Client from "./Pages/Client.tsx";
 import Service from "./Pages/Service.tsx";
-import Home from "./Pages/Home.tsx";
-import Auth from "./Components/Auth.tsx";
+import Home from "./Pages/Home/Home.tsx";
+import Auth from "./features/Auth.tsx";
+import ProtectedRoute from "./Components/ProtectedRoute.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
       },
       {
         path: "trainer",
-        element: <Trainer />,
+        element:(
+          <ProtectedRoute>
+            <Trainer/>
+          </ProtectedRoute>
+        ),
       },
       {
         path: "client",

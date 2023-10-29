@@ -8,3 +8,6 @@
 .flexCenter{
     @apply flex justify-center items-center
 }
+.home-trainer-feature {
+   @apply w-[400px] h-[150px] bg-white rounded-xl hover:border border border-gray-300 hover:border-purple-500 shadow-md
+  }

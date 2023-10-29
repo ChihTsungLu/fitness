@@ -14,7 +14,7 @@ const BezierCurve = () => {
           </div>
           <NavLink to={"/trainer"}>
             <div className="flex">
-              <button className="w-[200px] h-[40px] border border-black rounded-full mt-4 bg-[#3d4046] hover:bg-[#108a6b]">
+              <button className="w-[200px] h-[40px] border border-black rounded-full mt-4 bg-[#4b4e54] hover:bg-[#3d4046]">
                 <p className="text-2xl text-white">成為教練</p>
               </button>
               {/* <img src={Dumbell} width={100} height={40} /> */}

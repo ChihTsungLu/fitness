@@ -10,7 +10,7 @@ import {
   serverTimestamp,
   updateDoc
 } from "firebase/firestore";
-import { db } from "../firbase";
+import { db } from "../../features/firebase";
 import BezierCurve from "./BezierCurve";
 import { useState, useEffect } from "react";
 import { getAuth } from 'firebase/auth'
@@ -18,7 +18,8 @@ import { getAuth } from 'firebase/auth'
 interface HeroProps {}
 
 const Hero = ({}: HeroProps) => {
-  
+
+
   
 
   return (
