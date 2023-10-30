@@ -7,8 +7,8 @@ const ProtectedRoute = ({ children, ...rest }: { children: React.ReactNode }) =>
 
   const navigate = useNavigate();
 
-
-  if (userName === null ) {
+  console.log(userName)
+  if (userName === null || userName.length === 0) {
     return <Navigate to={"/auth"} replace />
   } 
   

@@ -10,13 +10,15 @@ interface StateContextProps {
     setIsAuthed: React.Dispatch<React.SetStateAction<boolean>>;
     userName: string;
     setUserName: React.Dispatch<React.SetStateAction<string>>;
+    buildStep: number;
+    setBuildStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
 
 const StateContext = createContext<StateContextProps | undefined>(undefined);
 
 export const ContextProvider = ({ children }: { children: React.ReactNode }) => {
- 
+  const [buildStep, setBuildStep] = useState(1);
   const [isTrainer, setIsTrainer] = useState(true);
   const [isStudent, setIsStudent] = useState(false)
   const [isAuthed, setIsAuthed] = useState(false)
@@ -31,7 +33,9 @@ export const ContextProvider = ({ children }: { children: React.ReactNode }) => 
         isAuthed,
         setIsAuthed,
         userName,
-        setUserName
+        setUserName,
+        buildStep,
+        setBuildStep
     }}
     >
       {children}

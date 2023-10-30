@@ -32,7 +32,7 @@ const Navbar = ({}: NavbarProps) => {
       optionEn: "Personal Service",
     },
   ];
-  console.log(isAuthed)
+
   return (
     <div className="w-full h-[65px] fixed top-0 z-10 bg-[#fafafa] flex justify-end items-center pr-20 space-x-6">
       {navOptions.map(({ route, optionTw, optionEn }, index) => (

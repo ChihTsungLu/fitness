@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
-import { redirect, useNavigate  } from "react-router-dom";
 
+import { getStorage } from "firebase/storage"
 const firebaseConfig = {
   apiKey: "AIzaSyCog1BFZmvc29Op-MPjyK8VYTguNm1KYOU",
   authDomain: "fitness-32521.firebaseapp.com",
@@ -21,6 +21,6 @@ const app = initializeApp(firebaseConfig)
 
 export const db = getFirestore(app)
 export const auth = getAuth(app);
-
+export const storage = getStorage(app)
 
 
