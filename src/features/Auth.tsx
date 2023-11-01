@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 const Auth = () => {
-  const { setIsAuthed, isAuthed, setUserName} = useStateContext();
+  const { setIsAuthed, isAuthed, setUserName, userName} = useStateContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -23,17 +23,18 @@ const Auth = () => {
         const email = result.user.email
         const profilePic = result.user.photoURL
         setIsAuthed(true)
+        setUserName(name!)
         localStorage.setItem("name", name!)
         localStorage.setItem("email", email!)
         localStorage.setItem("profilePic", profilePic!)
-        setUserName(name!)
+     
         navigate("/trainer")
       })
       .catch((error) => {
         console.log(error)
       })
   }
-// console.log(isAuthed)
+console.log('au',userName)
   const handleSignUp = () => {
 
     createUserWithEmailAndPassword(auth, email, password)

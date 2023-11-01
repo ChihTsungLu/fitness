@@ -1,17 +1,15 @@
-.hero-image{
-    background-image:  url("hero-1.jpg");
-
-  /* Set a specific height */
+.hero-image {
   height: 50%;
-
-
-  /* Position and center the image to scale nicely on all screens */
   background-position: center;
-  /* background-position: top center; */
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("hero-1.jpg");
 }
+
+
+
+
 .transparent-gray-button {
   background-color: rgba(128, 128, 128, 0.3);
   /* You can adjust the opacity by changing the last value (0.5) to your preference */
