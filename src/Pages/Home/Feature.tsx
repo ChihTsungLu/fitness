@@ -27,7 +27,7 @@ const Feature = ({ }: FeatureProps) => {
     return (
         <div className="w-full h-fit ">
             <p className="ml-10 mt-10 text-4xl">
-                我們協助<u onClick={()=>navigate("/auth")} className="cursor-pointer">教練找學生</u>，<u onClick={()=>navigate("/client")} className="cursor-pointer">學生找教練</u>
+                我們協助<u onClick={()=>navigate("/trainer")} className="cursor-pointer">教練找學生</u>，<u onClick={()=>navigate("/client")} className="cursor-pointer">學生找教練</u>
             </p>
             <div className="mt-5 ml-10 space-x-3">
                 <button

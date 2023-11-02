@@ -11,7 +11,7 @@ import WhyUs from "./WhyUs";
 const Home = () => {
   const [data, setData] = useState<any[]>([]);
   const colRef = collection(db, "trainer");
-
+  
   // const fetchPost = async () => {
 
   //    const q = query(colRef,where("age","==","25"), orderBy('name','asc'))

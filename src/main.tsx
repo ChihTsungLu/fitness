@@ -4,9 +4,11 @@ import App from "./App.tsx";
 import ErrorPage from "./Pages/ErrorPage.tsx";
 import Trainer from "./Pages/Trainer/Trainer.tsx";
 import { ContextProvider } from "./ContextProvider/Contexts.tsx";
+import { TrainerProvider } from "./ContextProvider/TrainerContext.tsx";
+import { ClientProvider } from "./ContextProvider/ClientContext.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Client from "./Pages/Client.tsx";
+import Client from "./Pages/Client/Client.tsx";
 import Service from "./Pages/Service.tsx";
 import Home from "./Pages/Home/Home.tsx";
 import Auth from "./features/Auth.tsx";
@@ -24,14 +26,14 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path:"auth",
-        element:<Auth/>
+        path: "auth",
+        element: <Auth />,
       },
       {
         path: "trainer",
-        element:(
+        element: (
           <ProtectedRoute>
-            <Trainer/>
+            <Trainer />
           </ProtectedRoute>
         ),
       },
@@ -49,8 +51,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ContextProvider>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <TrainerProvider>
+      <ClientProvider>
+        <React.StrictMode>
+          <RouterProvider router={router} />
+        </React.StrictMode>
+      </ClientProvider>
+    </TrainerProvider>
   </ContextProvider>
 );
