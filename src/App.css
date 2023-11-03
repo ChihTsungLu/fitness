@@ -1,13 +1,12 @@
 .hero-image {
   height: 50%;
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("hero-1.jpg");
+
+  background-image:   linear-gradient(rgba(20, 20, 20, 0.4), rgba(15, 15, 15, 0.4)),url("hero.avif");
 }
-
-
 
 
 .transparent-gray-button {
@@ -54,5 +53,25 @@
     background-color: #ebebeb;
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
     cursor: not-allowed;
+  }
+}
+
+h1 {
+  padding: 64px;
+  background: linear-gradient(to right, hsl(0, 0%, 100%) 0, hsl(163, 88%, 53%) 10%, hsl(0, 6%, 94%) 20%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s infinite linear;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 1000px;
+  }
+  100% {
+    background-position: 1000px;
   }
 }

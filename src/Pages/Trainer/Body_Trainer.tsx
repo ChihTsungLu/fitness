@@ -5,6 +5,8 @@ import { db } from "../../features/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useState, useEffect, useRef } from "react";
 import { storage } from "../../features/firebase";
+import Button from "@mui/material/Button";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   ref,
   uploadBytes,
@@ -16,11 +18,19 @@ import { v4 } from "uuid";
 
 const Body_Trainer = () => {
   const { userName, buildStep } = useStateContext();
-  const { name, setName, experience, setExperience, expertise, setExpertise, location, setLocation } = useTrainerContext();
+  const {
+    name,
+    setName,
+    experience,
+    setExperience,
+    expertise,
+    setExpertise,
+    location,
+    setLocation,
+  } = useTrainerContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
- 
   const [imageUpload, setImageUpload] = useState<any>();
   const [imageList, setImageList] = useState<string>();
 
@@ -29,7 +39,7 @@ const Body_Trainer = () => {
   const imageListDeleteRef = ref(storage, imageList);
 
   const handleImageUpload = () => {
-    console.log(imageUpload)
+    console.log(imageUpload);
     if (imageUpload === undefined) return;
     const imageRef = ref(storage, `images/${imageUpload?.name + v4()}`);
     uploadBytes(imageRef, imageUpload)
@@ -50,7 +60,7 @@ const Body_Trainer = () => {
         experience: experience,
         location: location,
         expertise: expertise,
-        imgUrl: imageList
+        imgUrl: imageList,
       });
     } catch (e) {
       console.error("Error adding data: ", e);
@@ -89,7 +99,7 @@ const Body_Trainer = () => {
   //     })
   //     .catch((e) => console.error(e));
   // }, []);
-console.log(name)
+
   return (
     <div className="w-4/5 h-screen bg-[#F8FAFB]">
       <div className="w-full p-10 ">
@@ -110,7 +120,7 @@ console.log(name)
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
-                  InputLabelProps={{ shrink: name.length>0 }}
+                  InputLabelProps={{ shrink: name.length > 0 }}
                 />
 
                 <TextField
@@ -122,7 +132,7 @@ console.log(name)
                   onChange={(e) => {
                     setLocation(e.target.value);
                   }}
-                  InputLabelProps={{ shrink: location.length>0 }}
+                  InputLabelProps={{ shrink: location.length > 0 }}
                 />
                 <TextField
                   id="standard-basic"
@@ -146,7 +156,7 @@ console.log(name)
                   onChange={(e) => {
                     setExpertise(e.target.value);
                   }}
-                  InputLabelProps={{ shrink: expertise.length>0 }}
+                  InputLabelProps={{ shrink: expertise.length > 0 }}
                 />
                 <TextField
                   id="standard-basic"
@@ -159,7 +169,7 @@ console.log(name)
                   onChange={(e) => {
                     setExperience(e.target.value);
                   }}
-                  InputLabelProps={{ shrink: experience.length>0 }}
+                  InputLabelProps={{ shrink: experience.length > 0 }}
                 />
                 <TextField
                   id="standard-basic"
@@ -227,14 +237,15 @@ console.log(name)
               </div>
               <div className=""></div>
             </div>
-            <button onClick={handleImageUpload}>Upload Image</button>
-            <button onClick={handleClick}>Upload Data</button>
-            {/* {imageList?.map((url, index) => (
-              <div>
-                <img key={index} src={url} />
-                <button onClick={handleDelete}>123</button>
-              </div>
-            ))} */}
+            <div className="mt-20">
+              <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+              >
+                <p className="text-xl">上傳資料</p>
+              </Button>
+            </div>
           </div>
         )}
       </div>
