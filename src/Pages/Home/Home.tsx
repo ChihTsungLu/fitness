@@ -7,6 +7,7 @@ import { db } from "../../features/firebase";
 import { useState, useEffect } from "react";
 import Navbar from "../../Components/Navbar";
 import WhyUs from "./WhyUs";
+import CTA from "./CTA";
 
 const Home = () => {
   const [data, setData] = useState<any[]>([]);
@@ -37,6 +38,7 @@ const Home = () => {
       <Hero />
       <Feature />
       <WhyUs/>
+      <CTA/>
     </div>
   );
 };

@@ -9,7 +9,7 @@ const Nav_Trainer = () => {
   const { buildStep, setBuildStep} = useStateContext();
 
   return (
-    <div className="w-1/5 h-screen bg-[#051e34] flex flex-col items-center">
+    <div className="w-1/5  bg-[#051e34] flex flex-col items-center">
       {/* Logo Title */}
       <div className=" ">
         <p className="text-white text-lg p-4">FitCenter</p>
@@ -23,7 +23,7 @@ const Nav_Trainer = () => {
           <div
             className={`h-[300px] w-[1px] self-stretch bg-gray-400 opacity-100 dark:opacity-50 ml-4 mt-4`}
           ></div>
-          <div className="pl-7 w-full space-y-10">
+          <div className="pl-5 space-y-10">
             <Button
               variant="contained"
               sx={{

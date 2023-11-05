@@ -9,7 +9,7 @@
   @apply flex justify-center items-center;
 }
 .home-trainer-feature {
-  @apply w-[400px] h-[150px] bg-white rounded-xl hover:border border border-gray-300 hover:border-purple-500 shadow-md;
+  @apply w-[400px] h-[125px] rounded-xl hover:border border shadow-md flex flex-col space-y-2 p-4;
 }
 
 .TrainerModal {

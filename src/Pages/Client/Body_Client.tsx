@@ -19,7 +19,7 @@ const Body_Client = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
+  console.log(data)
   return (
     <div className="w-4/5 flex space-x-5 mt-10">
       {data.map((item, index) => (

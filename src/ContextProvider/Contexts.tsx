@@ -8,8 +8,8 @@ interface StateContextProps {
     setIsStudent: React.Dispatch<React.SetStateAction<boolean>>;
     isAuthed: boolean;
     setIsAuthed: React.Dispatch<React.SetStateAction<boolean>>;
-    userName: string | null;
-    setUserName: React.Dispatch<React.SetStateAction<string|null>>;
+    userName: string;
+    setUserName: React.Dispatch<React.SetStateAction<string>>;
     buildStep: number;
     setBuildStep: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -22,7 +22,7 @@ export const ContextProvider = ({ children }: { children: React.ReactNode }) => 
   const [isTrainer, setIsTrainer] = useState(true);
   const [isStudent, setIsStudent] = useState(false)
   const [isAuthed, setIsAuthed] = useState(false)
-  const [userName, setUserName] = useState<string | null>(localStorage.getItem("name"))
+  const [userName, setUserName] = useState<string>(localStorage.getItem("name") || "")
   console.log(userName)
   return (
     <StateContext.Provider

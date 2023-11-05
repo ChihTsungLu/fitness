@@ -2,7 +2,7 @@ interface WhyUsProps { }
 
 const WhyUs = ({ }: WhyUsProps) => {
     return (
-        <div className="flex ">
+        <div className="flex p-12 ">
             <div className="w-1/2">
                 這邊放圖片
             </div>
