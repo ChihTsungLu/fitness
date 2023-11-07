@@ -5,13 +5,29 @@
 .flexBetween {
   @apply flex justify-between items-center;
 }
+
 .flexCenter {
   @apply flex justify-center items-center;
 }
+
 .home-trainer-feature {
   @apply w-[400px] h-[125px] rounded-xl hover:border border shadow-md flex flex-col space-y-2 p-4;
 }
 
 .TrainerModal {
-  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1080px] h-[960px] bg-white  justify-center rounded-lg p-14;
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1080px] my-10 h-[960px] bg-white justify-center rounded-lg p-14;
+}
+
+@media (max-height: 1080px) {
+  .TrainerModal {
+    @apply h-[780px];
+    /* Change the height value based on your preference */
+  }
+}
+
+@media (max-height: 769px) {
+  .TrainerModal {
+    @apply h-[700px];
+    /* Change the height value based on your preference */
+  }
 }

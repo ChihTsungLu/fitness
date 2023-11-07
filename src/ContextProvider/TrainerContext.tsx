@@ -23,10 +23,10 @@ interface StateContextProps {
     thirdTime: string;
     setThirdTime: React.Dispatch<React.SetStateAction<string>>;
 
-    goalInTime: string;
-    setGoalInTime: React.Dispatch<React.SetStateAction<string>>;
     experience: string;
     setExperience: React.Dispatch<React.SetStateAction<string>>;
+    goalInTime: string;
+    setGoalInTime: React.Dispatch<React.SetStateAction<string>>;
     description: string;
     setDescription: React.Dispatch<React.SetStateAction<string>>;
     trainingMethod: string;

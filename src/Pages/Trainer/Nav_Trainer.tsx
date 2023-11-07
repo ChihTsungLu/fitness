@@ -9,19 +9,19 @@ const Nav_Trainer = () => {
   const { buildStep, setBuildStep} = useStateContext();
 
   return (
-    <div className="w-1/5  bg-[#051e34] flex flex-col items-center">
+    <div className="w-1/5  bg-[#051e34] flex flex-col items-center ">
       {/* Logo Title */}
       <div className=" ">
         <p className="text-white text-lg p-4">FitCenter</p>
       </div>
 
-      <div className="border-t border-b border-gray-600  w-full h-fit">
+      <div className="border-t border-b border-gray-600 ">
         <p className="text-gray-300 text-1xl pt-6 pl-8">
           簡單三步驟，五分鐘增加客源
         </p>
         <div className="px-7 space-y-10 flex pb-4">
           <div
-            className={`h-[300px] w-[1px] self-stretch bg-gray-400 opacity-100 dark:opacity-50 ml-4 mt-4`}
+            className={` w-[1px] self-stretch bg-gray-400 opacity-100 dark:opacity-50 ml-4 mt-4`}
           ></div>
           <div className="pl-5 space-y-10">
             <Button
@@ -96,17 +96,17 @@ const Nav_Trainer = () => {
                   buildStep === 3 ? "text-[#007CEF]" : "text-black"
                 }`}
               >
-                發佈建立個人品牌
+                瀏覽模版並發佈個人品牌
               </p>
             </Button>
           </div>
         </div>
       </div>
-      <div className="border-t border-b border-gray-600  w-full h-fit">
+      <div className="border-t border-b border-gray-600  w-full">
         <p className="text-gray-300 text-1xl pt-6 pl-8">編輯個人檔案</p>
         <div className="px-7 space-y-10 flex pb-4">
           <div
-            className={`h-[100px] w-[1px] self-stretch bg-gray-400 opacity-100 dark:opacity-50 ml-4 mt-4`}
+            className={` w-[1px] self-stretch bg-gray-400 opacity-100 dark:opacity-50 ml-4 mt-4`}
           ></div>
           <div className="pl-7 w-full space-y-10">
             <Button

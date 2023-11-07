@@ -4,7 +4,10 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useTrainerContext } from "../../ContextProvider/TrainerContext";
 const TrainerFirst = () => {
-  const { name, setName, location, setLocation, shortIntro, setShortIntro } = useTrainerContext();
+  const { name, setName, location, setLocation, shortIntro, setShortIntro, priceRange, setPriceRange, line, setLine, insta, setInsta,
+    firstTime, setFirstTime, secondTime, setSecondTime, thirdTime, setThirdTime, experience, setExperience, goalInTime, setGoalInTime, description, setDescription,
+    trainingMethod, setTrainingMethod
+  } = useTrainerContext();
   return (
     <div className="flex flex-col space-y-4">
       <p className="text-xl ">第一步：建立個人資訊</p>
@@ -19,6 +22,7 @@ const TrainerFirst = () => {
             value={name}
             onChange={(e) => {
               setName(e.target.value);
+              localStorage.setItem('Name', e.target.value)
             }}
             InputLabelProps={{ shrink: name.length > 0 }}
           />
@@ -39,16 +43,14 @@ const TrainerFirst = () => {
             label="15個字說明專長及經歷年數"
             variant="standard"
             className=" w-[380px]"
-              value={shortIntro}
-              onChange={(e) => {
-                const inputText = e.target.value;
-                if (inputText.length <= 15) {
-                    setShortIntro(inputText);
-                } else {
-                    setShortIntro(inputText.slice(0, 10)); // Truncate input to 10 characters
-                }
-              }}
-              InputLabelProps={{ shrink: shortIntro.length > 0 }}
+            value={shortIntro}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 15) {
+                setShortIntro(inputText);
+              } else return;
+            }}
+            InputLabelProps={{ shrink: shortIntro.length > 0 }}
           />
           <TextField
             id="standard-basic"
@@ -59,6 +61,10 @@ const TrainerFirst = () => {
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
               ),
+            }}
+            value={priceRange}
+            onChange={(e) => {
+              setPriceRange(e.target.value)
             }}
           />
         </div>
@@ -95,6 +101,10 @@ const TrainerFirst = () => {
                 </InputAdornment>
               ),
             }}
+            value={line}
+            onChange={(e) => {
+              setLine(e.target.value)
+            }}
           />
           <TextField
             id="standard-basic"
@@ -108,6 +118,10 @@ const TrainerFirst = () => {
                 </InputAdornment>
               ),
             }}
+            value={insta}
+            onChange={(e) => {
+              setInsta(e.target.value)
+            }}
           />
         </div>
       </div>
@@ -119,18 +133,45 @@ const TrainerFirst = () => {
             label="第一個時段"
             variant="standard"
             className=" w-[380px]"
+            value={firstTime}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 17) {
+                setFirstTime(e.target.value)
+              } else {
+                setFirstTime(inputText.slice(0, 17))
+              }
+            }}
           />
           <TextField
             id="standard-basic"
             label="第二個時段"
             variant="standard"
             className=" w-[380px]"
+            value={secondTime}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 17) {
+                setSecondTime(e.target.value)
+              } else {
+                setSecondTime(inputText.slice(0, 17))
+              }
+            }}
           />
           <TextField
             id="standard-basic"
             label="第三個時段"
             variant="standard"
             className=" w-[380px]"
+            value={thirdTime}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 17) {
+                setThirdTime(e.target.value)
+              } else {
+                setThirdTime(inputText.slice(0, 17))
+              }
+            }}
           />
         </div>
       </div>
@@ -140,16 +181,20 @@ const TrainerFirst = () => {
         <div className="flex space-x-10">
           <TextField
             id="standard-basic"
-            label="我的訓練經歷/成長故事"
+            label="自我介紹及訓練經歷"
             multiline
             rows={4}
             variant="outlined"
             className=" w-[380px]"
-            //   value={expertise}
-            //   onChange={(e) => {
-            //     setExpertise(e.target.value);
-            //   }}
-            //   InputLabelProps={{ shrink: expertise.length > 0 }}
+            value={experience}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 100) {
+                setExperience(e.target.value)
+              } else {
+                setExperience(inputText.slice(0, 100));
+              }
+            }}
           />
 
           <TextField
@@ -159,6 +204,15 @@ const TrainerFirst = () => {
             rows={4}
             variant="outlined"
             className=" w-[380px]"
+            value={goalInTime}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 100) {
+                setGoalInTime(e.target.value)
+              } else {
+                setGoalInTime(inputText.slice(0, 100));
+              }
+            }}
           />
         </div>
         <div className=" space-x-10">
@@ -169,14 +223,32 @@ const TrainerFirst = () => {
             multiline
             rows={3}
             variant="outlined"
+            value={description}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 100) {
+                setDescription(e.target.value)
+              } else {
+                setDescription(inputText.slice(0, 100));
+              }
+            }}
           />
           <TextField
             id="standard-basic"
-            label="給學生的訓練方式"
+            label="我能在課堂上給予什麼"
             className=" w-[380px]"
             multiline
             rows={3}
             variant="outlined"
+            value={trainingMethod}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 100) {
+                setTrainingMethod(e.target.value)
+              } else {
+                setTrainingMethod(inputText.slice(0, 100));
+              }
+            }}
           />
         </div>
       </div>

@@ -19,6 +19,7 @@ import {
 } from "firebase/storage";
 import { v4 } from "uuid";
 import TrainerFirst from "./TrainerFirst";
+import TrainerThird from "./TrainerThird";
 
 const Body_Trainer = () => {
   const { userName, buildStep } = useStateContext();
@@ -32,10 +33,10 @@ const Body_Trainer = () => {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
 
-  const [imageUpload, setImageUpload] = useState<any>();
+  const [imageUpload, setImageUpload] = useState<File>();
   const [imageList, setImageList] = useState<string>();
 
-  const [videoUpload, setVideoUpload] = useState<any>();
+  const [videoUpload, setVideoUpload] = useState<File>();
   const [videoList, setVideoList] = useState<string>();
 
   const databaseRef = collection(db, "trainer");
@@ -97,7 +98,7 @@ const Body_Trainer = () => {
     );
   };
 
-  // console.log(videoList)
+  console.log(videoUpload)
 
   const handleDataUpload = async (e: any) => {
     e.preventDefault();
@@ -107,7 +108,6 @@ const Body_Trainer = () => {
         name: name,
         experience: experience,
         location: location,
-        expertise: expertise,
         imgUrl: imageList,
       });
     } catch (e) {
@@ -156,9 +156,9 @@ const Body_Trainer = () => {
 
   return (
     <div className="w-4/5  bg-[#F8FAFB]">
-      <div className="w-full h-screen p-10 ">
+      <div className="   p-10 ">
         {buildStep === 1 && (
-          <TrainerFirst/>
+          <TrainerFirst />
         )}
         {buildStep === 2 && (
           <div className="space-y-4">
@@ -168,13 +168,13 @@ const Body_Trainer = () => {
                 className="w-[450px] h-[450px] rounded-xl border-dotted border-2 border-black flexCenter"
                 onClick={handleImageClick}
               >
-                <p>上傳照片</p>
-                {imageUpload && (
+
+                {imageUpload ? (
                   <img
                     src={URL.createObjectURL(imageUpload)}
                     className="w-[400px] h-[400px]"
                   />
-                )}
+                ) : <p className="text-lg">上傳照片</p>}
                 <input
                   type="file"
                   ref={imageInputRef}
@@ -199,7 +199,7 @@ const Body_Trainer = () => {
                     className="w-[400px] h-[400px]"
                   />
                 ) : (
-                  <p>上傳影片</p>
+                  <p className="text-lg">上傳影片</p>
                 )}
                 <input
                   type="file"
@@ -241,6 +241,9 @@ const Body_Trainer = () => {
             </div>
           </div>
         )}
+        {buildStep === 3 &&
+          <TrainerThird image={imageUpload} video={videoUpload}/>
+        }
       </div>
     </div>
   );
