@@ -122,7 +122,7 @@ const Feature = ({ }: FeatureProps) => {
               輕鬆找到理想健身夥伴，訓練路上不再有疑惑
             </p>
           </div>
-          <div className="m-10 pb-10 flexBetween">
+          <div className="m-10 flexBetween">
             <div className="space-y-4">
               <div className={`home-trainer-feature ${clientExplainStep === 1 ? ' border border-purple-500 bg-white' : 'bg-gray-50 border border-gray-300'}`}
                 onMouseEnter={() => setClientExplainStep(1)}

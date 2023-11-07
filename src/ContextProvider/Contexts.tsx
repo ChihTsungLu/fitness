@@ -23,7 +23,7 @@ export const ContextProvider = ({ children }: { children: React.ReactNode }) => 
   const [isStudent, setIsStudent] = useState(false)
   const [isAuthed, setIsAuthed] = useState(false)
   const [userName, setUserName] = useState<string>(localStorage.getItem("name") || "")
-  console.log(userName)
+  
   return (
     <StateContext.Provider
       value={{

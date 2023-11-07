@@ -9,17 +9,26 @@ import TrainerModal from "./TrainerModal";
 const Body_Client = () => {
   const { setModalOpen } = useClientContext();
   const [data, setData] = useState<any[]>([]);
+  const [selectedItem, setSelectedItem] = useState<string>("");
+
   const databaseRef = collection(db, "trainer");
+
   const fetchData = async () => {
     const snapShot = await getDocs(databaseRef);
     const newData = snapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     setData(newData);
   };
 
+  const handleOpenModal = (item: string) => {
+    setSelectedItem(item);
+    setModalOpen(true);
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(data)
+
+ 
   return (
     <div className="w-4/5 flex space-x-5 mt-10">
       {data.map((item, index) => (
@@ -45,16 +54,18 @@ const Body_Client = () => {
             <Button
               variant="outlined"
               startIcon={<LocalFireDepartmentIcon sx={{ color: "#D80032" }} />}
-              sx={{color:"#004225"}}
+              sx={{ color: "#004225" }}
               color="success"
-              onClick={()=>setModalOpen(true)}
+              onClick={() => handleOpenModal(item.name)}
             >
               <p className="text-lg">查看資料</p>
             </Button>
           </div>
         </div>
       ))}
-      <TrainerModal/>
+      <TrainerModal
+        name={selectedItem}
+      />
     </div>
   );
 };
