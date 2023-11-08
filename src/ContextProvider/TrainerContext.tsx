@@ -4,10 +4,13 @@ import { useContext, createContext, useState, useEffect } from "react";
 interface StateContextProps {
     name: string;
     setName: React.Dispatch<React.SetStateAction<string>>;
+    title: string;
+    setTitle: React.Dispatch<React.SetStateAction<string>>;
+    expYear: string;
+    setExpYear: React.Dispatch<React.SetStateAction<string>>;
     location: string;
     setLocation: React.Dispatch<React.SetStateAction<string>>;
-    shortIntro: string;
-    setShortIntro: React.Dispatch<React.SetStateAction<string>>;
+  
     priceRange: string;
     setPriceRange: React.Dispatch<React.SetStateAction<string>>;
 
@@ -41,8 +44,9 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
 
   // 第一段
   const [name, setName] = useState<string>("");
+  const [title, setTitle] = useState<string>("")
+  const [expYear,setExpYear] = useState<string>("")
   const [location, setLocation] = useState<string>("");
-  const [shortIntro, setShortIntro] = useState<string>("");
   const [priceRange, setPriceRange] = useState<string>("");
   
   // 第二段
@@ -66,10 +70,12 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
       value={{
        name,
        setName,
+       title,
+       setTitle,
+       expYear,
+       setExpYear,
        location,
        setLocation,
-       shortIntro,
-       setShortIntro,
        priceRange,
        setPriceRange,
        line,

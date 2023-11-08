@@ -25,9 +25,19 @@ const Body_Trainer = () => {
   const { userName, buildStep } = useStateContext();
   const {
     name,
-    setName,
+    title,
+    expYear,
+    location,
+    priceRange,
+    line,
+    insta,
+    firstTime,
+    secondTime,
+    thirdTime,
     experience,
-    setExperience,
+    goalInTime,
+    description,
+    trainingMethod
   } = useTrainerContext();
 
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -98,7 +108,7 @@ const Body_Trainer = () => {
     );
   };
 
-  console.log(videoUpload)
+
 
   const handleDataUpload = async (e: any) => {
     e.preventDefault();
@@ -106,9 +116,21 @@ const Body_Trainer = () => {
     try {
       await addDoc(databaseRef, {
         name: name,
-        experience: experience,
+        title:title,
+        expYear:expYear,
         location: location,
+        priceRange: priceRange,
+        line: line,
+        insta: insta,
+        firstTime: firstTime,
+        secondTime: secondTime,
+        thirdTime:thirdTime,
+        experience: experience,
+        goalInTime: goalInTime,
+        description: description,
+        trainingMethod: trainingMethod,
         imgUrl: imageList,
+        videoList: videoList
       });
     } catch (e) {
       console.error("Error adding data: ", e);
@@ -155,7 +177,7 @@ const Body_Trainer = () => {
   // }, []);
 
   return (
-    <div className="w-4/5  bg-[#F8FAFB]">
+    <div className="w-4/5 trainerLgScreen bg-[#F8FAFB]">
       <div className="   p-10 ">
         {buildStep === 1 && (
           <TrainerFirst />
@@ -165,7 +187,7 @@ const Body_Trainer = () => {
             {/* 照片上傳 */}
             <div className="flex">
               <div
-                className="w-[450px] h-[450px] rounded-xl border-dotted border-2 border-black flexCenter"
+                className="w-[450px] h-[450px] rounded-xl border-dotted border-2 border-black flexCenter bg-white"
                 onClick={handleImageClick}
               >
 
@@ -189,7 +211,7 @@ const Body_Trainer = () => {
             {/* 影片上傳 */}
             <div className="flex">
               <div
-                className="w-[450px] h-[450px] rounded-xl border-dotted border-2 border-black flexCenter"
+                className="w-[450px] h-[450px] rounded-xl border-dotted border-2 border-black flexCenter bg-white"
                 onClick={handleVideoClick}
               >
                 {videoUpload ? (
@@ -229,7 +251,7 @@ const Body_Trainer = () => {
                 />
               </div>
             </div>
-            <div className="mt-20">
+            <div className="mt-10 space-x-5">
               <Button
                 component="label"
                 variant="contained"
@@ -238,11 +260,19 @@ const Body_Trainer = () => {
               >
                 <p className="text-xl">video upload</p>
               </Button>
+              <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+                onClick={handleImageUpload}
+              >
+                <p className="text-xl">image upload</p>
+              </Button>
             </div>
           </div>
         )}
         {buildStep === 3 &&
-          <TrainerThird image={imageUpload} video={videoUpload}/>
+          <TrainerThird image={imageUpload} video={videoUpload} handleDataUpload={handleDataUpload} />
         }
       </div>
     </div>

@@ -4,12 +4,12 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useTrainerContext } from "../../ContextProvider/TrainerContext";
 const TrainerFirst = () => {
-  const { name, setName, location, setLocation, shortIntro, setShortIntro, priceRange, setPriceRange, line, setLine, insta, setInsta,
+  const { name, setName, location, setLocation, expYear, setExpYear, title, setTitle, priceRange, setPriceRange, line, setLine, insta, setInsta,
     firstTime, setFirstTime, secondTime, setSecondTime, thirdTime, setThirdTime, experience, setExperience, goalInTime, setGoalInTime, description, setDescription,
     trainingMethod, setTrainingMethod
   } = useTrainerContext();
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4 ">
       <p className="text-xl ">第一步：建立個人資訊</p>
       <div className="border border-gray-500 p-4 rounded-xl bg-white space-y-3 ">
         <p className="text-lg ">讓學生一目了然您的專業、地點、時間及課程費用</p>
@@ -18,7 +18,7 @@ const TrainerFirst = () => {
             id="standard-basic"
             label="名字/暱稱"
             variant="standard"
-            className=" w-[380px]"
+            className=" w-[350px]"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -29,9 +29,42 @@ const TrainerFirst = () => {
 
           <TextField
             id="standard-basic"
+            label="專業及職稱 (瑜珈自由教練/健身教練 at 健身工廠 )"
+            variant="standard"
+            className=" w-[400px]"
+            value={title}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 15) {
+                setTitle(inputText);
+              } else return;
+            }}
+            InputLabelProps={{ shrink: title.length > 0 }}
+          />
+          <TextField
+            id="standard-basic"
+            label="職業年數"
+            variant="standard"
+            className=" w-[340px]"
+            value={expYear}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 2) {
+                setExpYear(inputText);
+              } else return;
+            }}
+            InputLabelProps={{ shrink: expYear.length > 0 }}
+            InputProps={{
+              endAdornment:(
+                <InputAdornment position="end">年</InputAdornment>
+              )
+            }}
+          />
+          <TextField
+            id="standard-basic"
             label="教學地點(可線上諮詢)"
             variant="standard"
-            className=" w-[380px]"
+            className=" w-[340px]"
             value={location}
             onChange={(e) => {
               setLocation(e.target.value);
@@ -40,27 +73,16 @@ const TrainerFirst = () => {
           />
           <TextField
             id="standard-basic"
-            label="15個字說明專長及經歷年數"
-            variant="standard"
-            className=" w-[380px]"
-            value={shortIntro}
-            onChange={(e) => {
-              const inputText = e.target.value;
-              if (inputText.length <= 15) {
-                setShortIntro(inputText);
-              } else return;
-            }}
-            InputLabelProps={{ shrink: shortIntro.length > 0 }}
-          />
-          <TextField
-            id="standard-basic"
             label="價錢範圍"
             variant="standard"
-            className=" w-[380px]"
+            className=" w-[300px]"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
               ),
+              endAdornment:(
+                <InputAdornment position="end">hr</InputAdornment>
+              )
             }}
             value={priceRange}
             onChange={(e) => {
