@@ -7,7 +7,7 @@ const Trainer = ({}: TrainerProps) => {
   const { userName, buildStep } = useStateContext();
 
   return (
-    <div className="flex h-fit">
+    <div className="flex  ">
       <Nav_Trainer />
       <Body_Trainer />
     </div>

@@ -31,7 +31,7 @@
     /* Change the height value based on your preference */
   }
 }
-@media (min-height: 900px) {
+@media (min-height: 100px) {
   .trainerLgScreen {
     @apply h-screen
     /* Change the height value based on your preference */
