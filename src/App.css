@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+.font-zh {
+  font-family: 'Noto Sans TC', sans-serif;
+}
 .hero-image {
   height: 50%;
   background-position: top;
@@ -62,6 +66,7 @@ h1 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shine 3s infinite linear;
+  font-weight: 900;
 }
 
 @keyframes shine {
@@ -76,19 +81,8 @@ h1 {
   }
 }
 
-.gradient-text {
-  background-image: linear-gradient(45deg, #d28686, #af8f79);
-  background-clip: text;
-  /* -webkit-background-clip: text; */
-  color: transparent;
-  animation: fireAnimation 2s infinite alternate;
+.icon-button:hover {
+  transform: scale(1.2); /* Increase the size to 120% when hovered */
+  transition: transform 0.3s ease; /* Smooth transition for the transform */
 }
 
-@keyframes fireAnimation {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 100% 0%;
-  }
-}

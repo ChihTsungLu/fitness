@@ -34,6 +34,8 @@ interface StateContextProps {
     setDescription: React.Dispatch<React.SetStateAction<string>>;
     trainingMethod: string;
     setTrainingMethod: React.Dispatch<React.SetStateAction<string>>;
+    navStep: number;
+    setNavStep: React.Dispatch<React.SetStateAction<number>>;
 
 }
 
@@ -64,6 +66,7 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
   const [description, setDescription] = useState<string>("");
   const [trainingMethod, setTrainingMethod] = useState<string>("");
 
+  const [navStep, setNavStep] = useState(0)
 
   return (
     <StateContext.Provider
@@ -95,7 +98,9 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
        description,
        setDescription,
        trainingMethod,
-       setTrainingMethod
+       setTrainingMethod,
+       navStep,
+       setNavStep
     }}
     >
       {children}

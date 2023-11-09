@@ -17,7 +17,7 @@ const Hero = ({}: HeroProps) => {
         <p className="text-5xl text-white ml-16 font-black">學生精準匹配</p>
       </div>
       
-      <h1 className=" text-white text-2xl mb-10 w-full font-bold ml-20 text-center"> √ 流通產業資訊 √ 達成目標體態 √ 滿足心靈健康</h1>
+      <h1 className=" text-white text-3xl mb-10 w-full ml-20 text-center font-extrabold"> √ 流通產業資訊 √ 達成目標體態 √ 滿足心靈健康</h1>
 
    
     </div>

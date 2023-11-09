@@ -39,13 +39,13 @@ const Feature = ({ }: FeatureProps) => {
     <div className="w-full h-fit ">
       <div className="mt-5 ml-10 flexCenter space-x-72">
         <button
-          className={`w-[300px] h-[80px] border border-black rounded-xl mt-4 ${isTrainer ? 'bg-[#52585e] text-white' : 'bg-white hover:bg-[#52585e] hover:text-white text-black'} `}
+          className={`w-[300px] h-[80px]  border-black rounded-xl mt-4 font-extrabold ${isTrainer ? 'bg-[#00d68f] text-black border-2' : 'bg-white hover:bg-[#00d68f] text-black border'} `}
           onClick={handleTrainerClick}
         >
           <p className="text-2xl ">建立教練個人品牌 💪🏽</p>
         </button>
         <button
-          className={`w-[300px] h-[80px] border border-black rounded-xl mt-4 ${isStudent ? 'bg-[#149e7a] text-white' : 'bg-white hover:bg-[#149e7a] hover:text-white text-black'} `}
+          className={`w-[300px] h-[80px] border-black rounded-xl mt-4 font-extrabold ${isStudent ? 'bg-[#149e7a] text-white border-2' : 'bg-white hover:bg-[#149e7a] hover:text-white text-black border'} `}
           onClick={handleStudentClick}
         >
           <p className="text-2xl ">尋找教練/夥伴 🏋🏽</p>
