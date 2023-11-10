@@ -36,7 +36,7 @@ const Client = ({}: ClientProps) => {
     <div>
       <Navbar />
       <div className="flex mt-[65px]">
-        <Nav_Client/>
+        {/* <Nav_Client/> */}
         <Body_Client/>
       </div>
     </div>
