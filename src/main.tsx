@@ -19,34 +19,35 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "/", // Index route for the Home component
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "auth",
-        element: <Auth />,
-      },
-      {
-        path: "trainer",
-        element: (
-          <ProtectedRoute>
-            <Trainer />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "client",
-        element: <Client />,
-      },
-      {
-        path: "service",
-        element: <Service />,
-      },
-    ],
   },
+  {
+    path: "/", // Index route for the Home component
+    index: true,
+    element: <Home />,
+  },
+  {
+    path: "/auth",
+    element: <Auth />,
+  },
+  {
+    path: "/trainer",
+    index:true,
+    element: (
+      <ProtectedRoute>
+        <Trainer />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/client",
+    element: <Client />,
+  },
+  {
+    path: "/service",
+    element: <Service />,
+  },
+
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

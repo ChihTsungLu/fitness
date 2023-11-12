@@ -16,18 +16,18 @@ const Navbar = ({}: NavbarProps) => {
      
     },
     {
-      route: "trainer",
+      route: "/trainer",
       optionTw: "成為教練",
       optionEn: "Trainer",
     
     },
     {
-      route: "client",
+      route: "/client",
       optionTw: "尋找教練",
       optionEn: "Student",
     },
     {
-      route: "service",
+      route: "/service",
       optionTw: "專人服務",
       optionEn: "Personal Service",
     },
@@ -37,7 +37,9 @@ const Navbar = ({}: NavbarProps) => {
     <div className="w-full h-[65px] fixed top-0 z-10 bg-[#fafafa] flex justify-end items-center pr-20 space-x-6">
       {navOptions.map(({ route, optionTw, optionEn }, index) => (
         <NavLink
-          to={`${optionTw === "成為教練" && isAuthed ? route : route }`}
+
+        // to={`${optionTw === "成為教練" && isAuthed ? route : route }`}
+          to={route}
           key={index}
           className={({ isActive }) => (isActive ? "text-[#149e7a]" : "")}
         >

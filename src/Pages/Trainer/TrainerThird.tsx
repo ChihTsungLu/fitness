@@ -1,17 +1,35 @@
 import { Button } from "@mui/material";
 import { useTrainerContext } from "../../ContextProvider/TrainerContext";
-import { useStateContext } from "../../ContextProvider/Contexts";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
+import UploadIcon from '@mui/icons-material/Upload';
+import {
+  Briefcase,
+  CalendarCheck,
+  CircleDollarSign,
+  LandPlot,
+} from "lucide-react";
+import { doc, updateDoc, addDoc, collection } from "firebase/firestore";
+import { v4 } from "uuid";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { IconButton } from "@mui/material";
+import { useEffect, useState } from "react";
+import { storage } from "../../features/firebase";
+import { db } from "../../features/firebase";
+import {
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+  deleteObject,
+  uploadBytesResumable,
+  updateMetadata,
+} from "firebase/storage";
 interface TrainerThirdProps {
   // image: File | undefined;
   // video: File | undefined;
   handleDataUpload: any;
 }
 
-const TrainerThird = ({ handleDataUpload }: TrainerThirdProps) => {
+const TrainerThird = () => {
   const {
     name,
     location,
@@ -28,31 +46,334 @@ const TrainerThird = ({ handleDataUpload }: TrainerThirdProps) => {
     description,
     trainingMethod,
     navStep,
-    setNavStep
+    setNavStep,
+    userData,
+    imgUrl,
+    videoUrl,
+    certOne, certTwo, certThree,
+    imageUpload,
+
+    secondImgUpload,
+    secondImgUrl,
+    setImgUrl,
+    setSecondImgUrl,
+    videoUpload,
+    setVideoUrl
   } = useTrainerContext();
 
-  const { userData } = useStateContext();
+  const imageListRef = ref(storage, "images");
 
-  const Navbar = ["自我介紹", "我能幫助你", "我的經歷"];
 
-  console.log(userData);
+  const docRef = doc(db, "trainer", userData?.id) //更改資料的ref
+  const databaseRef = collection(db, "trainer")
+
+  // console.log(secondImgUrl)
+  //第一張照片上傳，改成兩張照片一起上傳，且顯示進度
+
+  const handleDataUpload = async () => {
+    // e.preventDefault();
+    console.log('1: ', imgUrl.length)
+    console.log('2: ',secondImgUrl.length)
+    console.log('3: ',videoUrl.length)
+    //若照片及影片沒上傳則 return
+    if (imgUrl.length === 0 || secondImgUrl.length === 0 || videoUrl.length === 0) {
+      alert('照片及影片必須上傳')
+      return
+    }
+
+    // 使用者已有資料：更新
+    if (userData !== undefined) {
+      console.log("data updating")
+      await updateDoc(docRef, {
+        name: name,
+        title: title,
+        expYear: expYear,
+        location: location,
+        priceRange: priceRange,
+
+        line: line,
+        insta: insta,
+
+        firstTime: firstTime,
+        secondTime: secondTime,
+        thirdTime: thirdTime,
+
+        certOne: certOne,
+        certTwo: certTwo,
+        certThree: certThree,
+
+        experience: experience,
+        goalInTime: goalInTime,
+        description: description,
+        trainingMethod: trainingMethod,
+
+        imgUrl: imgUrl,
+        secondImgUrl: secondImgUrl,
+        videoUrl: videoUrl,
+      })
+    } else {
+      console.log("data creating")
+      try {
+        await addDoc(databaseRef, {
+          name: name,
+          title: title,
+          expYear: expYear,
+          location: location,
+          priceRange: priceRange,
+
+          line: line,
+          insta: insta,
+
+          firstTime: firstTime,
+          secondTime: secondTime,
+          thirdTime: thirdTime,
+
+          certOne: certOne,
+          certTwo: certTwo,
+          certThree: certThree,
+
+          experience: experience,
+          goalInTime: goalInTime,
+          description: description,
+          trainingMethod: trainingMethod,
+
+          imgUrl: imgUrl,
+          secondImgUrl: secondImgUrl,
+          videoUrl: videoUrl,
+        });
+      } catch (e) {
+        console.error("Error adding data: ", e);
+      }
+    }
+  };
+
+  const handleImageUpload = async() => {
+
+    //如果照片要上傳的話
+    if (imageUpload !== undefined) {
+      console.log('照片一上傳')
+      const imageRef = ref(storage, `images/${imageUpload?.name + v4()}`);
+
+      await uploadBytes(imageRef, imageUpload)
+        .then((snapShot) => {
+          getDownloadURL(snapShot.ref).then((url) => {
+            setImgUrl(url);
+          });
+        })
+        .catch((e) => console.error(e));
+    } else if (imgUrl.length === 0) { //如果沒有影片要上傳，而且資料庫也沒存照片
+      alert('照片 1 未上傳')
+      return;
+    }
+
+
+    if (secondImgUpload !== undefined) {
+      console.log('第二張照片上傳')
+      const imageRef = ref(storage, `images/${imageUpload?.name + v4()}`);
+
+      await uploadBytes(imageRef, secondImgUpload)
+        .then((snapShot) => {
+          getDownloadURL(snapShot.ref).then((url) => {
+            setSecondImgUrl(url);
+          });
+        })
+        .catch((e) => console.error(e));
+    } else if (secondImgUrl.length === 0) {
+      alert('照片 2 未上傳')
+      return;
+    }
+
+    handleVideoUpload();
+  };
+
+
+  const handleVideoUpload = () => {
+    console.log('進入到 handleVideo')
+    //如果有影片要上傳的話
+    if (videoUpload !== undefined) {
+      const videoRef = ref(storage, `videos/${videoUpload.name + v4()}`);
+      const uploadTask = uploadBytesResumable(videoRef, videoUpload);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          console.log("Video upload failed");
+        },
+        () => {
+          console.log("Video uploaded successfuly");
+
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            setVideoUrl(url);
+          });
+        }
+      );
+    }else if(videoUrl.length === 0){
+      alert('影片需上傳')
+      return;
+    }
+
+    handleDataUpload();
+  };
+
+  
+  console.log(secondImgUrl)
+  // useEffect(() => {
+
+  //   if (imgUrl.length !== 0 && secondImgUrl.length !== 0 && videoUrl.length !== 0) {
+  //     console.log('here w go')
+  //   }
+
+  // }, [imgUrl, secondImgUrl, videoUrl]);
+
+  const [renderOption, setRenderOption] = useState(0)
+  const Navbar = ["自我介紹", "幫助過學生解決的問題", "我能如何幫助你", "證照"];
 
   return (
-    <div className="p-4  select-none ">
+    <div className="  select-none ">
+      <div className="mb-3 space-x-3 flex">
+        <Button
+          variant="outlined"
+          size="large"
+          sx={{
+            backgroundColor: renderOption === 0 ? '#007CEF' : '',
+            ':hover': {
+              bgcolor: '#007CEF',
+              color: "white"
+
+            },
+          }}
+          onClick={() => setRenderOption(0)}
+        >
+
+          <p className={`text-lg ${renderOption === 0 ? 'text-white' : ''}`}>教練牆</p>
+
+        </Button>
+
+        <Button
+          variant="outlined"
+          size="large"
+          sx={{
+            backgroundColor: renderOption === 1 ? '#007CEF' : '',
+            ':hover': {
+              bgcolor: '#007CEF',
+              color: "white"
+
+            },
+          }}
+
+          onClick={() => setRenderOption(1)}
+        >
+
+          <p className={`text-lg ${renderOption === 1 ? 'text-white' : ''}`}>個人頁面</p>
+
+        </Button>
+        <div
+          className={` w-[1px] h-[30px]  pt-10 self-stretch bg-gray-400 opacity-100 dark:opacity-50 `}
+        ></div>
+
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: '#4BD791',
+            marginLeft: '60px',
+
+            ":hover": {
+              backgroundColor: '#4BD791'
+            }
+          }}
+          startIcon={<UploadIcon />}
+          size="large"
+          // disabled={!defiModalSaveEnabled}
+          onClick={handleImageUpload}
+        >
+          <p className="text-lg whitespace-nowrap ">資料確認並上傳</p>
+        </Button>
+      </div>
       {
-        userData &&
+        renderOption === 0 &&
+        <div
+          className="border border-gray-400 p-4 rounded-xl w-fit h-fit"
+        >
+          <div>
+            <img
+              src={imageUpload ? URL.createObjectURL(imageUpload) : imgUrl.length > 0 ? imgUrl : ''}
+              className="w-[325px] h-[300px] rounded-xl"
+            />
+            {/* <button onClick={handleDelete}>123</button> */}
+          </div>
+          <div className="">
+            <p className="text-2xl font-bold mt-2 ml-2"> {name}</p>
+            <div className="p-2 space-y-2">
+              <div className="flex items-center space-x-2">
+                <Briefcase size={20} />
+                <p className="text-lg font-semibold">
+                  {title} - {expYear} 年
+                </p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <LandPlot size={20} color="#007CEF" />
+                <p className="text-lg font-semibold">{location}</p>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <CircleDollarSign size={20} color="#F4CE14" />
+                <p className="text-lg font-semibold">{priceRange} /hr</p>
+              </div>
+            </div>
+            <div className="p-2 b">
+              <div className="space-y-1">
+
+                <div className="flex items-center space-x-2">
+                  <CalendarCheck size={20} color="#4CAF50" />
+                  <p className="text-lg font-semibold ">{firstTime}</p>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <CalendarCheck size={20} color="#4CAF50" />
+                  <p className="text-lg font-semibold ">{secondTime}</p>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <CalendarCheck size={20} color="#4CAF50" />
+                  <p className="text-lg font-semibold ">{thirdTime}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      }
+      {
+        renderOption === 1 &&
         <div className="p-6 border border-black rounded-xl 2xl:space-y-10">
           {/* 照片及自介 */}
           <div className="flexBetween space-x-6">
-            <img
-              src={userData?.imgUrl}
-              className="w-1/2 h-auto rounded-lg block"
-            />
-            <div className=" 2xl:space-y-4 w-full ">
+            {secondImgUpload || secondImgUrl.length > 0 ? (
+              <img
+                src={secondImgUpload ? URL.createObjectURL(secondImgUpload) : secondImgUrl}
+                className="w-1/2 h-auto rounded-lg block"
+              />
+            ) : (
+              <div className="w-1/2 h-[300px] rounded-lg block border ">
+                <p className="italic text-xl text-gray-400 text-center mt-10">請上傳教練與學員訓練照片</p>
+              </div>
+            )}
+
+            <div className=" 2xl:space-y-4  ">
               <div className="flexCenter ">
-                <p className="text-3xl 2xl:text-5xl 2xl:mr-6">{userData?.name}</p>
+                <p className="text-3xl 2xl:text-5xl 2xl:mr-6">{name}</p>
                 <IconButton
-                  onClick={() => window.open(userData.insta, "_blank")}
+                  onClick={() => window.open(insta, "_blank")}
                   className="icon-button "
 
                 >
@@ -60,7 +381,7 @@ const TrainerThird = ({ handleDataUpload }: TrainerThirdProps) => {
                 </IconButton>
                 <div
                   className="cursor-pointer icon-button "
-                  onClick={() => window.open(userData.line, "_blank")}
+                  onClick={() => window.open(line, "_blank")}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -81,56 +402,56 @@ const TrainerThird = ({ handleDataUpload }: TrainerThirdProps) => {
                   </svg>
                 </div>
               </div>
-              <div className="p-4 border border-gray-300 rounded-xl space-y-4">
+              <div className="p-4 space-y-2 ">
                 <div className="flex items-center">
-                  <p className="text-gray-800 text-lg mt-1">職業：</p>
-                  <p className="text-xl font-bold">{userData?.title}</p>
+                  <p className="text-gray-700 text-lg mt-1">職業：</p>
+                  <p className="text-xl ">{title}</p>
                 </div>
                 <div className="flexCenter">
                   <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
                 </div>
                 <div className="flex items-center">
-                  <p className="text-gray-800 text-lg mt-1">資歷：</p>
-                  <p className="text-xl font-bold">{userData?.expYear} 年</p>
+                  <p className="text-gray-700 text-lg mt-1">資歷：</p>
+                  <p className="text-xl ">{expYear} 年</p>
                 </div>
                 <div className="flexCenter">
                   <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
                 </div>
                 <div className="flex items-center">
-                  <p className="text-gray-800 text-lg mt-1">地點：</p>
-                  <p className="text-xl font-bold">{userData?.location}</p>
+                  <p className="text-gray-700 text-lg mt-1">地點：</p>
+                  <p className="text-xl ">{location}</p>
                 </div>
                 <div className="flexCenter">
                   <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
                 </div>
                 <div className="flex items-center">
-                  <p className="text-gray-800">時段：</p>
+                  <p className="text-gray-700 text-lg mt-1">價格：</p>
+                  <p className="text-xl ">{priceRange} /hr</p>
+                </div>
+                <div className="flexCenter">
+                  <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
+                </div>
+                <div className="space-y-2 ">
+                  <p className="text-gray-700 text-lg">時段</p>
                   <div className="flexBetween space-x-2">
-                    <div className="p-2 border border-black rounded-xl font-bold bg-[#00d68f] ">
-                      {userData?.firstTime}
+                    <div className="p-2 border border-black rounded-xl  bg-[#00d68f] ">
+                      {firstTime}
                     </div>
-                    <div className="p-2 border border-black rounded-xl font-bold bg-[#00d68f]">
-                      {userData?.secondTime}
+                    <div className="p-2 border border-black rounded-xl  bg-[#00d68f]">
+                      {secondTime}
                     </div>
-                    <div className="p-2 border border-black rounded-xl font-bold bg-[#00d68f]">
-                      {userData?.thirdTime}
+                    <div className="p-2 border border-black rounded-xl  bg-[#00d68f]">
+                      {thirdTime}
                     </div>
                   </div>
-                </div>
-                <div className="flexCenter">
-                  <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
-                </div>
-                <div className="flex items-center">
-                  <p className="text-gray-800 text-lg mt-1">價格：</p>
-                  <p className="text-xl font-bold">{userData?.priceRange} /hr</p>
                 </div>
               </div>
             </div>
           </div>
-          {/* 影片及 */}
-          <div className="flexBetween">
-            <div className="w-full">
-              <div className="flexBetween mx-16">
+
+          <div className="">
+            <div className=" h-[300px] mt-10">
+              <div className="flexCenter space-x-6  ">
                 {Navbar.map((item, index) => (
                   <p className={`text-xl font-bold ${navStep === index ? 'text-[#007CEF] border-b-2' : ''}`} onClick={() => setNavStep(index)}>
                     {item}
@@ -138,29 +459,45 @@ const TrainerThird = ({ handleDataUpload }: TrainerThirdProps) => {
                 ))}
               </div>
 
-              <div className="h-[350px] mt-10">
+              <div className=" mt-10">
                 {
                   navStep === 0 &&
-                  <p className="text-center p-5">{userData?.experience}</p>
+                  <p className="text-center p-5">{experience}</p>
+                }
+                {
+                  navStep === 1 &&
+                  <p className="text-center p-5">{goalInTime}</p>
+                }
+                {
+                  navStep === 2 &&
+                  <p className="text-center p-5">{trainingMethod}</p>
+                }
+                {
+                  navStep === 3 &&
+                  <div className="flexCenter space-x-4 p-5">
+                    <p className="text-center text-xl">{certOne}</p>
+                    <p className="text-center text-xl">{certTwo}</p>
+                    <p className="text-center text-xl">{certThree}</p>
+                  </div>
                 }
               </div>
             </div>
             <video
               controls
-              src={userData?.videoList}
-              className="w-1/2 rounded-lg "
+              src={videoUrl}
+              className="px-10 pb-10"
             />
           </div>
         </div>
       }
-      <Button
+      {/* <Button
         component="label"
         variant="contained"
         startIcon={<CloudUploadIcon />}
         onClick={handleDataUpload}
       >
         <p className="text-xl">資料上傳</p>
-      </Button>
+      </Button> */}
     </div>
   );
 };

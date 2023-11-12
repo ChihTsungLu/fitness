@@ -3,16 +3,18 @@ import TextField from "@mui/material/TextField";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useTrainerContext } from "../../ContextProvider/TrainerContext";
+
 const TrainerFirst = () => {
   const { name, setName, location, setLocation, expYear, setExpYear, title, setTitle, priceRange, setPriceRange, line, setLine, insta, setInsta,
     firstTime, setFirstTime, secondTime, setSecondTime, thirdTime, setThirdTime, experience, setExperience, goalInTime, setGoalInTime, description, setDescription,
-    trainingMethod, setTrainingMethod
+    trainingMethod, setTrainingMethod, userData, certOne,certTwo,certThree,setCertOne,setCertTwo,setCertThree
   } = useTrainerContext();
+
   return (
     <div className="flex flex-col space-y-4 ">
       <p className="text-xl ">第一步：建立個人資訊</p>
       <div className="border border-gray-500 p-4 rounded-xl bg-white space-y-3 ">
-        <p className="text-lg ">讓學生一目了然您的專業、地點、時間及課程費用</p>
+        <p className="text-lg ">一目了然您的專業、地點、時間及課程費用</p>
         <div className="flex space-x-10">
           <TextField
             id="standard-basic"
@@ -197,51 +199,103 @@ const TrainerFirst = () => {
           />
         </div>
       </div>
-
       <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4">
-        <p className="text-lg">深入瞭解</p>
+        <p className="text-lg">專業證照</p>
         <div className="flex space-x-10">
+          <TextField
+            id="standard-basic"
+            label="證照1"
+            variant="standard"
+            className=" w-[380px]"
+            value={certOne}  
+            onChange={(e) => {
+              setCertOne(e.target.value)
+            }}
+          />
+          <TextField
+            id="standard-basic"
+            label="證照2"
+            variant="standard"
+            className=" w-[380px]"
+            value={certTwo}  
+            onChange={(e) => {
+              setCertTwo(e.target.value)
+            }}
+          />
+          <TextField
+            id="standard-basic"
+            label="證照3"
+            variant="standard"
+            className=" w-[380px]"
+            value={certThree}  
+            onChange={(e) => {
+              setCertThree(e.target.value)
+            }}
+          />
+        </div>
+      </div>
+            
+      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4">
+        <p className="text-lg">帶給學員什麼價值</p>
+        <div className="space-y-5">
           <TextField
             id="standard-basic"
             label="自我介紹及訓練經歷"
             multiline
             rows={4}
             variant="outlined"
-            className=" w-[380px]"
+            className=" w-4/5"
             value={experience}
             onChange={(e) => {
               const inputText = e.target.value;
-              if (inputText.length <= 100) {
+              if (inputText.length <= 150) {
                 setExperience(e.target.value)
               } else {
-                setExperience(inputText.slice(0, 100));
+                setExperience(inputText.slice(0, 150));
               }
             }}
           />
 
           <TextField
             id="standard-basic"
-            label="幫助過學生在什麼「時間」達成什麼「目標」"
+            label="學生遇到什麼「問題」，你用了什麼「方式」幫忙解決"
             multiline
             rows={4}
             variant="outlined"
-            className=" w-[380px]"
+            className=" w-4/5"
             value={goalInTime}
             onChange={(e) => {
               const inputText = e.target.value;
-              if (inputText.length <= 100) {
+              if (inputText.length <= 150) {
                 setGoalInTime(e.target.value)
               } else {
-                setGoalInTime(inputText.slice(0, 100));
+                setGoalInTime(inputText.slice(0, 150));
               }
             }}
           />
         </div>
-        <div className=" space-x-10">
-          <TextField
+        <div className=" space-y-5">
+        <TextField
+            id="standard-basic"
+            label="我能如何幫助學生改善生活"
+            className=" w-4/5"
+            multiline
+            rows={3}
+            variant="outlined"
+            value={trainingMethod}
+            onChange={(e) => {
+              const inputText = e.target.value;
+              if (inputText.length <= 150) {
+                setTrainingMethod(e.target.value)
+              } else {
+                setTrainingMethod(inputText.slice(0, 150));
+              }
+            }}
+          />
+          {/* <TextField
             id="standard-basic"
             label="學生都怎麼形容我"
-            className=" w-[380px]"
+            className=" w-4/5"
             multiline
             rows={3}
             variant="outlined"
@@ -254,24 +308,8 @@ const TrainerFirst = () => {
                 setDescription(inputText.slice(0, 100));
               }
             }}
-          />
-          <TextField
-            id="standard-basic"
-            label="我能在課堂上給予什麼"
-            className=" w-[380px]"
-            multiline
-            rows={3}
-            variant="outlined"
-            value={trainingMethod}
-            onChange={(e) => {
-              const inputText = e.target.value;
-              if (inputText.length <= 100) {
-                setTrainingMethod(e.target.value)
-              } else {
-                setTrainingMethod(inputText.slice(0, 100));
-              }
-            }}
-          />
+          /> */}
+
         </div>
       </div>
     </div>

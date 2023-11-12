@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../../features/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
-import Button from "@mui/material/Button";
 import { useClientContext } from "../../ContextProvider/ClientContext";
 import TrainerModal from "./TrainerModal";
 import {
@@ -35,11 +33,11 @@ const Body_Client = () => {
   }, []);
 
   return (
-    <div className="w-4/5 flex space-x-5 mt-10 p-20 select-none cursor-pointer">
+    <div className="w-4/5 flex space-x-5 p-20 select-none ">
       {data.map((item, index) => (
         <div
           key={index}
-          className="border border-gray-400 p-4 rounded-xl w-fit h-fit"
+          className="border border-gray-400 p-4 rounded-xl w-fit h-fit cursor-pointer"
           onClick={() => handleOpenModal(item.name)}
         >
           <div>
@@ -51,7 +49,7 @@ const Body_Client = () => {
             {/* <button onClick={handleDelete}>123</button> */}
           </div>
           <div className="">
-            <p className="text-2xl font-bold mt-2"> {item.name}</p>
+            <p className="text-2xl font-bold mt-2 ml-2"> {item.name}</p>
             <div className="p-2 space-y-2">
               <div className="flex items-center space-x-2">
                 <Briefcase size={20} />
@@ -69,35 +67,25 @@ const Body_Client = () => {
                 <p className="text-lg font-semibold">{item.priceRange} /hr</p>
               </div>
             </div>
-            <div className="p-2 border border-gray-400 rounded-xl h-fit w-fit bg-[#4CAF50]">
+            <div className="p-2 b">
               <div className="space-y-1">
                
                 <div className="flex items-center space-x-2">
-                  <CalendarCheck size={20} color="#fff" />
-                  <p className="text-lg font-semibold text-white">{item.firstTime}</p>
+                  <CalendarCheck size={20} color="#4CAF50" />
+                  <p className="text-lg font-semibold ">{item.firstTime}</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CalendarCheck size={20} color="#fff" />
-                  <p className="text-lg font-semibold text-white">{item.secondTime}</p>
+                  <CalendarCheck size={20} color="#4CAF50" />
+                  <p className="text-lg font-semibold ">{item.secondTime}</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CalendarCheck size={20} color="#fff" />
-                  <p className="text-lg font-semibold text-white">{item.thirdTime}</p>
+                  <CalendarCheck size={20} color="#4CAF50" />
+                  <p className="text-lg font-semibold ">{item.thirdTime}</p>
                 </div>
               </div>
             </div>
           </div>
-          {/* <div className="flexCenter">
-            <Button
-              variant="outlined"
-              startIcon={<LocalFireDepartmentIcon sx={{ color: "#D80032" }} />}
-              sx={{ color: "#004225" }}
-              color="success"
-              onClick={() => handleOpenModal(item.name)}
-            >
-              <p className="text-lg">查看資料</p>
-            </Button>
-          </div> */}
+  
         </div>
       ))}
       <TrainerModal name={selectedItem} />

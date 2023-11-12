@@ -1,6 +1,5 @@
 import { useContext, createContext, useState, useEffect } from "react";
-import { db } from "../features/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+
 
 interface StateContextProps {
     isTrainer: boolean;
@@ -13,7 +12,7 @@ interface StateContextProps {
     setUserName: React.Dispatch<React.SetStateAction<string>>;
     buildStep: number;
     setBuildStep: React.Dispatch<React.SetStateAction<number>>;
-    userData: any;
+
 }
 
 
@@ -25,23 +24,9 @@ export const ContextProvider = ({ children }: { children: React.ReactNode }) => 
   const [isStudent, setIsStudent] = useState(false)
   const [isAuthed, setIsAuthed] = useState(false)
   const [userName, setUserName] = useState<string>(localStorage.getItem("name") || "")
-  const [userData, setUserData] = useState<any>()
+ 
 
-  const databaseRef = collection(db, "trainer");
-
-  const fetchData = async () => {
-    const q = query(databaseRef, where("priceRange","==","800"))
-    const querySnapshot = await getDocs(q);
-    const newData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-    setUserData(newData[0])
-  } 
-
-  useEffect(()=> {
-    fetchData()
-  }, []);
-
-  console.log('userData: ', userData)
+ 
   return (
     <StateContext.Provider
       value={{
@@ -55,7 +40,6 @@ export const ContextProvider = ({ children }: { children: React.ReactNode }) => 
         setUserName,
         buildStep,
         setBuildStep,
-        userData
     }}
     >
       {children}

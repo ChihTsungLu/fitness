@@ -5,8 +5,7 @@ import { db } from "../../features/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useState, useEffect, useRef } from "react";
 import { storage } from "../../features/firebase";
-import Button from "@mui/material/Button";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
 
 import {
   ref,
@@ -17,9 +16,11 @@ import {
   uploadBytesResumable,
   updateMetadata,
 } from "firebase/storage";
-import { v4 } from "uuid";
+ 
+
 import TrainerFirst from "./TrainerFirst";
 import TrainerThird from "./TrainerThird";
+import TrainerSecond from "./TrainerSecond";
 
 const Body_Trainer = () => {
   const { userName, buildStep } = useStateContext();
@@ -40,124 +41,24 @@ const Body_Trainer = () => {
     trainingMethod
   } = useTrainerContext();
 
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  const videoInputRef = useRef<HTMLInputElement>(null);
 
-  const [imageUpload, setImageUpload] = useState<File>();
-  const [imageList, setImageList] = useState<string>();
-
-  const [videoUpload, setVideoUpload] = useState<File>();
-  const [videoList, setVideoList] = useState<string>();
 
   const databaseRef = collection(db, "trainer");
-  const imageListRef = ref(storage, "images");
-  const imageListDeleteRef = ref(storage, imageList);
-
-  const handleImageUpload = () => {
-    console.log(imageUpload);
-    if (imageUpload === undefined) return;
-
-    const imageRef = ref(storage, `images/${imageUpload?.name + v4()}`);
-
-    uploadBytes(imageRef, imageUpload)
-      .then((snapShot) => {
-        getDownloadURL(snapShot.ref).then((url) => {
-          setImageList(url);
-        });
-      })
-      .catch((e) => console.error(e));
-  };
-
-  const handleVideoUpload = () => {
-    console.log(videoUpload);
-    if (videoUpload === undefined) return;
-
-    const metadata = {
-      customMetadata: {
-        userName: userName,
-      },
-    };
-
-    const videoRef = ref(storage, `videos/${videoUpload.name + v4()}`);
-    const uploadTask = uploadBytesResumable(videoRef, videoUpload, metadata);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-        }
-      },
-      (error) => {
-        console.log("Video upload failed");
-      },
-      () => {
-        console.log("Video uploaded successfuly");
-
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setVideoList(url);
-        });
-      }
-    );
-  };
 
 
 
-  const handleDataUpload = async (e: any) => {
-    e.preventDefault();
 
-    try {
-      await addDoc(databaseRef, {
-        name: name,
-        title:title,
-        expYear:expYear,
-        location: location,
-        priceRange: priceRange,
-        line: line,
-        insta: insta,
-        firstTime: firstTime,
-        secondTime: secondTime,
-        thirdTime:thirdTime,
-        experience: experience,
-        goalInTime: goalInTime,
-        description: description,
-        trainingMethod: trainingMethod,
-        imgUrl: imageList,
-        videoList: videoList
-      });
-    } catch (e) {
-      console.error("Error adding data: ", e);
-    }
-  };
+  // const handleDelete = () => {
+  //   deleteObject(imageListDeleteRef)
+  //     .then(() => {
+  //       console.log("Delete successfully");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
 
-  const handleDelete = () => {
-    deleteObject(imageListDeleteRef)
-      .then(() => {
-        console.log("Delete successfully");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  const handleImageClick = () => {
-    if (imageInputRef.current) {
-      imageInputRef.current.click();
-    }
-  };
-
-  const handleVideoClick = () => {
-    if (videoInputRef.current) {
-      videoInputRef.current.click();
-    }
-  };
+ 
 
   // useEffect(() => {
   //   listAll(imageListRef)
@@ -183,96 +84,10 @@ const Body_Trainer = () => {
           <TrainerFirst />
         )}
         {buildStep === 2 && (
-          <div className="space-y-4">
-            {/* 照片上傳 */}
-            <div className="flex">
-              <div
-                className="w-[450px] h-[450px] rounded-xl border-dotted border-2 border-black flexCenter bg-white"
-                onClick={handleImageClick}
-              >
-
-                {imageUpload ? (
-                  <img
-                    src={URL.createObjectURL(imageUpload)}
-                    className="w-[400px] h-[400px]"
-                  />
-                ) : <p className="text-lg">上傳照片</p>}
-                <input
-                  type="file"
-                  ref={imageInputRef}
-                  style={{ display: "none" }}
-                  onChange={(e) => {
-                    setImageUpload(e.target.files![0]);
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* 影片上傳 */}
-            <div className="flex">
-              <div
-                className="w-[450px] h-[450px] rounded-xl border-dotted border-2 border-black flexCenter bg-white"
-                onClick={handleVideoClick}
-              >
-                {videoUpload ? (
-                  <video
-                    controls
-                    src={URL.createObjectURL(videoUpload)}
-                    className="w-[400px] h-[400px]"
-                  />
-                ) : (
-                  <p className="text-lg">上傳影片</p>
-                )}
-                <input
-                  type="file"
-                  accept=".mp4"
-                  ref={videoInputRef}
-                  style={{ display: "none" }}
-                  onChange={async (e) => {
-                    const selectedFile = e.target.files![0];
-                    const video = document.createElement("video");
-                    video.src = URL.createObjectURL(selectedFile);
-
-                    if (selectedFile.type === "video/mp4") {
-                      video.onloadedmetadata = function () {
-                        if (video.duration > 60) {
-                          alert("影片最長一分鐘");
-                          if (videoInputRef.current) {
-                            videoInputRef.current.value = ""; // Clear the file input
-                          } // Clear the file input
-                        } else {
-                          setVideoUpload(selectedFile);
-                        }
-                      };
-                    } else {
-                      alert("上傳檔案必須為 MP4 檔案");
-                    }
-                  }}
-                />
-              </div>
-            </div>
-            <div className="mt-10 space-x-5">
-              <Button
-                component="label"
-                variant="contained"
-                startIcon={<CloudUploadIcon />}
-                onClick={handleVideoUpload}
-              >
-                <p className="text-xl">video upload</p>
-              </Button>
-              <Button
-                component="label"
-                variant="contained"
-                startIcon={<CloudUploadIcon />}
-                onClick={handleImageUpload}
-              >
-                <p className="text-xl">image upload</p>
-              </Button>
-            </div>
-          </div>
+          <TrainerSecond/>
         )}
         {buildStep === 3 &&
-          <TrainerThird image={imageUpload} video={videoUpload} handleDataUpload={handleDataUpload} />
+          <TrainerThird />
         }
       </div>
     </div>
