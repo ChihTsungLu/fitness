@@ -1,14 +1,14 @@
 
 import { auth } from "./firebase";
-import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, onAuthStateChanged, sendEmailVerification } from "firebase/auth"
+import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, onAuthStateChanged, sendEmailVerification } from "firebase/auth"
 import { useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
-import { useStateContext } from "../ContextProvider/Contexts";
+import { useNavigate } from "react-router-dom";
+import { useTrainerContext } from "../ContextProvider/TrainerContext";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 const Auth = () => {
-  const { setIsAuthed, isAuthed, setUserName, userName} = useStateContext();
+  const { setEmailAuth } = useTrainerContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,19 +22,18 @@ const Auth = () => {
         const name = result.user.displayName
         const email = result.user.email
         const profilePic = result.user.photoURL
-        setIsAuthed(true)
-        setUserName(name!)
+     
+        setEmailAuth(email!)
         localStorage.setItem("name", name!)
         localStorage.setItem("email", email!)
         localStorage.setItem("profilePic", profilePic!)
-     
+        
         navigate("/trainer")
       })
       .catch((error) => {
         console.log(error)
       })
   }
-console.log('au',userName)
   const handleSignUp = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
@@ -80,7 +79,6 @@ console.log('au',userName)
   }
 
   onAuthStateChanged(auth, (user) => {
-    console.log(user)
     if (user) {
       console.log('ev:', user.emailVerified)
     }

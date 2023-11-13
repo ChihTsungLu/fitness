@@ -1,9 +1,8 @@
 import { Navigate } from "react-router-dom"
-import { useStateContext } from "../ContextProvider/Contexts";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   
-  const { isAuthed, setIsAuthed, userName, setUserName } = useStateContext();
+
 
 
   const userNAME = localStorage.getItem('name')

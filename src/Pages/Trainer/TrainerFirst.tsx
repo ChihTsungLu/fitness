@@ -11,7 +11,7 @@ const TrainerFirst = () => {
   } = useTrainerContext();
 
   return (
-    <div className="flex flex-col space-y-4 h-screen">
+    <div className="flex flex-col space-y-4">
       <p className="text-xl ">第一步：建立個人資訊</p>
       <div className="border border-gray-500 p-4 rounded-xl bg-white space-y-3 ">
         <p className="text-lg ">一目了然您的專業、地點、時間及課程費用</p>

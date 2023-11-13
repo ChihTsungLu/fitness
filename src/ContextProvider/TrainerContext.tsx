@@ -56,7 +56,7 @@ interface StateContextProps {
     videoUpload: File | undefined;
     setVideoUpload: React.Dispatch<React.SetStateAction<File | undefined>>;
 
-
+    setEmailAuth: React.Dispatch<React.SetStateAction<string>>;
 
     certOne: string;
     certTwo: string;
@@ -108,26 +108,29 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
 
   const [videoUpload, setVideoUpload] = useState<File | undefined>();
   const [videoUrl, setVideoUrl] = useState<string>("");
-
+  const [emailAuth, setEmailAuth] = useState<string>("")
 
   const [navStep, setNavStep] = useState(0)
 
+  const databaseRef = collection(db, "trainer");
+  
   
 
-  const databaseRef = collection(db, "trainer");
-
   const fetchData = async () => {
-    const q = query(databaseRef, where("priceRange","==","800"))
+ 
+    const q = query(databaseRef, where("email","==",emailAuth))
     const querySnapshot = await getDocs(q);
     const newData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     // console.log(newData)
     setUserData(newData[0])
    
   } 
-
+console.log(emailAuth,'123')
   useEffect(()=> {
     fetchData()
-  }, []);
+  }, [emailAuth]);
+
+ 
 
   useEffect(()=>{
     if (userData !== undefined) {
@@ -215,7 +218,7 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
        setCertOne,
        setCertTwo,
        setCertThree,
-       
+       setEmailAuth
     }}
     >
       {children}

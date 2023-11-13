@@ -30,7 +30,7 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
     const newData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     setUserData(newData[0])
   }
-  const Navbar = ["自我介紹", "幫助過學生解決的問題", "我能如何幫助你","證照"];
+  const Navbar = ["自我介紹", "幫助過學生解決的問題", "我能如何幫助你", "證照"];
 
   const getUserVideos = async () => {
     const videosList = await listAll(videoRef);
@@ -40,6 +40,7 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
     });
   };
 
+  console.log(userData)
 
   useEffect(() => {
     fetchData()
@@ -64,7 +65,7 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
             {/* 照片及自介 */}
             <div className="flexBetween space-x-6">
               <img
-                src={userData?.imgUrl}
+                src={userData?.secondImgUrl}
                 className="w-1/2 h-auto rounded-lg block"
               />
               <div className=" 2xl:space-y-4 w-full ">
@@ -123,28 +124,28 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
                     <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
                   </div>
 
-                
-                <div className="flex items-center">
-                  <p className="text-gray-700 text-lg mt-1">價格：</p>
-                  <p className="text-xl ">{userData?.priceRange} /hr</p>
-                </div>
-                <div className="flexCenter">
-                  <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
-                </div>
-                <div className="items-center">
-                  <p className="text-gray-700 text-lg mb-2">時段</p>
-                  <div className="flexBetween ">
-                    <div className="p-1 border border-black rounded-xl  bg-[#00d68f] ">
-                      {userData?.firstTime}
-                    </div>
-                    <div className="p-1 border border-black rounded-xl  bg-[#00d68f]">
-                      {userData?.secondTime}
-                    </div>
-                    <div className="p-1 border border-black rounded-xl  bg-[#00d68f]">
-                      {userData?.thirdTime}
+
+                  <div className="flex items-center">
+                    <p className="text-gray-700 text-lg mt-1">價格：</p>
+                    <p className="text-xl ">{userData?.priceRange} /hr</p>
+                  </div>
+                  <div className="flexCenter">
+                    <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
+                  </div>
+                  <div className="items-center">
+                    <p className="text-gray-700 text-lg mb-2">時段</p>
+                    <div className="flexBetween ">
+                      <div className="p-1 border border-black rounded-xl  bg-[#00d68f] ">
+                        {userData?.firstTime}
+                      </div>
+                      <div className="p-1 border border-black rounded-xl  bg-[#00d68f]">
+                        {userData?.secondTime}
+                      </div>
+                      <div className="p-1 border border-black rounded-xl  bg-[#00d68f]">
+                        {userData?.thirdTime}
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>
               </div>
             </div>
@@ -174,11 +175,14 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
                   }
                 </div>
               </div>
-              <video
-                controls
-                src={userData?.videoList}
-                className="px-10 pb-10"
-              />
+              <div className="flexBetween">
+                <div className="w-1/2 p-10 text-5xl font-bold">123</div>
+                <video
+                  controls
+                  src={userData?.videoUrl}
+                  className="px-10 pb-10 w-3/5"
+                />
+              </div>
             </div>
           </div>
           }

@@ -3,10 +3,26 @@ import PeopleIcon from "@mui/icons-material/People";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CampaignIcon from "@mui/icons-material/Campaign";
 import { useStateContext } from "../../ContextProvider/Contexts";
+import { auth } from "../../features/firebase";
 import { useState } from "react";
+import { signOut } from "firebase/auth";
 const Nav_Trainer = () => {
   
   const { buildStep, setBuildStep} = useStateContext();
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        localStorage.removeItem('Name')
+        localStorage.removeItem('profilePic')
+        localStorage.removeItem('email')
+        localStorage.removeItem('name')
+        console.log('user sign out')
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }
 
   return (
     <div className="w-1/5  bg-[#051e34] flex flex-col items-center ">
@@ -124,8 +140,9 @@ const Nav_Trainer = () => {
                   }}
                 />
               }
+              onClick={handleSignOut}
             >
-              <p className={`whitespace-nowrap text-black font-bold`}>編輯個人檔案</p>
+              <p className={`whitespace-nowrap text-black font-bold`}>登出</p>
             </Button>
           </div>
         </div>

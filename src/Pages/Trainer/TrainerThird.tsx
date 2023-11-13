@@ -69,7 +69,7 @@ const TrainerThird = () => {
   const [secondImgUploading, setSecondImgUploading] = useState(false);
   const [videoUploading, setVideoUploading] = useState(false);
 
-  const docRef = doc(db, "trainer", userData?.id); //更改資料的ref
+ 
   const databaseRef = collection(db, "trainer");
 
   // console.log(secondImgUrl)
@@ -91,6 +91,7 @@ const TrainerThird = () => {
     // 使用者已有資料：更新
     if (userData !== undefined) {
       console.log("data updating");
+      const docRef = doc(db, "trainer", userData?.id); //更改資料的ref
       await updateDoc(docRef, {
         name: name,
         title: title,
@@ -117,6 +118,8 @@ const TrainerThird = () => {
         imgUrl: imgUrl,
         secondImgUrl: secondImgUrl,
         videoUrl: videoUrl,
+
+        email: localStorage.getItem('email')
       });
       alert("資料上傳成功");
     } else {
@@ -253,10 +256,11 @@ const TrainerThird = () => {
 
     handleDataUpload();
   };
+console.log(firstImgUploading)
 
   //在照片及影片上傳完後才呼叫
   useEffect(() => {
-    if (firstImgUploading || secondImgUpload || videoUploading) {
+    if (firstImgUploading || secondImgUploading || videoUploading) {
       
       if(firstImgUploading) setFirstImgUploading(false)
       if(secondImgUploading) setSecondImgUploading(false)
@@ -518,14 +522,7 @@ const TrainerThird = () => {
           </div>
         </div>
       )}
-      {/* <Button
-        component="label"
-        variant="contained"
-        startIcon={<CloudUploadIcon />}
-        onClick={handleDataUpload}
-      >
-        <p className="text-xl">資料上傳</p>
-      </Button> */}
+
     </div>
   );
 };
