@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useTrainerContext } from "../../ContextProvider/TrainerContext";
-import UploadIcon from '@mui/icons-material/Upload';
+import UploadIcon from "@mui/icons-material/Upload";
 import {
   Briefcase,
   CalendarCheck,
@@ -11,7 +11,7 @@ import { doc, updateDoc, addDoc, collection } from "firebase/firestore";
 import { v4 } from "uuid";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { storage } from "../../features/firebase";
 import { db } from "../../features/firebase";
 import {
@@ -50,7 +50,9 @@ const TrainerThird = () => {
     userData,
     imgUrl,
     videoUrl,
-    certOne, certTwo, certThree,
+    certOne,
+    certTwo,
+    certThree,
     imageUpload,
 
     secondImgUpload,
@@ -58,32 +60,37 @@ const TrainerThird = () => {
     setImgUrl,
     setSecondImgUrl,
     videoUpload,
-    setVideoUrl
+    setVideoUrl,
   } = useTrainerContext();
 
-  const imageListRef = ref(storage, "images");
+  // const imageListRef = ref(storage, "images");
 
+  const [firstImgUploading, setFirstImgUploading] = useState(false);
+  const [secondImgUploading, setSecondImgUploading] = useState(false);
+  const [videoUploading, setVideoUploading] = useState(false);
 
-  const docRef = doc(db, "trainer", userData?.id) //更改資料的ref
-  const databaseRef = collection(db, "trainer")
+  const docRef = doc(db, "trainer", userData?.id); //更改資料的ref
+  const databaseRef = collection(db, "trainer");
 
   // console.log(secondImgUrl)
   //第一張照片上傳，改成兩張照片一起上傳，且顯示進度
 
   const handleDataUpload = async () => {
     // e.preventDefault();
-    console.log('1: ', imgUrl.length)
-    console.log('2: ',secondImgUrl.length)
-    console.log('3: ',videoUrl.length)
+
     //若照片及影片沒上傳則 return
-    if (imgUrl.length === 0 || secondImgUrl.length === 0 || videoUrl.length === 0) {
-      alert('照片及影片必須上傳')
-      return
+    if (
+      imgUrl.length === 0 ||
+      secondImgUrl.length === 0 ||
+      videoUrl.length === 0
+    ) {
+      alert("照片及影片必須上傳");
+      return;
     }
 
     // 使用者已有資料：更新
     if (userData !== undefined) {
-      console.log("data updating")
+      console.log("data updating");
       await updateDoc(docRef, {
         name: name,
         title: title,
@@ -110,9 +117,10 @@ const TrainerThird = () => {
         imgUrl: imgUrl,
         secondImgUrl: secondImgUrl,
         videoUrl: videoUrl,
-      })
+      });
+      alert("資料上傳成功");
     } else {
-      console.log("data creating")
+      console.log("data creating");
       try {
         await addDoc(databaseRef, {
           name: name,
@@ -147,57 +155,75 @@ const TrainerThird = () => {
     }
   };
 
-  const handleImageUpload = async() => {
+  const handleImageUpload = async () => {
+    try {
+      // First Image Upload
+      if (imageUpload) {
+        console.log("照片一上傳");
+        if (imgUrl) {
+          console.log("照片一刪除");
+          const oldImageRef = ref(storage, imgUrl);
+          await deleteObject(oldImageRef).catch((e) =>
+            console.error("Error deleting old image:", e)
+          );
+        }
 
-    //如果照片要上傳的話
-    if (imageUpload !== undefined) {
-      console.log('照片一上傳')
-      const imageRef = ref(storage, `images/${imageUpload?.name + v4()}`);
+        const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+        const snapShot = await uploadBytes(imageRef, imageUpload);
+        const url = await getDownloadURL(snapShot.ref);
+        setImgUrl(url);
+        setFirstImgUploading(true);
+      } else if (!imgUrl) {
+        alert("照片 1 未上傳");
+        return;
+      }
 
-      await uploadBytes(imageRef, imageUpload)
-        .then((snapShot) => {
-          getDownloadURL(snapShot.ref).then((url) => {
-            setImgUrl(url);
-          });
-        })
-        .catch((e) => console.error(e));
-    } else if (imgUrl.length === 0) { //如果沒有影片要上傳，而且資料庫也沒存照片
-      alert('照片 1 未上傳')
-      return;
+      // Second Image Upload
+      if (secondImgUpload) {
+        console.log("第二張照片上傳");
+        if (secondImgUrl) {
+          console.log("照片二刪除");
+          const oldImageRef = ref(storage, secondImgUrl);
+          await deleteObject(oldImageRef).catch((e) =>
+            console.error("Error deleting old image:", e)
+          );
+        }
+        const imageRef = ref(storage, `images/${secondImgUpload.name + v4()}`);
+        const snapShot = await uploadBytes(imageRef, secondImgUpload);
+        const url = await getDownloadURL(snapShot.ref);
+
+        setSecondImgUrl(url);
+        setSecondImgUploading(true);
+      } else if (!secondImgUrl) {
+        alert("照片 2 未上傳");
+        return;
+      }
+
+      // Proceed to handle video upload
+      handleVideoUpload();
+    } catch (e) {
+      console.error(e);
     }
-
-
-    if (secondImgUpload !== undefined) {
-      console.log('第二張照片上傳')
-      const imageRef = ref(storage, `images/${imageUpload?.name + v4()}`);
-
-      await uploadBytes(imageRef, secondImgUpload)
-        .then((snapShot) => {
-          getDownloadURL(snapShot.ref).then((url) => {
-            setSecondImgUrl(url);
-          });
-        })
-        .catch((e) => console.error(e));
-    } else if (secondImgUrl.length === 0) {
-      alert('照片 2 未上傳')
-      return;
-    }
-
-    handleVideoUpload();
   };
 
-
-  const handleVideoUpload = () => {
-    console.log('進入到 handleVideo')
+  const handleVideoUpload = async () => {
+    console.log("進入到 handleVideo");
     //如果有影片要上傳的話
     if (videoUpload !== undefined) {
       const videoRef = ref(storage, `videos/${videoUpload.name + v4()}`);
       const uploadTask = uploadBytesResumable(videoRef, videoUpload);
-
+      if (videoUrl) {
+        console.log("影片刪除");
+        const oldVideoRef = ref(storage, videoUrl);
+        await deleteObject(oldVideoRef).catch((e) =>
+          console.error("Error deleting old video:", e)
+        );
+      }
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          let progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case "paused":
@@ -216,68 +242,68 @@ const TrainerThird = () => {
 
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             setVideoUrl(url);
+            setVideoUploading(true);
           });
         }
       );
-    }else if(videoUrl.length === 0){
-      alert('影片需上傳')
+    } else if (videoUrl.length === 0) {
+      alert("影片需上傳");
       return;
     }
 
     handleDataUpload();
   };
 
-  
-  console.log(secondImgUrl)
-  // useEffect(() => {
+  //在照片及影片上傳完後才呼叫
+  useEffect(() => {
+    if (firstImgUploading || secondImgUpload || videoUploading) {
+      
+      if(firstImgUploading) setFirstImgUploading(false)
+      if(secondImgUploading) setSecondImgUploading(false)
+      if(videoUploading) setVideoUploading(false);
 
-  //   if (imgUrl.length !== 0 && secondImgUrl.length !== 0 && videoUrl.length !== 0) {
-  //     console.log('here w go')
-  //   }
+      handleDataUpload();
+    }
+  }, [firstImgUploading, secondImgUploading, videoUploading]);
 
-  // }, [imgUrl, secondImgUrl, videoUrl]);
-
-  const [renderOption, setRenderOption] = useState(0)
+  const [renderOption, setRenderOption] = useState(0);
   const Navbar = ["自我介紹", "幫助過學生解決的問題", "我能如何幫助你", "證照"];
 
   return (
-    <div className="  select-none ">
+    <div className={`select-none ${renderOption === 0 ? "h-screen" : ""}`}>
       <div className="mb-3 space-x-3 flex">
         <Button
           variant="outlined"
           size="large"
           sx={{
-            backgroundColor: renderOption === 0 ? '#007CEF' : '',
-            ':hover': {
-              bgcolor: '#007CEF',
-              color: "white"
-
+            backgroundColor: renderOption === 0 ? "#007CEF" : "",
+            ":hover": {
+              bgcolor: "#007CEF",
+              color: "white",
             },
           }}
           onClick={() => setRenderOption(0)}
         >
-
-          <p className={`text-lg ${renderOption === 0 ? 'text-white' : ''}`}>教練牆</p>
-
+          <p className={`text-lg ${renderOption === 0 ? "text-white" : ""}`}>
+            教練牆
+          </p>
         </Button>
 
         <Button
           variant="outlined"
           size="large"
           sx={{
-            backgroundColor: renderOption === 1 ? '#007CEF' : '',
-            ':hover': {
-              bgcolor: '#007CEF',
-              color: "white"
-
+            backgroundColor: renderOption === 1 ? "#007CEF" : "",
+            ":hover": {
+              bgcolor: "#007CEF",
+              color: "white",
             },
           }}
-
           onClick={() => setRenderOption(1)}
         >
-
-          <p className={`text-lg ${renderOption === 1 ? 'text-white' : ''}`}>個人頁面</p>
-
+          <p className={`text-lg ${renderOption === 1 ? "text-white" : ""}`}>
+            個人頁面
+          </p>
         </Button>
         <div
           className={` w-[1px] h-[30px]  pt-10 self-stretch bg-gray-400 opacity-100 dark:opacity-50 `}
@@ -286,12 +312,12 @@ const TrainerThird = () => {
         <Button
           variant="contained"
           sx={{
-            backgroundColor: '#4BD791',
-            marginLeft: '60px',
+            backgroundColor: "#4BD791",
+            marginLeft: "60px",
 
             ":hover": {
-              backgroundColor: '#4BD791'
-            }
+              backgroundColor: "#4BD791",
+            },
           }}
           startIcon={<UploadIcon />}
           size="large"
@@ -301,14 +327,17 @@ const TrainerThird = () => {
           <p className="text-lg whitespace-nowrap ">資料確認並上傳</p>
         </Button>
       </div>
-      {
-        renderOption === 0 &&
-        <div
-          className="border border-gray-400 p-4 rounded-xl w-fit h-fit"
-        >
+      {renderOption === 0 && (
+        <div className="border border-gray-400 p-4 rounded-xl w-fit h-fit">
           <div>
             <img
-              src={imageUpload ? URL.createObjectURL(imageUpload) : imgUrl.length > 0 ? imgUrl : ''}
+              src={
+                imageUpload
+                  ? URL.createObjectURL(imageUpload)
+                  : imgUrl.length > 0
+                  ? imgUrl
+                  : ""
+              }
               className="w-[325px] h-[300px] rounded-xl"
             />
             {/* <button onClick={handleDelete}>123</button> */}
@@ -334,7 +363,6 @@ const TrainerThird = () => {
             </div>
             <div className="p-2 b">
               <div className="space-y-1">
-
                 <div className="flex items-center space-x-2">
                   <CalendarCheck size={20} color="#4CAF50" />
                   <p className="text-lg font-semibold ">{firstTime}</p>
@@ -350,22 +378,26 @@ const TrainerThird = () => {
               </div>
             </div>
           </div>
-
         </div>
-      }
-      {
-        renderOption === 1 &&
+      )}
+      {renderOption === 1 && (
         <div className="p-6 border border-black rounded-xl 2xl:space-y-10">
           {/* 照片及自介 */}
           <div className="flexBetween space-x-6">
             {secondImgUpload || secondImgUrl.length > 0 ? (
               <img
-                src={secondImgUpload ? URL.createObjectURL(secondImgUpload) : secondImgUrl}
+                src={
+                  secondImgUpload
+                    ? URL.createObjectURL(secondImgUpload)
+                    : secondImgUrl
+                }
                 className="w-1/2 h-auto rounded-lg block"
               />
             ) : (
               <div className="w-1/2 h-[300px] rounded-lg block border ">
-                <p className="italic text-xl text-gray-400 text-center mt-10">請上傳教練與學員訓練照片</p>
+                <p className="italic text-xl text-gray-400 text-center mt-10">
+                  請上傳教練與學員訓練照片
+                </p>
               </div>
             )}
 
@@ -375,7 +407,6 @@ const TrainerThird = () => {
                 <IconButton
                   onClick={() => window.open(insta, "_blank")}
                   className="icon-button "
-
                 >
                   <InstagramIcon color="primary" sx={{ fontSize: "35px" }} />
                 </IconButton>
@@ -453,43 +484,40 @@ const TrainerThird = () => {
             <div className=" h-[300px] mt-10">
               <div className="flexCenter space-x-6  ">
                 {Navbar.map((item, index) => (
-                  <p className={`text-xl font-bold ${navStep === index ? 'text-[#007CEF] border-b-2' : ''}`} onClick={() => setNavStep(index)}>
+                  <p
+                    className={`text-xl font-bold ${
+                      navStep === index ? "text-[#007CEF] border-b-2" : ""
+                    }`}
+                    onClick={() => setNavStep(index)}
+                  >
                     {item}
                   </p>
                 ))}
               </div>
 
               <div className=" mt-10">
-                {
-                  navStep === 0 &&
+                {navStep === 0 && (
                   <p className="text-center p-5">{experience}</p>
-                }
-                {
-                  navStep === 1 &&
+                )}
+                {navStep === 1 && (
                   <p className="text-center p-5">{goalInTime}</p>
-                }
-                {
-                  navStep === 2 &&
+                )}
+                {navStep === 2 && (
                   <p className="text-center p-5">{trainingMethod}</p>
-                }
-                {
-                  navStep === 3 &&
+                )}
+                {navStep === 3 && (
                   <div className="flexCenter space-x-4 p-5">
                     <p className="text-center text-xl">{certOne}</p>
                     <p className="text-center text-xl">{certTwo}</p>
                     <p className="text-center text-xl">{certThree}</p>
                   </div>
-                }
+                )}
               </div>
             </div>
-            <video
-              controls
-              src={videoUrl}
-              className="px-10 pb-10"
-            />
+            <video controls src={videoUrl} className="px-10 pb-10" />
           </div>
         </div>
-      }
+      )}
       {/* <Button
         component="label"
         variant="contained"

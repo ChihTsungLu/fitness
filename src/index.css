@@ -33,7 +33,7 @@
 }
 @media (min-height: 1000px) {
   .trainerLgScreen {
-    @apply h-screen
+    @apply h-max
     /* Change the height value based on your preference */
   }
 }

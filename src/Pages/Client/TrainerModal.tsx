@@ -54,7 +54,7 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
     //   .catch((e) => console.error(e));
   }, [name]);
 
-  console.log('modal data: ', userData)
+  // console.log('modal data: ', userData)
 
   return (
     <Modal open={modalOpen} onClose={() => setModalOpen(false)}>

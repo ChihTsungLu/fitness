@@ -78,8 +78,8 @@ const Body_Trainer = () => {
   // }, []);
 
   return (
-    <div className="w-4/5 trainerLgScreen bg-[#F8FAFB]">
-      <div className="   p-10 ">
+    <div className="w-4/5  bg-[#F8FAFB] trainerLgScreen">
+      <div className="p-10">
         {buildStep === 1 && (
           <TrainerFirst />
         )}
