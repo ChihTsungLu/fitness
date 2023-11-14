@@ -57,7 +57,7 @@ const TrainerSecond = () => {
                                     className="w-[450px] h-[450px] rounded-lg "
                                 />
                                 :
-                                <p className="text-lg">上傳教練牆個人照片</p>}
+                                <p className="text-lg italic text-gray-400">上傳教練牆個人照片</p>}
                     <input
                         type="file"
                         ref={imageInputFirstRef}
@@ -116,7 +116,7 @@ const TrainerSecond = () => {
                         )
                             :
                             (
-                                <p className="text-lg">上傳影片</p>
+                                <p className="text-lg italic text-gray-400">上傳影片</p>
                             )}
                     <input
                         type="file"

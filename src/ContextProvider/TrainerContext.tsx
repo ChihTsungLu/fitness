@@ -56,6 +56,7 @@ interface StateContextProps {
     videoUpload: File | undefined;
     setVideoUpload: React.Dispatch<React.SetStateAction<File | undefined>>;
 
+    emailAuth:string;
     setEmailAuth: React.Dispatch<React.SetStateAction<string>>;
 
     certOne: string;
@@ -130,7 +131,7 @@ console.log(emailAuth,'123')
     fetchData()
   }, [emailAuth]);
 
- 
+ console.log(emailAuth)
 
   useEffect(()=>{
     if (userData !== undefined) {
@@ -218,7 +219,9 @@ console.log(emailAuth,'123')
        setCertOne,
        setCertTwo,
        setCertThree,
-       setEmailAuth
+
+       setEmailAuth,
+       emailAuth
     }}
     >
       {children}

@@ -292,9 +292,9 @@ const TrainerFirst = () => {
               }
             }}
           />
-          {/* <TextField
+          <TextField
             id="standard-basic"
-            label="學生都怎麼形容我"
+            label="一句話推薦自己"
             className=" w-4/5"
             multiline
             rows={3}
@@ -302,13 +302,13 @@ const TrainerFirst = () => {
             value={description}
             onChange={(e) => {
               const inputText = e.target.value;
-              if (inputText.length <= 100) {
+              if (inputText.length <= 15) {
                 setDescription(e.target.value)
               } else {
-                setDescription(inputText.slice(0, 100));
+                setDescription(inputText.slice(0, 15));
               }
             }}
-          /> */}
+          />
 
         </div>
       </div>

@@ -11,8 +11,6 @@ const Feature = ({ }: FeatureProps) => {
     isTrainer,
     setIsStudent,
     setIsTrainer,
-    userName,
-    setUserName,
   } = useStateContext();
 
   const [trainerExplainStep, setTrainerExplainStep] = useState(1);
@@ -28,10 +26,9 @@ const Feature = ({ }: FeatureProps) => {
     setIsTrainer(false);
   };
 
-  useEffect(() => {
-    const localName = localStorage.getItem("name");
-    setUserName(localName!);
-  }, []);
+  // useEffect(() => {
+  //   const localName = localStorage.getItem("name");
+  // }, []);
 
   console.log(trainerExplainStep)
 
