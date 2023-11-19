@@ -109,7 +109,7 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
 
   const [videoUpload, setVideoUpload] = useState<File | undefined>();
   const [videoUrl, setVideoUrl] = useState<string>("");
-  const [emailAuth, setEmailAuth] = useState<string>("")
+  const [emailAuth, setEmailAuth] = useState<string>(localStorage.getItem('email') || "")
 
   const [navStep, setNavStep] = useState(0)
 
@@ -126,12 +126,13 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
     setUserData(newData[0])
    
   } 
-console.log(emailAuth,'123')
+
   useEffect(()=> {
     fetchData()
   }, [emailAuth]);
 
  console.log(emailAuth)
+ console.log(userData)
 
   useEffect(()=>{
     if (userData !== undefined) {

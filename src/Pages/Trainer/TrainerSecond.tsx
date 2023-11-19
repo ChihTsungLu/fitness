@@ -39,12 +39,12 @@ const TrainerSecond = () => {
     return (
         <div className="space-y-4">
             {/* 照片上傳 */}
-            <div className="flex flex-col space-y-5">
+            <div className="flex space-x-2">
                 <div
-                    className="w-[550px] h-[550px] rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-4"
+                    className="w-1/2 rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-4"
                     onClick={handleFirstImageClick}
                 >
-                    <p className="text-xl">教練牆個人照片</p>
+                    <p className="text-xl">教練牆照片</p>
                     {
                         imageUpload ? (
                             <img
@@ -68,10 +68,10 @@ const TrainerSecond = () => {
                     />
                 </div>
                 <div
-                    className="w-[700px] h-[550px] rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-10"
+                    className="w-1/2 h-[550px] rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-4"
                     onClick={handleSecondImageClick}
                 >
-                    <p className="text-xl">教練與學員訓練照片</p>
+                    <p className="text-xl">教練個人頁面照片</p>
                     {secondImgUpload ? (
                         <img
                             src={URL.createObjectURL(secondImgUpload)}
@@ -82,7 +82,7 @@ const TrainerSecond = () => {
                             src={secondImgUrl}
                             className="w-[550px] h-[450px] rounded-lg "
                         /> :
-                        <p className="text-lg italic text-gray-400">上傳教練與學員訓練照片</p>}
+                        <p className="text-lg italic text-gray-400">上傳教練個人頁面照片</p>}
                     <input
                         type="file"
                         ref={imageInputSecondRef}
@@ -97,9 +97,9 @@ const TrainerSecond = () => {
             {/* 影片上傳 */}
             <div className="flex">
                 <div
-                    className="w-[650px] h-[650px] rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-3" onClick={handleVideoClick}
+                    className="w-full h-[550px] rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-3" onClick={handleVideoClick}
                 >
-                    <p className="text-xl">學生推薦影片/與學生上課影片</p>
+                    <p className="text-xl">一部影片(一分鐘內)</p>
                     {videoUpload ? (
                         <video
                             controls

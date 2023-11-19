@@ -61,13 +61,14 @@ const TrainerThird = () => {
     setSecondImgUrl,
     videoUpload,
     setVideoUrl,
+    emailAuth
   } = useTrainerContext();
 
   // const imageListRef = ref(storage, "images");
 
-  const [firstImgUploading, setFirstImgUploading] = useState(false);
-  const [secondImgUploading, setSecondImgUploading] = useState(false);
-  const [videoUploading, setVideoUploading] = useState(false);
+
+  const [imgIsUpdated, setImgIsUpdated] = useState(false)
+  const [videoIsUpdated, setVideoIsUpdated] = useState(false)
 
   const databaseRef = collection(db, "trainer");
 
@@ -76,14 +77,49 @@ const TrainerThird = () => {
 
   const handleDataUpload = async () => {
     // e.preventDefault();
-
-    //若照片及影片沒上傳則 return
     if (
       imgUrl.length === 0 ||
       secondImgUrl.length === 0 ||
       videoUrl.length === 0
     ) {
       alert("照片及影片必須上傳");
+      return;
+    }
+
+    if(name.length === 0){
+      alert('名字尚未填寫')
+      return;
+    }
+    if(title.length === 0){
+      alert('職稱尚未填寫')
+      return;
+    }
+    if(expYear.length === 0){
+      alert('職業年數尚未填寫')
+      return;
+    }
+    if(location.length ===0){
+      alert('教學地點尚未填寫')
+      return;
+    }
+    if(priceRange.length ===0){
+      alert("價錢範圍尚未填寫")
+      return; 
+    }
+    if(line.length ===0){
+      alert("Line 尚未填寫")
+      return;
+    }
+    if(insta.length ===0){
+      alert("IG 尚未填寫")
+      return;
+    }
+    if(firstTime.length ===0 || secondTime.length === 0 || thirdTime.length === 0){
+      alert("`上課時段`未填寫完整")
+      return;
+    }
+    if(experience.length === 0 || goalInTime.length === 0 || trainingMethod.length === 0){
+      alert("`帶給學員價值`未填寫完整")
       return;
     }
 
@@ -111,14 +147,13 @@ const TrainerThird = () => {
 
         experience: experience,
         goalInTime: goalInTime,
-        description: description,
         trainingMethod: trainingMethod,
 
         imgUrl: imgUrl,
         secondImgUrl: secondImgUrl,
         videoUrl: videoUrl,
 
-        email: localStorage.getItem("email"),
+        email: emailAuth,
       });
       alert("資料上傳成功");
     } else {
@@ -143,13 +178,14 @@ const TrainerThird = () => {
           certThree: certThree,
 
           experience: experience,
-          goalInTime: goalInTime,
-          description: description,
+          goalInTime: goalInTime,    
           trainingMethod: trainingMethod,
 
           imgUrl: imgUrl,
           secondImgUrl: secondImgUrl,
           videoUrl: videoUrl,
+
+          email: emailAuth
         });
       } catch (e) {
         console.error("Error adding data: ", e);
@@ -174,7 +210,7 @@ const TrainerThird = () => {
         const snapShot = await uploadBytes(imageRef, imageUpload);
         const url = await getDownloadURL(snapShot.ref);
         setImgUrl(url);
-        setFirstImgUploading(true);
+
       } else if (!imgUrl) {
         alert("照片 1 未上傳");
         return;
@@ -195,14 +231,16 @@ const TrainerThird = () => {
         const url = await getDownloadURL(snapShot.ref);
 
         setSecondImgUrl(url);
-        setSecondImgUploading(true);
       } else if (!secondImgUrl) {
         alert("照片 2 未上傳");
         return;
       }
+      
+      console.log('照片更新完畢，呼叫 videoUpload')
+      setImgIsUpdated(true)
 
       // Proceed to handle video upload
-      handleVideoUpload();
+
     } catch (e) {
       console.error(e);
     }
@@ -244,33 +282,42 @@ const TrainerThird = () => {
 
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             setVideoUrl(url);
-            setVideoUploading(true);
+            setVideoIsUpdated(true)
+            console.log('影片更新完畢，呼叫 dataUpload')
           });
         }
       );
     } else if (videoUrl.length === 0) {
       alert("影片需上傳");
       return;
+    } else{
+      setVideoIsUpdated(true)
+      console.log('影片保持，呼叫 dataUpload')
     }
 
-    handleDataUpload();
+    // setVideoIsUpdated(true)
   };
 
   //在照片及影片上傳完後才呼叫
   useEffect(() => {
-    if (firstImgUploading || secondImgUploading || videoUploading) {
-      if (firstImgUploading) setFirstImgUploading(false);
-      if (secondImgUploading) setSecondImgUploading(false);
-      if (videoUploading) setVideoUploading(false);
 
-      handleDataUpload();
-    }
-  }, [firstImgUploading, secondImgUploading, videoUploading]);
+    if (!imgIsUpdated) return;
+
+    handleVideoUpload()
+  }, [imgIsUpdated]);
+
+  useEffect(() => {
+
+    if (!videoIsUpdated) return;
+
+    handleDataUpload();
+
+  }, [videoIsUpdated]);
 
   const [renderOption, setRenderOption] = useState(0);
   const Navbar = ["自我介紹", "幫助過學生解決的問題", "我能如何幫助你", "證照"];
 
-  console.log(goalInTime);
+
   return (
     <div className={`select-none ${renderOption === 0 ? "h-screen" : ""}`}>
       <div className="mb-3 space-x-3 flex">
@@ -342,8 +389,8 @@ const TrainerThird = () => {
                   imageUpload
                     ? URL.createObjectURL(imageUpload)
                     : imgUrl.length > 0
-                    ? imgUrl
-                    : ""
+                      ? imgUrl
+                      : ""
                 }
                 className="w-[325px] h-[300px] rounded-xl"
               />
@@ -351,9 +398,8 @@ const TrainerThird = () => {
           </div>
           <div className="">
             <p
-              className={`text-2xl font-bold mt-2 ml-2 ${
-                name.length === 0 ? "text-gray-400 italic" : ""
-              }`}
+              className={`text-2xl font-bold mt-2 ml-2 ${name.length === 0 ? "text-gray-400 italic" : ""
+                }`}
             >
               {name.length === 0 ? "名字/暱稱" : name}
             </p>
@@ -361,11 +407,10 @@ const TrainerThird = () => {
               <div className="flex items-center space-x-2">
                 <Briefcase size={20} />
                 <p
-                  className={`text-lg font-semibold ${
-                    title.length === 0 || expYear.length === 0
-                      ? "text-gray-400 italic "
-                      : ""
-                  }`}
+                  className={`text-lg font-semibold ${title.length === 0 || expYear.length === 0
+                    ? "text-gray-400 italic "
+                    : ""
+                    }`}
                 >
                   {title.length === 0 ? "職業" : title} -{" "}
                   {expYear.length === 0 ? "經歷" : expYear} 年
@@ -374,9 +419,8 @@ const TrainerThird = () => {
               <div className="flex items-center space-x-2">
                 <LandPlot size={20} color="#007CEF" />
                 <p
-                  className={`text-lg font-semibold ${
-                    location.length === 0 ? "text-gray-400 italic" : ""
-                  }`}
+                  className={`text-lg font-semibold ${location.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                 >
                   {location.length === 0 ? "上課地點" : location}
                 </p>
@@ -385,9 +429,8 @@ const TrainerThird = () => {
               <div className="flex items-center space-x-2">
                 <CircleDollarSign size={20} color="#F4CE14" />
                 <p
-                  className={`text-lg font-semibold ${
-                    priceRange.length === 0 ? "text-gray-400 italic" : ""
-                  }`}
+                  className={`text-lg font-semibold ${priceRange.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                 >
                   {priceRange.length === 0 ? "價格範圍" : priceRange} /hr
                 </p>
@@ -398,9 +441,8 @@ const TrainerThird = () => {
                 <div className="flex items-center space-x-2">
                   <CalendarCheck size={20} color="#4CAF50" />
                   <p
-                    className={`text-lg font-semibold ${
-                      firstTime.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                    className={`text-lg font-semibold ${firstTime.length === 0 ? "text-gray-400 italic" : ""
+                      }`}
                   >
                     {firstTime.length === 0 ? "第一個時段" : firstTime}
                   </p>
@@ -408,9 +450,8 @@ const TrainerThird = () => {
                 <div className="flex items-center space-x-2">
                   <CalendarCheck size={20} color="#4CAF50" />
                   <p
-                    className={`text-lg font-semibold ${
-                      secondTime.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                    className={`text-lg font-semibold ${secondTime.length === 0 ? "text-gray-400 italic" : ""
+                      }`}
                   >
                     {secondTime.length === 0 ? "第二個時段" : secondTime}
                   </p>
@@ -418,9 +459,8 @@ const TrainerThird = () => {
                 <div className="flex items-center space-x-2">
                   <CalendarCheck size={20} color="#4CAF50" />
                   <p
-                    className={`text-lg font-semibold ${
-                      thirdTime.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                    className={`text-lg font-semibold ${thirdTime.length === 0 ? "text-gray-400 italic" : ""
+                      }`}
                   >
                     {thirdTime.length === 0 ? "第三個時段" : thirdTime}
                   </p>
@@ -454,9 +494,8 @@ const TrainerThird = () => {
             <div className=" 2xl:space-y-4 w-1/2 ">
               <div className="flexCenter ">
                 <p
-                  className={`"text-3xl 2xl:text-5xl 2xl:mr-6 ${
-                    name.length === 0 ? "text-gray-400 italic" : ""
-                  }`}
+                  className={`"text-3xl 2xl:text-5xl 2xl:mr-6 ${name.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                 >
                   {name.length === 0 ? "名字" : name}
                 </p>
@@ -493,9 +532,8 @@ const TrainerThird = () => {
                 <div className="flex items-center">
                   <p className="text-gray-400 text-lg mt-1">職業：</p>
                   <p
-                    className={`text-xl ${
-                      title.length === 0 ? "text-gray-400 italic" : " "
-                    } `}
+                    className={`text-xl ${title.length === 0 ? "text-gray-400 italic" : " "
+                      } `}
                   >
                     {title.length === 0 ? "職業" : title}
                   </p>
@@ -506,9 +544,8 @@ const TrainerThird = () => {
                 <div className="flex items-center">
                   <p className="text-gray-400 text-lg mt-1">資歷：</p>
                   <p
-                    className={`text-xl ${
-                      expYear.length === 0 ? "text-gray-400 italic" : " "
-                    } `}
+                    className={`text-xl ${expYear.length === 0 ? "text-gray-400 italic" : " "
+                      } `}
                   >
                     {expYear.length === 0 ? "經歷年數" : expYear}
                   </p>
@@ -519,9 +556,8 @@ const TrainerThird = () => {
                 <div className="flex items-center">
                   <p className="text-gray-400 text-lg mt-1">地點：</p>
                   <p
-                    className={`text-xl ${
-                      location.length === 0 ? "text-gray-400 italic" : " "
-                    } `}
+                    className={`text-xl ${location.length === 0 ? "text-gray-400 italic" : " "
+                      } `}
                   >
                     {location.length === 0 ? "上課地點" : location}
                   </p>
@@ -532,9 +568,8 @@ const TrainerThird = () => {
                 <div className="flex items-center">
                   <p className="text-gray-400 text-lg mt-1">價格範圍：</p>
                   <p
-                    className={`text-xl ${
-                      priceRange.length === 0 ? "text-gray-400 italic" : " "
-                    } `}
+                    className={`text-xl ${priceRange.length === 0 ? "text-gray-400 italic" : " "
+                      } `}
                   >
                     {priceRange.length === 0 ? "價格範圍" : priceRange}/hr
                   </p>
@@ -546,23 +581,20 @@ const TrainerThird = () => {
                   <p className="text-gray-400 text-lg">時段</p>
                   <div className="flex space-x-5 ">
                     <div
-                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${
-                        firstTime.length === 0 ? "text-white italic" : ""
-                      }`}
+                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${firstTime.length === 0 ? "text-white italic" : ""
+                        }`}
                     >
                       {firstTime.length === 0 ? "第一個上課時段" : firstTime}
                     </div>
                     <div
-                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${
-                        secondTime.length === 0 ? "text-white italic" : ""
-                      }`}
+                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${secondTime.length === 0 ? "text-white italic" : ""
+                        }`}
                     >
                       {secondTime.length === 0 ? "第二個上課時段" : secondTime}
                     </div>
                     <div
-                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${
-                        thirdTime.length === 0 ? "text-white italic" : ""
-                      }`}
+                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${thirdTime.length === 0 ? "text-white italic" : ""
+                        }`}
                     >
                       {thirdTime.length === 0 ? "第三個上課時段" : thirdTime}
                     </div>
@@ -577,9 +609,8 @@ const TrainerThird = () => {
               <div className="flexCenter space-x-6  ">
                 {Navbar.map((item, index) => (
                   <p
-                    className={`text-xl font-bold ${
-                      navStep === index ? "text-[#007CEF] border-b-2" : ""
-                    }`}
+                    className={`text-xl font-bold ${navStep === index ? "text-[#007CEF] border-b-2" : ""
+                      }`}
                     onClick={() => setNavStep(index)}
                   >
                     {item}
@@ -590,18 +621,16 @@ const TrainerThird = () => {
               <div className="px-20 mt-10">
                 {navStep === 0 && (
                   <p
-                    className={`text-center  text-xl ${
-                      experience.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                    className={`text-center  text-xl ${experience.length === 0 ? "text-gray-400 italic" : ""
+                      }`}
                   >
                     {experience.length === 0 ? "經歷" : experience}
                   </p>
                 )}
                 {navStep === 1 && (
                   <p
-                    className={`text-center  text-xl ${
-                      goalInTime.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                    className={`text-center  text-xl ${goalInTime.length === 0 ? "text-gray-400 italic" : ""
+                      }`}
                   >
                     {goalInTime.length === 0
                       ? "幫助過學生「在多久時間」解決或達成「問題及目標」"
@@ -610,9 +639,8 @@ const TrainerThird = () => {
                 )}
                 {navStep === 2 && (
                   <p
-                    className={`text-center  text-xl ${
-                      trainingMethod.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                    className={`text-center  text-xl ${trainingMethod.length === 0 ? "text-gray-400 italic" : ""
+                      }`}
                   >
                     {trainingMethod.length === 0
                       ? "能帶給學生什麼幫助/學習/成長"
@@ -629,51 +657,19 @@ const TrainerThird = () => {
               </div>
             </div>
             <div className="flexCenter space-x-22">
-              <div className="p-10 ">
-                <p className="text-5xl font-bold w-[300px] text-justify text-center">一句話推薦自己一句話推薦自己</p>
-                <div className="flex">
-                  <IconButton
-                    onClick={() => window.open(userData.insta, "_blank")}
-                    className="icon-button "
-                  >
-                    <InstagramIcon color="primary" sx={{ fontSize: "35px" }} />
-                  </IconButton>
-                  <div
-                    className="cursor-pointer icon-button mt-[5px] "
-                    onClick={() => window.open(userData.line, "_blank")}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="40"
-                      height="40"
-                      viewBox="0 0 48 48"
-                    >
-                      <path
-                        fill="#00c300"
-                        d="M12.5,42h23c3.59,0,6.5-2.91,6.5-6.5v-23C42,8.91,39.09,6,35.5,6h-23C8.91,6,6,8.91,6,12.5v23C6,39.09,8.91,42,12.5,42z"
-                      ></path>
-                      <path
-                        fill="#fff"
-                        d="M37.113,22.417c0-5.865-5.88-10.637-13.107-10.637s-13.108,4.772-13.108,10.637c0,5.258,4.663,9.662,10.962,10.495c0.427,0.092,1.008,0.282,1.155,0.646c0.132,0.331,0.086,0.85,0.042,1.185c0,0-0.153,0.925-0.187,1.122c-0.057,0.331-0.263,1.296,1.135,0.707c1.399-0.589,7.548-4.445,10.298-7.611h-0.001C36.203,26.879,37.113,24.764,37.113,22.417z M18.875,25.907h-2.604c-0.379,0-0.687-0.308-0.687-0.688V20.01c0-0.379,0.308-0.687,0.687-0.687c0.379,0,0.687,0.308,0.687,0.687v4.521h1.917c0.379,0,0.687,0.308,0.687,0.687C19.562,25.598,19.254,25.907,18.875,25.907z M21.568,25.219c0,0.379-0.308,0.688-0.687,0.688s-0.687-0.308-0.687-0.688V20.01c0-0.379,0.308-0.687,0.687-0.687s0.687,0.308,0.687,0.687V25.219z M27.838,25.219c0,0.297-0.188,0.559-0.47,0.652c-0.071,0.024-0.145,0.036-0.218,0.036c-0.215,0-0.42-0.103-0.549-0.275l-2.669-3.635v3.222c0,0.379-0.308,0.688-0.688,0.688c-0.379,0-0.688-0.308-0.688-0.688V20.01c0-0.296,0.189-0.558,0.47-0.652c0.071-0.024,0.144-0.035,0.218-0.035c0.214,0,0.42,0.103,0.549,0.275l2.67,3.635V20.01c0-0.379,0.309-0.687,0.688-0.687c0.379,0,0.687,0.308,0.687,0.687V25.219z M32.052,21.927c0.379,0,0.688,0.308,0.688,0.688c0,0.379-0.308,0.687-0.688,0.687h-1.917v1.23h1.917c0.379,0,0.688,0.308,0.688,0.687c0,0.379-0.309,0.688-0.688,0.688h-2.604c-0.378,0-0.687-0.308-0.687-0.688v-2.603c0-0.001,0-0.001,0-0.001c0,0,0-0.001,0-0.001v-2.601c0-0.001,0-0.001,0-0.002c0-0.379,0.308-0.687,0.687-0.687h2.604c0.379,0,0.688,0.308,0.688,0.687s-0.308,0.687-0.688,0.687h-1.917v1.23H32.052z"
-                      ></path>
-                    </svg>
-                  </div>
-                </div>
-              </div>
+
               {videoUpload || videoUrl.length > 0 ? (
                 <video
                   controls
                   src={
                     videoUpload ? URL.createObjectURL(videoUpload) : videoUrl
                   }
-                  className="px-10 pb-10 w-3/5"
+                  className="px-10 pb-10 w-full"
                 />
               ) : (
-                <div className="w-[600px] h-[440px] rounded-lg block border ">
+                <div className="w-full h-[440px] rounded-lg block border ">
                   <p className="italic text-xl text-gray-400 text-center mt-10">
-                    學生推薦影片
+                    影片
                   </p>
                 </div>
               )}

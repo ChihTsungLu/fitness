@@ -236,7 +236,7 @@ const TrainerFirst = () => {
       </div>
             
       <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4">
-        <p className="text-lg">帶給學員什麼價值</p>
+        <p className="text-lg">教練核心價值</p>
         <div className="space-y-5">
           <TextField
             id="standard-basic"
@@ -292,7 +292,7 @@ const TrainerFirst = () => {
               }
             }}
           />
-          <TextField
+          {/* <TextField
             id="standard-basic"
             label="一句話推薦自己"
             className=" w-4/5"
@@ -308,7 +308,7 @@ const TrainerFirst = () => {
                 setDescription(inputText.slice(0, 15));
               }
             }}
-          />
+          /> */}
 
         </div>
       </div>

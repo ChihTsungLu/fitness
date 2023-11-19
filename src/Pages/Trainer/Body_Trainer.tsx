@@ -35,7 +35,7 @@ const Body_Trainer = () => {
           <TrainerSecond/>
         )}
         {buildStep === 3 &&
-          <TrainerThird />
+          <TrainerThird />  
         }
       </div>
     </div>

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useStateContext } from "../../ContextProvider/Contexts";
 import { useNavigate } from "react-router-dom";
+import FirstPic from '../../assets/firstT.png'
+import SecondPic from '../../assets/secondT.png'
+import ThirdPic from '../../assets/third1.png'
+import ThirdPic2 from '../../assets/thirdT2.png'
 interface FeatureProps { }
 
 const Feature = ({ }: FeatureProps) => {
@@ -61,8 +65,8 @@ const Feature = ({ }: FeatureProps) => {
               簡單三步驟，迅速使用現成工具打造個人品牌
             </p>
           </div>
-          <div className="m-10  flexBetween">
-            <div className="space-y-4">
+          <div className="m-10 flexBetween relative">
+            <div className="space-y-4 z-20">
               <div className={`home-trainer-feature ${trainerExplainStep === 1 ? ' border border-purple-500 bg-white' : 'bg-gray-50 border border-gray-300'}`}
                 onMouseEnter={() => setTrainerExplainStep(1)}
               >
@@ -73,7 +77,7 @@ const Feature = ({ }: FeatureProps) => {
                 </div>
                 <div className="space-y-1">
                   <p className="font-black text-lg">提供個人專業經歷及訓練日常</p>
-                  <p className="font-bold">打造專屬個人化專業形象</p>
+                  <p className="font-bold">打造專屬個人化專業形象，讓學員從線上認識你</p>
                 </div>
               </div>
               <div className={`home-trainer-feature ${trainerExplainStep === 2 ? ' border border-purple-500 bg-white ' : 'bg-gray-50 border border-gray-300'}`}
@@ -86,7 +90,7 @@ const Feature = ({ }: FeatureProps) => {
                 </div>
                 <div className="space-y-1">
                   <p className="font-black text-lg">上傳照片及影片</p>
-                  <p className="font-bold">將日常訓練素材發揮最大效益</p>
+                  <p className="font-bold">將日常訓練素材發揮最大效益，建立網絡社群</p>
                 </div>
               </div>
               <div className={`home-trainer-feature ${trainerExplainStep === 3 ? ' border border-purple-500 bg-white' : 'bg-gray-50 border border-gray-300'}`}
@@ -103,7 +107,40 @@ const Feature = ({ }: FeatureProps) => {
                 </div>
               </div>
             </div>
-            <div>pic</div>
+            <div className="flex items-end justify-end ">
+              {
+                trainerExplainStep === 1 &&
+                <img
+                  src={FirstPic}
+                  className="rounded-xl LgPicSize sm:w-11/12 sm:h-[600px]"
+                />
+              }
+              {
+                trainerExplainStep === 2 &&
+                <img
+                  src={SecondPic}
+                  className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                />
+              }
+              {
+                trainerExplainStep === 3 &&
+                <div className="flex  ">
+
+                  <img
+                    src={ThirdPic}
+                    alt="First Image"
+                    className="rounded-xl w-[900px] h-[600px] absolute right-32 top-32 z-1"
+                  />
+                  <img
+                    src={ThirdPic2}
+                    alt="Second Image"
+
+                    className="rounded-xl sm:w-full h-[600px]"
+                  />
+
+                </div>
+              }
+            </div>
           </div>
         </div>
       )}
@@ -163,7 +200,9 @@ const Feature = ({ }: FeatureProps) => {
                 </div>
               </div>
             </div>
-            <div>pic</div>
+            <div className="">
+
+            </div>
           </div>
         </div>
       )}

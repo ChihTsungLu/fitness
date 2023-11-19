@@ -37,3 +37,8 @@
     /* Change the height value based on your preference */
   }
 }
+@media (min-height: 1000px) {
+  .LgPicSize{
+    @apply w-[3/4]
+  }
+}
