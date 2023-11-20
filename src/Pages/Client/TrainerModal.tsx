@@ -15,6 +15,8 @@ import { db } from "../../features/firebase";
 import { IconButton } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
+import mockImg from '../../assets/modalPic.avif'
+import videoMig from '../../assets/modalMock.avif'
 interface TrainerModalProps {
   name: string;
 }
@@ -53,38 +55,52 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
 
   useEffect(() => {
     fetchData();
-    // listAll(videoRef)
-    //   .then((res) => {
-    //     res.items.forEach((item) => {
-    //       getDownloadURL(item).then((url) => {
-    //         setVideoURL(url);
-    //       });
-    //     });
-    //   })
-    //   .catch((e) => console.error(e));
   }, [name]);
 
-  // console.log('modal data: ', userData)
+
+  const mockData = [
+    {
+      name: "示範教練",
+      title: "自由教練",
+      expYear: 6,
+      location: "台北 / 新北 / 桃園 ",
+      priceRange: " 800 ~ 1200",
+      firstTime: "週一 15:00 ~ 19:00",
+      secondTime: "週三 15:00 ~ 19:00",
+      thirdTime: "週五 15:00 ~ 19:00",
+      experience:"教練經歷",
+      goalInTime:"曾經幫過學生達成的目標",
+      trainingMethod:"如何改善學生生活",
+      certOne:"拿過的證照 1",
+      certTwo:"拿過的證照 2",
+      certThree:"拿過的證照 3",
+      secondImgUrl: mockImg,
+      videoUrl: "",
+      videoMock:videoMig
+    }
+  ]
+  
 
   return (
-    <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+    <Modal open={true} onClose={() => setModalOpen(false)}>
       {
         <div className="TrainerModal overflow-y-auto select-none">
           {
             <div className="2xl:space-y-10">
               {/* 照片及自介 */}
+            
               <div className="flexBetween space-x-6">
                 <img
-                  src={userData?.secondImgUrl}
+                  src={mockData[0].secondImgUrl}
                   className="w-1/2 h-auto rounded-lg block"
                 />
                 <div className=" 2xl:space-y-4 w-full ">
                   <div className="flexCenter ">
                     <p className="text-3xl 2xl:text-5xl 2xl:mr-6 font-bold">
-                      {userData?.name}
+                      {mockData[0].name}
                     </p>
                     <IconButton
-                      onClick={() => window.open(userData.insta, "_blank")}
+                      // onClick={() => window.open(mockData[0]insta, "_blank")}
                       className="icon-button "
                     >
                       <InstagramIcon
@@ -94,7 +110,7 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
                     </IconButton>
                     <div
                       className="cursor-pointer icon-button "
-                      onClick={() => window.open(userData.line, "_blank")}
+                      // onClick={() => window.open(mockData[0]line, "_blank")}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -118,21 +134,21 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
                   <div className="p-4 rounded-xl space-y-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <p className="text-gray-400 text-lg mt-1">職業：</p>
-                      <p className="text-xl">{userData?.title}</p>
+                      <p className="text-xl">{mockData[0].title}</p>
                     </div>
                     <div className="flexCenter">
                       <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
                     </div>
                     <div className="flex items-center">
                       <p className="text-gray-400 text-lg mt-1">資歷：</p>
-                      <p className="text-xl ">{userData?.expYear} 年</p>
+                      <p className="text-xl ">{mockData[0].expYear} 年</p>
                     </div>
                     <div className="flexCenter">
                       <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
                     </div>
                     <div className="flex items-center">
                       <p className="text-gray-400 text-lg mt-1">地點：</p>
-                      <p className="text-xl ">{userData?.location}</p>
+                      <p className="text-xl ">{mockData[0].location}</p>
                     </div>
                     <div className="flexCenter">
                       <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
@@ -140,7 +156,7 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
 
                     <div className="flex items-center">
                       <p className="text-gray-400 text-lg mt-1">價格範圍：</p>
-                      <p className="text-xl ">{userData?.priceRange} /hr</p>
+                      <p className="text-xl ">{mockData[0].priceRange} /hr</p>
                     </div>
                     <div className="flexCenter">
                       <div className="w-11/12 h-[0.2px] bg-gray-300"></div>
@@ -149,13 +165,13 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
                       <p className="text-gray-400 text-lg mb-2">時段</p>
                       <div className="flexBetween ">
                         <div className="p-1 border border-black rounded-xl  bg-[#00d68f] ">
-                          {userData?.firstTime}
+                          {mockData[0].firstTime}
                         </div>
                         <div className="p-1 border border-black rounded-xl  bg-[#00d68f]">
-                          {userData?.secondTime}
+                          {mockData[0].secondTime}
                         </div>
                         <div className="p-1 border border-black rounded-xl  bg-[#00d68f]">
-                          {userData?.thirdTime}
+                          {mockData[0].thirdTime}
                         </div>
                       </div>
                     </div>
@@ -164,7 +180,7 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
               </div>
               {/* 影片及 */}
               <div className="">
-                <div className=" h-[300px] mt-10">
+                <div className=" h-[220px] mt-10">
                   <div className="flexCenter space-x-6  ">
                     {Navbar.map((item, index) => (
                       <p
@@ -180,29 +196,29 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
                   <div className=" mt-10">
                     {navStep === 0 && (
                       <p className="text-center p-5 text-xl">
-                        {userData?.experience}
+                        {mockData[0].experience}
                       </p>
                     )}
                     {navStep === 1 && (
                       <p className="text-center p-5 text-xl">
-                        {userData?.goalInTime}
+                        {mockData[0].goalInTime}
                       </p>
                     )}
                     {navStep === 2 && (
                       <p className="text-center p-5 text-xl">
-                        {userData?.trainingMethod}
+                        {mockData[0].trainingMethod}
                       </p>
                     )}
                     {navStep === 3 && (
                       <div className="flexCenter">
                         <p className="text-center p-5 text-xl">
-                          {userData?.certOne}
+                          {mockData[0].certOne}
                         </p>
                         <p className="text-center p-5 text-xl">
-                          {userData?.certTwo}
+                          {mockData[0].certTwo}
                         </p>
                         <p className="text-center p-5 text-xl">
-                          {userData?.certThree}
+                          {mockData[0].certThree}
                         </p>
                       </div>
                     )}
@@ -212,8 +228,9 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
 
                 <video
                   controls
-                  src={userData?.videoUrl}
+                  src={mockData[0].videoUrl}
                   className="px-10 pb-10 w-full"
+                  poster={mockData[0].videoMock}
                 />
 
               </div>

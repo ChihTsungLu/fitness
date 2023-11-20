@@ -9,12 +9,49 @@ import {
   CircleDollarSign,
   LandPlot,
 } from "lucide-react";
+import MockImg from "../../assets/mocktrainer.avif";
+import MockImg2 from "../../assets/mock2.avif";
+import MockImg3 from "../../assets/mock3.jpg";
 
 const Body_Client = () => {
   const { setModalOpen } = useClientContext();
   const [data, setData] = useState<any[]>([]);
   const [selectedItem, setSelectedItem] = useState<string>("");
-
+  const mockData = [
+    {
+      name: "示範教練1",
+      title: "自由教練",
+      expYear: 6,
+      location: "台北 / 新北 / 桃園 ",
+      priceRange: " 800 ~ 1200",
+      firstTime: "週一 15:00 ~ 19:00",
+      secondTime: "週三 15:00 ~ 19:00",
+      thirdTime: "週五 15:00 ~ 19:00",
+      imgUrl: MockImg,
+    },
+    {
+      name: "示範教練2",
+      title: "台中俱樂部教練",
+      expYear: 8,
+      location: "台中 / 線上 ",
+      priceRange: " 900 ~ 1400",
+      firstTime: "平日 15:00 ~ 19:00",
+      secondTime: "平日 09:00 ~ 12:00",
+      thirdTime: "假日 13:00 ~ 15:00",
+      imgUrl: MockImg2,
+    },
+    {
+      name: "示範教練3",
+      title: "線上教練",
+      expYear: 8,
+      location: "高雄 / 線上 ",
+      priceRange: " 900 ~ 1400",
+      firstTime: "平日 15:00 ~ 19:00",
+      secondTime: "平日 09:00 ~ 12:00",
+      thirdTime: "假日 13:00 ~ 15:00",
+      imgUrl: MockImg3,
+    }
+  ];
   const databaseRef = collection(db, "trainer");
 
   const fetchData = async () => {
@@ -31,14 +68,14 @@ const Body_Client = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   return (
-    <div className="w-4/5 flex space-x-5 p-20 select-none ">
-      {data.map((item, index) => (
+    <div className="w-fit flex px-10 select-none flex-wrap gap-5">
+      {mockData.map((item, index) => (
         <div
           key={index}
           className="border border-gray-400 p-4 rounded-xl w-fit h-fit cursor-pointer"
-          onClick={() => handleOpenModal(item.name)}
+          // onClick={() => handleOpenModal(item.name)}
         >
           <div>
             <img
@@ -69,7 +106,6 @@ const Body_Client = () => {
             </div>
             <div className="p-2 b">
               <div className="space-y-1">
-               
                 <div className="flex items-center space-x-2">
                   <CalendarCheck size={20} color="#4CAF50" />
                   <p className="text-lg font-semibold ">{item.firstTime}</p>
@@ -85,7 +121,6 @@ const Body_Client = () => {
               </div>
             </div>
           </div>
-  
         </div>
       ))}
       <TrainerModal name={selectedItem} />
