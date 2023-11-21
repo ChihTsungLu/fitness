@@ -1,21 +1,6 @@
 
 import { useStateContext } from "../../ContextProvider/Contexts";
-import { useTrainerContext } from "../../ContextProvider/TrainerContext";
-import { db } from "../../features/firebase";
-import { collection, addDoc } from "firebase/firestore";
-import { useState, useEffect, useRef } from "react";
-import { storage } from "../../features/firebase";
 
-
-import {
-  ref,
-  uploadBytes,
-  listAll,
-  getDownloadURL,
-  deleteObject,
-  uploadBytesResumable,
-  updateMetadata,
-} from "firebase/storage";
  
 
 import TrainerFirst from "./TrainerFirst";

@@ -6,30 +6,35 @@ import { useStateContext } from "../../ContextProvider/Contexts";
 import { auth } from "../../features/firebase";
 import { useState } from "react";
 import { signOut } from "firebase/auth";
+import { TreeDeciduous } from "lucide-react";
+import { Link } from "react-router-dom";
+
 const Nav_Trainer = () => {
-  
-  const { buildStep, setBuildStep} = useStateContext();
+  const { buildStep, setBuildStep } = useStateContext();
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        localStorage.removeItem('Name')
-        localStorage.removeItem('profilePic')
-        localStorage.removeItem('email')
-        localStorage.removeItem('name')
-        console.log('user sign out')
+        localStorage.removeItem("Name");
+        localStorage.removeItem("profilePic");
+        localStorage.removeItem("email");
+        localStorage.removeItem("name");
+        console.log("user sign out");
         window.location.reload();
       })
       .catch((err) => {
-        console.log(err.message)
-      })
-  }
+        console.log(err.message);
+      });
+  };
 
   return (
-    <div className="w-1/5  bg-[#051e34] flex flex-col items-center ">
+    <div className="w-1/5  bg-[#051e34] flex flex-col items-center select-none">
       {/* Logo Title */}
-      <div className=" ">
-        <p className="text-white text-lg p-4">FitCenter</p>
-      </div>
+      <Link to="/">
+        <div className="flexCenter space-x-3 my-2">
+          <TreeDeciduous color="#149e7a" size={40} />
+          <p className="text-3xl font-bold text-white">FitInfo</p>
+        </div>
+      </Link>
 
       <div className="border-t border-b border-gray-600 ">
         <p className="text-gray-300 text-1xl pt-6 pl-8">
@@ -119,12 +124,12 @@ const Nav_Trainer = () => {
         </div>
       </div>
       <div className="border-t border-b border-gray-600  w-full">
-        <p className="text-gray-300 text-1xl pt-6 pl-8">編輯個人檔案</p>
+        {/* <p className="text-gray-300 text-1xl pt-6 pl-8">編輯個人檔案</p> */}
         <div className="px-7 space-y-10 flex pb-4">
-          <div
+          {/* <div
             className={` w-[1px] self-stretch bg-gray-400 opacity-100 dark:opacity-50 ml-4 mt-4`}
-          ></div>
-          <div className="pl-7 w-full space-y-10">
+          ></div> */}
+          <div className="w-full flexCenter p-10">
             <Button
               variant="contained"
               sx={{

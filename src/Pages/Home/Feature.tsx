@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useStateContext } from "../../ContextProvider/Contexts";
 import { useNavigate } from "react-router-dom";
-import FirstPic from "../../assets/firstT.png";
-import SecondPic from "../../assets/secondT.png";
-import ThirdPic from "../../assets/third1.png";
-import ThirdPic2 from "../../assets/thirdT2.png";
-import FirstC from '../../assets/firstC.png'
+import TrainerFirstPic from "../../assets/firstT.png";
+import TrainerSecondPic from "../../assets/secondT.png";
+import TrainerThirdPic from "../../assets/third1.png";
+import TrainerThirdPic2 from "../../assets/thirdT2.png";
+import ClientFirst from "../../assets/firstC.png";
+import ClientSecond from "../../assets/secondC.png";
+import ClientSecond2 from "../../assets/secondCC.png";
 interface FeatureProps {}
 
 const Feature = ({}: FeatureProps) => {
@@ -162,25 +164,25 @@ const Feature = ({}: FeatureProps) => {
             <div className="flex items-end justify-end ">
               {trainerExplainStep === 1 && (
                 <img
-                  src={FirstPic}
+                  src={TrainerFirstPic}
                   className="rounded-xl LgPicSize sm:w-11/12 sm:h-[600px]"
                 />
               )}
               {trainerExplainStep === 2 && (
                 <img
-                  src={SecondPic}
+                  src={TrainerSecondPic}
                   className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
                 />
               )}
               {trainerExplainStep === 3 && (
                 <div className="flex  ">
                   <img
-                    src={ThirdPic}
+                    src={TrainerThirdPic}
                     alt="First Image"
                     className="rounded-xl w-[900px] h-[600px] absolute right-32 top-32 z-1"
                   />
                   <img
-                    src={ThirdPic2}
+                    src={TrainerThirdPic2}
                     alt="Second Image"
                     className="rounded-xl sm:w-full h-[600px]"
                   />
@@ -303,10 +305,22 @@ const Feature = ({}: FeatureProps) => {
                 </div>
               </div>
             </div>
-            <div className="flex items-end justify-end">
+            <div className="flex items-end justify-end relative">
               {clientExplainStep === 1 && (
                 <img
-                  src={FirstC}
+                  src={ClientFirst}
+                  className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                />
+              )}
+              {clientExplainStep === 2 && (
+                <img
+                  src={ClientSecond}
+                  className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                />
+              )}
+              {clientExplainStep === 3 && (
+                <img
+                  src={ClientSecond2}
                   className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
                 />
               )}
