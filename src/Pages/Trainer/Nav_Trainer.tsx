@@ -8,7 +8,8 @@ import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { TreeDeciduous } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import SmsIcon from "@mui/icons-material/Sms";
 const Nav_Trainer = () => {
   const { buildStep, setBuildStep } = useStateContext();
   const handleSignOut = () => {
@@ -27,12 +28,12 @@ const Nav_Trainer = () => {
   };
 
   return (
-    <div className="w-1/5  bg-[#051e34] flex flex-col items-center select-none">
+    <div className="w-1/5  bg-[#051e34] flex flex-col items-center select-none ">
       {/* Logo Title */}
       <Link to="/">
         <div className="flexCenter space-x-3 my-2">
-          <TreeDeciduous color="#149e7a" size={40} />
-          <p className="text-3xl font-bold text-white">FitInfo</p>
+          {/* <TreeDeciduous color="#149e7a" size={40} /> */}
+          <p className="text-3xl font-semibold text-white">FitMeet</p>
         </div>
       </Link>
 
@@ -63,7 +64,7 @@ const Nav_Trainer = () => {
               onClick={() => setBuildStep(1)}
             >
               <p
-                className={`whitespace-nowrap ${
+                className={`whitespace-nowrap font-bold ${
                   buildStep === 1 ? "text-[#007CEF]" : "text-black"
                 }`}
               >
@@ -88,7 +89,7 @@ const Nav_Trainer = () => {
               onClick={() => setBuildStep(2)}
             >
               <p
-                className={`whitespace-nowrap ${
+                className={`whitespace-nowrap font-bold ${
                   buildStep === 2 ? "text-[#007CEF]" : "text-black"
                 }`}
               >
@@ -113,7 +114,7 @@ const Nav_Trainer = () => {
               onClick={() => setBuildStep(3)}
             >
               <p
-                className={`whitespace-nowrap ${
+                className={`whitespace-nowrap font-bold ${
                   buildStep === 3 ? "text-[#007CEF]" : "text-black"
                 }`}
               >
@@ -123,34 +124,40 @@ const Nav_Trainer = () => {
           </div>
         </div>
       </div>
-      <div className="border-t border-b border-gray-600  w-full">
-        {/* <p className="text-gray-300 text-1xl pt-6 pl-8">編輯個人檔案</p> */}
-        <div className="px-7 space-y-10 flex pb-4">
-          {/* <div
-            className={` w-[1px] self-stretch bg-gray-400 opacity-100 dark:opacity-50 ml-4 mt-4`}
-          ></div> */}
-          <div className="w-full flexCenter p-10">
-            <Button
-              variant="contained"
+
+      {/* <p className="text-gray-300 text-1xl pt-6 pl-8">編輯個人檔案</p> */}
+
+      <div className="w-full flexBetween mt-10 px-10">
+        <Button
+          variant="contained"
+          sx={{
+            height: 50,
+            backgroundColor: "#F4F5FB",
+            ":hover": { backgroundColor: "#F4F5FB" },
+          }}
+          startIcon={
+            <SmsIcon
               sx={{
-                height: 50,
-                backgroundColor: "#F4F5FB",
-                borderRadius: "100",
-                ":hover": { backgroundColor: "#F4F5FB" },
+                color: "#1F8A70"
               }}
-              startIcon={
-                <PeopleIcon
-                  sx={{
-                    color: buildStep === 1 ? "#000" : "#000",
-                  }}
-                />
-              }
-              onClick={handleSignOut}
-            >
-              <p className={`whitespace-nowrap text-black font-bold`}>登出</p>
-            </Button>
-          </div>
-        </div>
+            />
+          }
+          onClick={() => (window.location.href = "mailto:lu001224@gmail.com")}
+        >
+          <p className={`whitespace-nowrap text-black font-bold`}>專人服務</p>
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            height: 50,
+            backgroundColor: "#F4F5FB",
+            ":hover": { backgroundColor: "#F4F5FB" },
+          }}
+          startIcon={<LogoutIcon sx={{color:"#000"}}/>}
+          onClick={handleSignOut}
+        >
+          <p className={`whitespace-nowrap text-black font-bold`}>登出</p>
+        </Button>
       </div>
     </div>
   );

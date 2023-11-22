@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useStateContext } from "../../ContextProvider/Contexts";
-import { useNavigate } from "react-router-dom";
+
 import TrainerFirstPic from "../../assets/firstT.png";
 import TrainerSecondPic from "../../assets/secondT.png";
 import TrainerThirdPic from "../../assets/third1.png";
@@ -11,7 +11,7 @@ import ClientSecond2 from "../../assets/secondCC.png";
 interface FeatureProps {}
 
 const Feature = ({}: FeatureProps) => {
-  const navigate = useNavigate();
+  
 
   const { isStudent, isTrainer, setIsStudent, setIsTrainer } =
     useStateContext();
@@ -29,14 +29,9 @@ const Feature = ({}: FeatureProps) => {
     setIsTrainer(false);
   };
 
-  // useEffect(() => {
-  //   const localName = localStorage.getItem("name");
-  // }, []);
-
-  console.log(trainerExplainStep);
 
   return (
-    <div className="w-full h-fit ">
+    <div className="w-full h-fit select-none">
       <div className="mt-5 ml-10 flexCenter space-x-72">
         <button
           className={`w-[300px] h-[80px]  border-black rounded-xl mt-4 font-extrabold ${

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { TreeDeciduous } from "lucide-react";
+import MenuIcon from '@mui/icons-material/Menu';
+import { IconButton } from "@mui/material";
 interface NavbarProps {}
 
 const Navbar = ({}: NavbarProps) => {
@@ -29,12 +30,11 @@ const Navbar = ({}: NavbarProps) => {
   ];
 
   return (
-    <div className="flexBetween w-full h-[65px] fixed top-0 z-30 bg-[#fafafa] flex justify-end items-center pr-20 space-x-6 select-none ">
+    <div className="flexBetween w-full h-[65px] fixed top-0 z-30 bg-[#fafafa] flex justify-end items-center sm:pr-20 space-x-6 select-none ">
       <div className="ml-10 flexCenter space-x-3">
-        <TreeDeciduous color="#149e7a" size={40}/>
-        <p className="text-3xl font-bold">FitInfo</p>
+        <p className="text-3xl font-semibold">FitMeet</p>
       </div>
-      <div className="flex space-x-4">
+      <div className="hidden sm:flex  space-x-4">
         {navOptions.map(({ route, optionTw, optionEn }, index) => (
           <NavLink
             to={route}
@@ -46,6 +46,11 @@ const Navbar = ({}: NavbarProps) => {
             </div>
           </NavLink>
         ))}
+      </div>
+      <div className="sm:hidden">
+          <IconButton>
+            <MenuIcon/>
+          </IconButton>
       </div>
     </div>
   );
