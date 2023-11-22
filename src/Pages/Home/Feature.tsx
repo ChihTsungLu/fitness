@@ -32,7 +32,7 @@ const Feature = ({}: FeatureProps) => {
 
   return (
     <div className="w-full h-fit select-none">
-      <div className="mt-5 ml-10 flexCenter space-x-72">
+      <div className="mt-5 ml-10  space-x-72 hidden sm:flexCenter">
         <button
           className={`w-[300px] h-[80px]  border-black rounded-xl mt-4 font-extrabold ${
             isTrainer
@@ -41,7 +41,7 @@ const Feature = ({}: FeatureProps) => {
           } `}
           onClick={handleTrainerClick}
         >
-          <p className="text-2xl ">建立教練個人品牌 💪🏽</p>
+          <p className="text-2xl whitespace-nowrap">建立教練個人品牌 💪🏽</p>
         </button>
         <button
           className={`w-[300px] h-[80px] border-black rounded-xl mt-4 font-extrabold ${
@@ -51,26 +51,27 @@ const Feature = ({}: FeatureProps) => {
           } `}
           onClick={handleStudentClick}
         >
-          <p className="text-2xl ">尋找教練/夥伴 🏋🏽</p>
+          <p className="text-2xl whitespace-nowrap">尋找教練/夥伴 🏋🏽</p>
         </button>
       </div>
 
       {/* 教練 */}
       {isTrainer && (
-        <div className="mt-7 px-10 pt-12 pb-4 rounded-xl bg-[#eef5ff] ">
-          <div className="space-y-4 ml-10">
-            <p className="text-4xl text-black font-bold">
-              建立訓練知識數位足跡，讓顧客親自找上門
+        <div className="mt-7 px-3 sm:px-10 pt-12 pb-4 rounded-xl bg-[#eef5ff] ">
+          <div className="space-y-4 sm:ml-10">
+            <p className="text-3xl sm:text-4xl text-black font-bold max-sm:text-center">
+              建立訓練知識數位足跡，<br className="sm:hidden"/>讓顧客親自找上門
             </p>
 
-            <p className="text-2xl text-black font-bold">
-              簡單三步驟，迅速使用現成工具打造個人品牌
+            <p className="text-2xl text-black font-bold max-sm:text-center">
+              三步驟打造個人品牌
             </p>
+            
           </div>
-          <div className="m-10 flexBetween relative">
-            <div className="space-y-4 z-20">
+          <div className="sm:m-10 sm:flex sm:justify-between sm:items-center relative">
+            <div className="sm:space-y-4 sm:z-20 sm:flex-col flex max-sm:mt-2">
               <div
-                className={`home-trainer-feature ${
+                className={`home-trainer-feature max-sm:w-[150px] max-sm:h-[100px] ${
                   trainerExplainStep === 1
                     ? " border border-purple-500 bg-white"
                     : "bg-gray-50 border border-gray-300"
@@ -91,16 +92,17 @@ const Feature = ({}: FeatureProps) => {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-lg">
+                  <p className="font-black text-lg hidden sm:block">
                     提供個人專業經歷及訓練日常
                   </p>
-                  <p className="font-bold">
+                  <p className="font-bold hidden sm:block ">
                     打造專屬個人化專業形象，讓學員從線上認識你
                   </p>
+                  <p className="sm:hidden block font-bold text-lg">提供經歷</p>
                 </div>
               </div>
               <div
-                className={`home-trainer-feature ${
+                className={`home-trainer-feature max-sm:w-[150px] max-sm:h-[100px] ${
                   trainerExplainStep === 2
                     ? " border border-purple-500 bg-white "
                     : "bg-gray-50 border border-gray-300"
@@ -121,14 +123,15 @@ const Feature = ({}: FeatureProps) => {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-lg">上傳照片及影片</p>
-                  <p className="font-bold">
+                  <p className="font-black text-lg hidden sm:block">上傳照片及影片</p>
+                  <p className="font-bold hidden sm:block">
                     將日常訓練素材發揮最大效益，建立網絡社群
                   </p>
+                  <p className="sm:hidden block font-bold text-lg">照片及影片</p>
                 </div>
               </div>
               <div
-                className={`home-trainer-feature ${
+                className={`home-trainer-feature max-sm:w-[150px] max-sm:h-[100px] ${
                   trainerExplainStep === 3
                     ? " border border-purple-500 bg-white"
                     : "bg-gray-50 border border-gray-300"
@@ -149,10 +152,11 @@ const Feature = ({}: FeatureProps) => {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-lg">
+                  <p className="font-black text-lg hidden sm:block">
                     一鍵輕鬆發佈，打破空間及時間限制
                   </p>
-                  <p className="font-bold">傳播專業知識，從沒那麼簡單！</p>
+                  <p className="font-bold hidden sm:block">傳播專業知識，從沒那麼簡單！</p>
+                  <p className="sm:hidden block font-bold text-lg">一鍵發布</p>
                 </div>
               </div>
             </div>
