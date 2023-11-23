@@ -11,7 +11,7 @@
 }
 
 .home-trainer-feature {
-  @apply w-[400px] h-[125px] rounded-xl hover:border border shadow-md flex flex-col space-y-2 p-4;
+  @apply w-[400px] h-[125px] rounded-xl hover:border border shadow-md flex flex-col space-y-2 sm:p-4;
 }
 
 .TrainerModal {

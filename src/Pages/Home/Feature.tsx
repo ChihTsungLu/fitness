@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useStateContext } from "../../ContextProvider/Contexts";
-
+import { Link } from "react-router-dom";
 import TrainerFirstPic from "../../assets/firstT.png";
 import TrainerSecondPic from "../../assets/secondT.png";
 import TrainerThirdPic from "../../assets/third1.png";
@@ -8,11 +8,10 @@ import TrainerThirdPic2 from "../../assets/thirdT2.png";
 import ClientFirst from "../../assets/firstC.png";
 import ClientSecond from "../../assets/secondC.png";
 import ClientSecond2 from "../../assets/secondCC.png";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 interface FeatureProps {}
 
 const Feature = ({}: FeatureProps) => {
-  
-
   const { isStudent, isTrainer, setIsStudent, setIsTrainer } =
     useStateContext();
 
@@ -29,56 +28,60 @@ const Feature = ({}: FeatureProps) => {
     setIsTrainer(false);
   };
 
-
   return (
     <div className="w-full h-fit select-none">
-      <div className="mt-5 ml-10  space-x-72 hidden sm:flexCenter">
+      <div className="mt-5 sm:ml-10 sm:space-x-72 flexCenter max-sm:space-x-4">
         <button
-          className={`w-[300px] h-[80px]  border-black rounded-xl mt-4 font-extrabold ${
+          className={`sm:w-[300px] sm:h-[80px] border-black rounded-xl mt-4 font-extrabold ${
             isTrainer
               ? "bg-[#00d68f] text-black border-2"
               : "bg-white hover:bg-[#00d68f] text-black border"
           } `}
           onClick={handleTrainerClick}
         >
-          <p className="text-2xl whitespace-nowrap">建立教練個人品牌 💪🏽</p>
+          <p className="text-2xl whitespace-nowrap max-sm:p-1">我是教練 💪🏽</p>
         </button>
         <button
-          className={`w-[300px] h-[80px] border-black rounded-xl mt-4 font-extrabold ${
+          className={`sm:w-[300px] sm:h-[80px] border-black rounded-xl mt-4 font-extrabold ${
             isStudent
               ? "bg-[#149e7a] text-white border-2"
               : "bg-white hover:bg-[#149e7a] hover:text-white text-black border"
           } `}
           onClick={handleStudentClick}
         >
-          <p className="text-2xl whitespace-nowrap">尋找教練/夥伴 🏋🏽</p>
+          <p className="text-2xl whitespace-nowrap max-sm:p-1">我是學生 🏋🏽</p>
         </button>
       </div>
 
       {/* 教練 */}
       {isTrainer && (
-        <div className="mt-7 px-3 sm:px-10 pt-12 pb-4 rounded-xl bg-[#eef5ff] ">
-          <div className="space-y-4 sm:ml-10">
-            <p className="text-3xl sm:text-4xl text-black font-bold max-sm:text-center">
-              建立訓練知識數位足跡，<br className="sm:hidden"/>讓顧客親自找上門
+        <div className="mt-7 px-3 sm:px-20 pb-4 rounded-xl bg-[#eef5ff] ">
+          <div className="sm:space-y-4 sm:ml-20 sm:pt-24 pt-10 max-sm:mb-10">
+            <p className="text-4xl text-black font-bold hidden sm:block ">
+              建立訓練知識數位足跡，讓顧客親自找上門
+            </p>
+            <p className="text-3xl text-black font-bold text-center block sm:hidden">
+              建立訓練知識數位足跡
+            </p>
+            <p className="text-3xl text-black font-bold text-center block sm:hidden">
+              讓顧客親自找上門
             </p>
 
-            <p className="text-2xl text-black font-bold max-sm:text-center">
+            <p className="text-3xl text-black font-bold max-sm:text-center max-sm:mt-5">
               三步驟打造個人品牌
             </p>
-            
           </div>
-          <div className="sm:m-10 sm:flex sm:justify-between sm:items-center relative">
-            <div className="sm:space-y-4 sm:z-20 sm:flex-col flex max-sm:mt-2">
+          <div className="sm:ml-20 sx:mb-12 sm:flex sm:justify-between sm:items-center relative flex max-sm:flex-col-reverse ">
+            <div className="max-sm:space-x-2 sm:space-y-8 sm:z-20 sm:flex-col flex max-sm:mt-7 mb-14">
               <div
-                className={`home-trainer-feature max-sm:w-[150px] max-sm:h-[100px] ${
+                className={`justify-center home-trainer-feature max-sm:w-[150px] max-sm:h-[80px] ${
                   trainerExplainStep === 1
                     ? " border border-purple-500 bg-white"
                     : "bg-gray-50 border border-gray-300"
                 }`}
                 onMouseEnter={() => setTrainerExplainStep(1)}
               >
-                <div className="">
+                <div className="flexCenter sm:block">
                   <svg
                     width="30"
                     height="30"
@@ -91,25 +94,27 @@ const Feature = ({}: FeatureProps) => {
                     />
                   </svg>
                 </div>
-                <div className="space-y-1">
-                  <p className="font-black text-lg hidden sm:block">
+                <div className="sm:space-y-1">
+                  <p className="font-black text-2xl hidden sm:block">
                     提供個人專業經歷及訓練日常
                   </p>
-                  <p className="font-bold hidden sm:block ">
-                    打造專屬個人化專業形象，讓學員從線上認識你
+                  <p className="font-bold text-xl hidden sm:block ">
+                    讓學員從線上認識你
                   </p>
-                  <p className="sm:hidden block font-bold text-lg">提供經歷</p>
+                  <p className="sm:hidden block text-center text-lg font-bold">
+                    專業
+                  </p>
                 </div>
               </div>
               <div
-                className={`home-trainer-feature max-sm:w-[150px] max-sm:h-[100px] ${
+                className={`justify-center home-trainer-feature max-sm:w-[150px] max-sm:h-[80px] ${
                   trainerExplainStep === 2
                     ? " border border-purple-500 bg-white "
                     : "bg-gray-50 border border-gray-300"
                 }`}
                 onMouseEnter={() => setTrainerExplainStep(2)}
               >
-                <div className="">
+                <div className="flexCenter sm:block">
                   <svg
                     width="25"
                     height="25"
@@ -123,22 +128,26 @@ const Feature = ({}: FeatureProps) => {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-lg hidden sm:block">上傳照片及影片</p>
-                  <p className="font-bold hidden sm:block">
-                    將日常訓練素材發揮最大效益，建立網絡社群
+                  <p className="font-black text-2xl hidden sm:block">
+                    上傳照片及影片
                   </p>
-                  <p className="sm:hidden block font-bold text-lg">照片及影片</p>
+                  <p className="font-bold text-xl hidden sm:block">
+                    將日常訓練素材發揮最大效益
+                  </p>
+                  <p className="sm:hidden block font-bold text-lg text-center">
+                    照片及影片
+                  </p>
                 </div>
               </div>
               <div
-                className={`home-trainer-feature max-sm:w-[150px] max-sm:h-[100px] ${
+                className={`justify-center home-trainer-feature max-sm:w-[150px] max-sm:h-[80px] ${
                   trainerExplainStep === 3
                     ? " border border-purple-500 bg-white"
                     : "bg-gray-50 border border-gray-300"
                 }`}
                 onMouseEnter={() => setTrainerExplainStep(3)}
               >
-                <div className="">
+                <div className="flexCenter sm:block">
                   <svg
                     width="25"
                     height="25"
@@ -152,39 +161,80 @@ const Feature = ({}: FeatureProps) => {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-lg hidden sm:block">
-                    一鍵輕鬆發佈，打破空間及時間限制
+                  <p className="font-black hidden text-2xl sm:block">
+                    一鍵發佈，打破空間及時間限制
                   </p>
-                  <p className="font-bold hidden sm:block">傳播專業知識，從沒那麼簡單！</p>
-                  <p className="sm:hidden block font-bold text-lg">一鍵發布</p>
+                  <p className="font-bold hidden text-xl sm:block">
+                    傳播專業知識，從沒那麼簡單！
+                  </p>
+                  <p className="sm:hidden block font-bold text-lg max-sm:text-center">
+                    一鍵發佈
+                  </p>
                 </div>
               </div>
             </div>
             <div className="flex items-end justify-end ">
               {trainerExplainStep === 1 && (
-                <img
-                  src={TrainerFirstPic}
-                  className="rounded-xl LgPicSize sm:w-11/12 sm:h-[600px]"
-                />
+                <div className="max-sm:space-y-7">
+                  <img
+                    src={TrainerFirstPic}
+                    className="rounded-xl LgPicSize sm:w-11/12 sm:h-[600px]"
+                  />
+                  <div className="block sm:hidden">
+                    <p className="text-center block sm:hidden text-lg font-bold">
+                      提供個人專業經歷及訓練日常
+                    </p>
+                    <Link to="/trainer" className="flexCenter">
+                      <p className="text-center block sm:hidden text-lg font-bold text-[#007CEF]">
+                        讓學員從線上認識你
+                      </p>
+                      <ArrowForwardIcon sx={{ color: "#007CEF" }} />
+                    </Link>
+                  </div>
+                </div>
               )}
               {trainerExplainStep === 2 && (
-                <img
-                  src={TrainerSecondPic}
-                  className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
-                />
+                <div className="max-sm:space-y-4">
+                  <img
+                    src={TrainerSecondPic}
+                    className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                  />
+                  <div className="block sm:hidden">
+                    <p className="text-center block sm:hidden text-lg font-bold">
+                      將日常訓練素材發揮最大效益
+                    </p>
+                    <Link to="/trainer" className="flexCenter">
+                      <p className="text-center block sm:hidden text-lg font-bold text-[#007CEF]">
+                        建立網絡社群
+                      </p>
+                      <ArrowForwardIcon sx={{ color: "#007CEF" }} />
+                    </Link>
+                  </div>
+                </div>
               )}
               {trainerExplainStep === 3 && (
-                <div className="flex  ">
+                <div className="sm:flex max-sm:space-y-4 ">
                   <img
                     src={TrainerThirdPic}
                     alt="First Image"
-                    className="rounded-xl w-[900px] h-[600px] absolute right-32 top-32 z-1"
+                    className="rounded-xl w-[900px] sm:h-[600px] absolute right-32 top-32 z-1"
                   />
                   <img
                     src={TrainerThirdPic2}
                     alt="Second Image"
-                    className="rounded-xl sm:w-full h-[600px]"
+                    className="rounded-xl sm:w-full sm:h-[600px]"
                   />
+                  <div className="block sm:hidden">
+                    <p className="text-center block sm:hidden text-lg font-bold">
+                      傳播專業知識
+                    </p>
+                    <Link to="/trainer" className="flexCenter">
+                      <p className="text-center block sm:hidden text-lg font-bold text-[#007CEF]">
+                        從沒那麼簡單
+                      </p>
+                      <ArrowForwardIcon sx={{ color: "#007CEF" }} />
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
@@ -194,26 +244,36 @@ const Feature = ({}: FeatureProps) => {
 
       {/* 學生 */}
       {isStudent && (
-        <div className="mt-7 px-10 pt-12 pb-4 rounded-xl bg-[#eef5ff]  ">
-          <div className="space-y-4 ml-10">
-            <p className="text-4xl text-black font-bold">
+        <div className="mt-7 px-3 sm:px-20 pb-4 rounded-xl bg-[#eef5ff]  ">
+          <div className="sm:space-y-4 sm:ml-20 sm:pt-24 pt-10 max-sm:mb-10">
+            <p className="text-4xl text-black font-bold hidden sm:block">
               透明教練及訓練資訊，達成體態的一站式平台
             </p>
-            <p className="text-2xl text-black font-bold">
+            <p className="text-2xl text-black font-bold hidden sm:block">
               輕鬆找到理想健身夥伴，訓練路上不再有疑惑
             </p>
+            {/* 手機板 */}
+            <p className="text-3xl text-black font-bold text-center block sm:hidden">
+              透明教練及訓練資訊
+            </p>
+            <p className="text-2xl text-black font-bold text-center block sm:hidden">
+              符合專業需求、地點、價格
+            </p>
+            <p className="text-3xl text-black font-bold max-sm:text-center max-sm:mt-5 block sm:hidden">
+              輕鬆找到專屬教練
+            </p>
           </div>
-          <div className="m-10 flexBetween">
-            <div className="space-y-4">
+          <div className="sm:ml-20 sx:mb-12 sm:flex sm:justify-between sm:items-center relative flex max-sm:flex-col-reverse">
+            <div className="max-sm:space-x-2 sm:space-y-8 sm:z-20 sm:flex-col flex max-sm:mt-7 mb-14">
               <div
-                className={`home-trainer-feature ${
+                className={`justify-center home-trainer-feature max-sm:w-[150px] max-sm:h-[80px] ${
                   clientExplainStep === 1
                     ? " border border-purple-500 bg-white"
                     : "bg-gray-50 border border-gray-300"
                 }`}
                 onMouseEnter={() => setClientExplainStep(1)}
               >
-                <div className="">
+                <div className="flexCenter sm:block">
                   <svg
                     width="30"
                     height="30"
@@ -231,21 +291,24 @@ const Feature = ({}: FeatureProps) => {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-lg">
+                  <p className="font-black  hidden text-2xl sm:block">
                     一鍵瀏覽教練專業經歷及教學模式
                   </p>
-                  <p className="font-bold">選擇訓練夥伴，更快更輕鬆</p>
+                  <p className="font-bold hidden text-xl sm:block">
+                    選擇訓練夥伴，更快更輕鬆
+                  </p>
+                  <p className="font-bold block sm:hidden text-lg text-center ">專業知識</p>
                 </div>
               </div>
               <div
-                className={`home-trainer-feature ${
+                className={`justify-center home-trainer-feature max-sm:w-[150px] max-sm:h-[80px] ${
                   clientExplainStep === 2
                     ? " border border-purple-500 bg-white"
                     : "bg-gray-50 border border-gray-300"
                 }`}
                 onMouseEnter={() => setClientExplainStep(2)}
               >
-                <div className="">
+                <div className="flexCenter sm:block">
                   <svg
                     width="30"
                     height="30"
@@ -271,21 +334,24 @@ const Feature = ({}: FeatureProps) => {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-lg">
+                  <p className="font-black hidden text-2xl sm:block">
                     符合預算、方便性及訓練目標
                   </p>
-                  <p className="font-bold">親自聯繫教練，價格透明</p>
+                  <p className="font-bold hidden text-xl sm:block">
+                    親自聯繫教練，價格透明
+                  </p>
+                  <p className="font-bold block sm:hidden text-lg text-center ">個人需求</p>
                 </div>
               </div>
               <div
-                className={`home-trainer-feature ${
+                className={`justify-center home-trainer-feature max-sm:w-[150px] max-sm:h-[80px] ${
                   clientExplainStep === 3
                     ? " border border-purple-500 bg-white"
                     : "bg-gray-50 border border-gray-300"
                 }`}
                 onMouseEnter={() => setClientExplainStep(3)}
               >
-                <div className="">
+                <div className="flexCenter sm:block">
                   <svg
                     width="30"
                     height="30"
@@ -299,29 +365,71 @@ const Feature = ({}: FeatureProps) => {
                   </svg>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-black text-lg">降低培養運動習慣阻礙</p>
-                  <p className="font-bold">建立長期強健體態</p>
+                  <p className="font-black hidden text-2xl sm:block">
+                    降低培養運動習慣阻礙
+                  </p>
+                  <p className="font-bold hidden sm:block text-xl">建立長期強健體態</p>
+                  <p className="font-bold block sm:hidden text-lg text-center ">降低阻礙</p>
                 </div>
               </div>
             </div>
-            <div className="flex items-end justify-end relative">
+            <div className="flex items-end justify-end relative sm:mr-20">
               {clientExplainStep === 1 && (
-                <img
-                  src={ClientFirst}
-                  className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
-                />
+                <div className="max-sm:space-y-7">
+                  <img
+                    src={ClientFirst}
+                    className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                  />
+                  <div className="block sm:hidden">
+                    <p className="text-center block sm:hidden text-lg font-bold">
+                      一鍵瀏覽教練專業經歷及教學模式
+                    </p>
+                    <Link to="/client" className="flexCenter">
+                      <p className="text-center block sm:hidden text-lg font-bold text-[#007CEF]">
+                        選擇訓練夥伴，更快更輕鬆
+                      </p>
+                      <ArrowForwardIcon sx={{ color: "#007CEF" }} />
+                    </Link>
+                  </div>
+                </div>
               )}
               {clientExplainStep === 2 && (
-                <img
-                  src={ClientSecond}
-                  className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
-                />
+                <div className="max-sm:space-y-7">
+                  <img
+                    src={ClientSecond}
+                    className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                  />
+                  <div className="block sm:hidden">
+                    <p className="text-center block sm:hidden text-lg font-bold">
+                      符合預算、方便性及訓練目標
+                    </p>
+                    <Link to="/client" className="flexCenter">
+                      <p className="text-center block sm:hidden text-lg font-bold text-[#007CEF]">
+                        查看教練
+                      </p>
+                      <ArrowForwardIcon sx={{ color: "#007CEF" }} />
+                    </Link>
+                  </div>
+                </div>
               )}
               {clientExplainStep === 3 && (
-                <img
-                  src={ClientSecond2}
-                  className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
-                />
+                <div className="max-sm:space-y-7">
+                  <img
+                    src={ClientSecond2}
+                    className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                  />
+                  <div className="block sm:hidden">
+                    <p className="text-center block sm:hidden text-lg font-bold">
+                      降低培養運動習慣阻礙
+                    </p>
+                    <Link to="/client" className="flexCenter">
+                      <p className="text-center block sm:hidden text-lg font-bold text-[#007CEF]">
+                        建立長期強健體態
+                      </p>
+                      <ArrowForwardIcon sx={{ color: "#007CEF" }} />
+                    </Link>
+                  </div>
+                </div>
               )}
             </div>
           </div>

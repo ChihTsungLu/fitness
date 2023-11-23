@@ -1,10 +1,23 @@
 import { NavLink } from "react-router-dom";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 interface NavbarProps {}
 
 const Navbar = ({}: NavbarProps) => {
-  //   const [hoveredIndex, setHoveredIndex] = useState<number>();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const navOptions = [
     {
@@ -48,10 +61,42 @@ const Navbar = ({}: NavbarProps) => {
         ))}
       </div>
       <div className="sm:hidden">
-          <IconButton>
-            <MenuIcon/>
-          </IconButton>
+        <IconButton onClick={handleClick}>
+          <MenuIcon />
+        </IconButton>
       </div>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+          <p className="text-lg font-bold">首頁</p>
+        </MenuItem>
+
+        <Link to="/trainer">
+          <MenuItem onClick={handleClose}>
+            {" "}
+            <p className="text-lg font-bold">成為教練</p>
+          </MenuItem>
+        </Link>
+        <Link to="/client">
+          <MenuItem onClick={handleClose}>
+            {" "}
+            <p className="text-lg font-bold">尋找教練</p>
+          </MenuItem>
+        </Link>
+        <Link to="/service">
+          <MenuItem onClick={handleClose}>
+            {" "}
+            <p className="text-lg font-bold">平台藍圖及服務</p>
+          </MenuItem>
+        </Link>
+      </Menu>
     </div>
   );
 };
