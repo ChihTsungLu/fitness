@@ -378,7 +378,7 @@ const Feature = ({}: FeatureProps) => {
                 <div className="max-sm:space-y-7">
                   <img
                     src={ClientFirst}
-                    className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                    className="rounded-xl LgPicSize sm:w-4/5 sm:ml-44 sm:h-[600px]"
                   />
                   <div className="block sm:hidden">
                     <p className="text-center block sm:hidden text-lg font-bold">

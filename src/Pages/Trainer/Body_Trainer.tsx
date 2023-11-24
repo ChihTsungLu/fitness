@@ -2,7 +2,6 @@
 import { useStateContext } from "../../ContextProvider/Contexts";
 
  
-
 import TrainerFirst from "./TrainerFirst";
 import TrainerThird from "./TrainerThird";
 import TrainerSecond from "./TrainerSecond";
@@ -11,8 +10,8 @@ const Body_Trainer = () => {
   const { buildStep } = useStateContext();
 
   return (
-    <div className="w-4/5  bg-[#F8FAFB] trainerLgScreen">
-      <div className="p-10">
+    <div className="sm:w-4/5  bg-[#F8FAFB] trainerLgScreen max-sm:mt-[50px] max-sm:w-fit">
+      <div className="p-10 ">
         {buildStep === 1 && (
           <TrainerFirst />
         )}

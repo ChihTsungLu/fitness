@@ -15,7 +15,7 @@
 }
 
 .TrainerModal {
-  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1080px] my-10 h-[960px] bg-white justify-center rounded-lg p-7;
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 sm:w-[1080px] w-11/12 my-10 h-[960px] bg-white justify-center rounded-lg p-7;
 }
 
 @media (max-height: 1080px) {

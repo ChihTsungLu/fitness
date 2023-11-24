@@ -6,6 +6,7 @@ import {
   CalendarCheck,
   CircleDollarSign,
   LandPlot,
+  RotateCw,
 } from "lucide-react";
 import { doc, updateDoc, addDoc, collection } from "firebase/firestore";
 import { v4 } from "uuid";
@@ -61,15 +62,14 @@ const TrainerThird = () => {
     setSecondImgUrl,
     videoUpload,
     setVideoUrl,
-    emailAuth
+    emailAuth,
   } = useTrainerContext();
 
   // const imageListRef = ref(storage, "images");
 
-
-  const [imgIsUpdated, setImgIsUpdated] = useState(false)
-  const [videoIsUpdated, setVideoIsUpdated] = useState(false)
-
+  const [imgIsUpdated, setImgIsUpdated] = useState(false);
+  const [videoIsUpdated, setVideoIsUpdated] = useState(false);
+  const [uploadProcessing, setUploadProcessing] = useState(false);
   const databaseRef = collection(db, "trainer");
 
   // console.log(secondImgUrl)
@@ -82,44 +82,61 @@ const TrainerThird = () => {
       secondImgUrl.length === 0 ||
       videoUrl.length === 0
     ) {
+      setUploadProcessing(false);
       alert("照片及影片必須上傳");
       return;
     }
 
-    if(name.length === 0){
-      alert('名字尚未填寫')
+    if (name.length === 0) {
+      setUploadProcessing(false);
+      alert("名字尚未填寫");
       return;
     }
-    if(title.length === 0){
-      alert('職稱尚未填寫')
+    if (title.length === 0) {
+      setUploadProcessing(false);
+      alert("職稱尚未填寫");
       return;
     }
-    if(expYear.length === 0){
-      alert('職業年數尚未填寫')
+    if (expYear.length === 0) {
+      setUploadProcessing(false);
+      alert("職業年數尚未填寫");
       return;
     }
-    if(location.length ===0){
-      alert('教學地點尚未填寫')
+    if (location.length === 0) {
+      setUploadProcessing(false);
+      alert("教學地點尚未填寫");
       return;
     }
-    if(priceRange.length ===0){
-      alert("價錢範圍尚未填寫")
-      return; 
-    }
-    if(line.length ===0){
-      alert("Line 尚未填寫")
+    if (priceRange.length === 0) {
+      setUploadProcessing(false);
+      alert("價錢範圍尚未填寫");
       return;
     }
-    if(insta.length ===0){
-      alert("IG 尚未填寫")
+    if (line.length === 0) {
+      setUploadProcessing(false);
+      alert("Line 尚未填寫");
       return;
     }
-    if(firstTime.length ===0 || secondTime.length === 0 || thirdTime.length === 0){
-      alert("`上課時段`未填寫完整")
+    if (insta.length === 0) {
+      setUploadProcessing(false);
+      alert("IG 尚未填寫");
       return;
     }
-    if(experience.length === 0 || goalInTime.length === 0 || trainingMethod.length === 0){
-      alert("`帶給學員價值`未填寫完整")
+    if (
+      firstTime.length === 0 ||
+      secondTime.length === 0 ||
+      thirdTime.length === 0
+    ) {
+      alert("`上課時段`未填寫完整");
+      return;
+    }
+    if (
+      experience.length === 0 ||
+      goalInTime.length === 0 ||
+      trainingMethod.length === 0
+    ) {
+      setUploadProcessing(false);
+      alert("`帶給學員價值`未填寫完整");
       return;
     }
 
@@ -178,14 +195,14 @@ const TrainerThird = () => {
           certThree: certThree,
 
           experience: experience,
-          goalInTime: goalInTime,    
+          goalInTime: goalInTime,
           trainingMethod: trainingMethod,
 
           imgUrl: imgUrl,
           secondImgUrl: secondImgUrl,
           videoUrl: videoUrl,
 
-          email: emailAuth
+          email: emailAuth,
         });
       } catch (e) {
         console.error("Error adding data: ", e);
@@ -194,6 +211,8 @@ const TrainerThird = () => {
   };
 
   const handleImageUpload = async () => {
+    setUploadProcessing(true);
+
     try {
       // First Image Upload
       if (imageUpload) {
@@ -210,8 +229,8 @@ const TrainerThird = () => {
         const snapShot = await uploadBytes(imageRef, imageUpload);
         const url = await getDownloadURL(snapShot.ref);
         setImgUrl(url);
-
       } else if (!imgUrl) {
+        setUploadProcessing(false);
         alert("照片 1 未上傳");
         return;
       }
@@ -232,15 +251,15 @@ const TrainerThird = () => {
 
         setSecondImgUrl(url);
       } else if (!secondImgUrl) {
+        setUploadProcessing(false);
         alert("照片 2 未上傳");
         return;
       }
-      
-      console.log('照片更新完畢，呼叫 videoUpload')
-      setImgIsUpdated(true)
+
+      console.log("照片更新完畢，呼叫 videoUpload");
+      setImgIsUpdated(true);
 
       // Proceed to handle video upload
-
     } catch (e) {
       console.error(e);
     }
@@ -282,17 +301,18 @@ const TrainerThird = () => {
 
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             setVideoUrl(url);
-            setVideoIsUpdated(true)
-            console.log('影片更新完畢，呼叫 dataUpload')
+            setVideoIsUpdated(true);
+            console.log("影片更新完畢，呼叫 dataUpload");
           });
         }
       );
     } else if (videoUrl.length === 0) {
+      setUploadProcessing(false);
       alert("影片需上傳");
       return;
-    } else{
-      setVideoIsUpdated(true)
-      console.log('影片保持，呼叫 dataUpload')
+    } else {
+      setVideoIsUpdated(true);
+      console.log("影片保持，呼叫 dataUpload");
     }
 
     // setVideoIsUpdated(true)
@@ -300,23 +320,19 @@ const TrainerThird = () => {
 
   //在照片及影片上傳完後才呼叫
   useEffect(() => {
-
     if (!imgIsUpdated) return;
 
-    handleVideoUpload()
+    handleVideoUpload();
   }, [imgIsUpdated]);
 
   useEffect(() => {
-
     if (!videoIsUpdated) return;
 
     handleDataUpload();
-
   }, [videoIsUpdated]);
 
   const [renderOption, setRenderOption] = useState(0);
   const Navbar = ["自我介紹", "幫助過學生解決的問題", "我能如何幫助你", "證照"];
-
 
   return (
     <div className={`select-none ${renderOption === 0 ? "h-screen" : ""}`}>
@@ -333,7 +349,11 @@ const TrainerThird = () => {
           }}
           onClick={() => setRenderOption(0)}
         >
-          <p className={`text-lg ${renderOption === 0 ? "text-white" : ""}`}>
+          <p
+            className={`text-lg whitespace-nowrap ${
+              renderOption === 0 ? "text-white" : ""
+            }`}
+          >
             教練牆
           </p>
         </Button>
@@ -350,7 +370,11 @@ const TrainerThird = () => {
           }}
           onClick={() => setRenderOption(1)}
         >
-          <p className={`text-lg ${renderOption === 1 ? "text-white" : ""}`}>
+          <p
+            className={`text-lg whitespace-nowrap ${
+              renderOption === 1 ? "text-white" : ""
+            }`}
+          >
             個人頁面
           </p>
         </Button>
@@ -373,7 +397,9 @@ const TrainerThird = () => {
           // disabled={!defiModalSaveEnabled}
           onClick={handleImageUpload}
         >
-          <p className="text-lg whitespace-nowrap ">資料確認並上傳</p>
+          <p className="text-lg whitespace-nowrap font-bold ">資料確認並上傳</p>
+
+          {uploadProcessing && <RotateCw className="animate-spin ml-2" />}
         </Button>
       </div>
       {renderOption === 0 && (
@@ -389,8 +415,8 @@ const TrainerThird = () => {
                   imageUpload
                     ? URL.createObjectURL(imageUpload)
                     : imgUrl.length > 0
-                      ? imgUrl
-                      : ""
+                    ? imgUrl
+                    : ""
                 }
                 className="w-[325px] h-[300px] rounded-xl"
               />
@@ -398,8 +424,9 @@ const TrainerThird = () => {
           </div>
           <div className="">
             <p
-              className={`text-2xl font-bold mt-2 ml-2 ${name.length === 0 ? "text-gray-400 italic" : ""
-                }`}
+              className={`text-2xl font-bold mt-2 ml-2 ${
+                name.length === 0 ? "text-gray-400 italic" : ""
+              }`}
             >
               {name.length === 0 ? "名字/暱稱" : name}
             </p>
@@ -407,10 +434,11 @@ const TrainerThird = () => {
               <div className="flex items-center space-x-2">
                 <Briefcase size={20} />
                 <p
-                  className={`text-lg font-semibold ${title.length === 0 || expYear.length === 0
-                    ? "text-gray-400 italic "
-                    : ""
-                    }`}
+                  className={`text-lg font-semibold ${
+                    title.length === 0 || expYear.length === 0
+                      ? "text-gray-400 italic "
+                      : ""
+                  }`}
                 >
                   {title.length === 0 ? "職業" : title} -{" "}
                   {expYear.length === 0 ? "經歷" : expYear} 年
@@ -419,8 +447,9 @@ const TrainerThird = () => {
               <div className="flex items-center space-x-2">
                 <LandPlot size={20} color="#007CEF" />
                 <p
-                  className={`text-lg font-semibold ${location.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                  className={`text-lg font-semibold ${
+                    location.length === 0 ? "text-gray-400 italic" : ""
+                  }`}
                 >
                   {location.length === 0 ? "上課地點" : location}
                 </p>
@@ -429,8 +458,9 @@ const TrainerThird = () => {
               <div className="flex items-center space-x-2">
                 <CircleDollarSign size={20} color="#F4CE14" />
                 <p
-                  className={`text-lg font-semibold ${priceRange.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                  className={`text-lg font-semibold ${
+                    priceRange.length === 0 ? "text-gray-400 italic" : ""
+                  }`}
                 >
                   {priceRange.length === 0 ? "價格範圍" : priceRange} /hr
                 </p>
@@ -441,8 +471,9 @@ const TrainerThird = () => {
                 <div className="flex items-center space-x-2">
                   <CalendarCheck size={20} color="#4CAF50" />
                   <p
-                    className={`text-lg font-semibold ${firstTime.length === 0 ? "text-gray-400 italic" : ""
-                      }`}
+                    className={`text-lg font-semibold ${
+                      firstTime.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                   >
                     {firstTime.length === 0 ? "第一個時段" : firstTime}
                   </p>
@@ -450,8 +481,9 @@ const TrainerThird = () => {
                 <div className="flex items-center space-x-2">
                   <CalendarCheck size={20} color="#4CAF50" />
                   <p
-                    className={`text-lg font-semibold ${secondTime.length === 0 ? "text-gray-400 italic" : ""
-                      }`}
+                    className={`text-lg font-semibold ${
+                      secondTime.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                   >
                     {secondTime.length === 0 ? "第二個時段" : secondTime}
                   </p>
@@ -459,8 +491,9 @@ const TrainerThird = () => {
                 <div className="flex items-center space-x-2">
                   <CalendarCheck size={20} color="#4CAF50" />
                   <p
-                    className={`text-lg font-semibold ${thirdTime.length === 0 ? "text-gray-400 italic" : ""
-                      }`}
+                    className={`text-lg font-semibold ${
+                      thirdTime.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                   >
                     {thirdTime.length === 0 ? "第三個時段" : thirdTime}
                   </p>
@@ -471,9 +504,9 @@ const TrainerThird = () => {
         </div>
       )}
       {renderOption === 1 && (
-        <div className="p-6 border border-black rounded-xl 2xl:space-y-10">
+        <div className="p-6 border border-black rounded-xl 2xl:space-y-10 max-sm:w-[1000px]">
           {/* 照片及自介 */}
-          <div className="flexCenter space-x-12">
+          <div className="flexCenter sm:space-x-12 max-sm:w-fit">
             {secondImgUpload || secondImgUrl.length > 0 ? (
               <img
                 src={
@@ -494,8 +527,9 @@ const TrainerThird = () => {
             <div className=" 2xl:space-y-4 w-1/2 ">
               <div className="flexCenter ">
                 <p
-                  className={`"text-3xl 2xl:text-5xl 2xl:mr-6 ${name.length === 0 ? "text-gray-400 italic" : ""
-                    }`}
+                  className={`"text-3xl 2xl:text-5xl 2xl:mr-6 ${
+                    name.length === 0 ? "text-gray-400 italic" : ""
+                  }`}
                 >
                   {name.length === 0 ? "名字" : name}
                 </p>
@@ -532,8 +566,9 @@ const TrainerThird = () => {
                 <div className="flex items-center">
                   <p className="text-gray-400 text-lg mt-1">職業：</p>
                   <p
-                    className={`text-xl ${title.length === 0 ? "text-gray-400 italic" : " "
-                      } `}
+                    className={`text-xl ${
+                      title.length === 0 ? "text-gray-400 italic" : " "
+                    } `}
                   >
                     {title.length === 0 ? "職業" : title}
                   </p>
@@ -544,8 +579,9 @@ const TrainerThird = () => {
                 <div className="flex items-center">
                   <p className="text-gray-400 text-lg mt-1">資歷：</p>
                   <p
-                    className={`text-xl ${expYear.length === 0 ? "text-gray-400 italic" : " "
-                      } `}
+                    className={`text-xl ${
+                      expYear.length === 0 ? "text-gray-400 italic" : " "
+                    } `}
                   >
                     {expYear.length === 0 ? "經歷年數" : expYear}
                   </p>
@@ -556,8 +592,9 @@ const TrainerThird = () => {
                 <div className="flex items-center">
                   <p className="text-gray-400 text-lg mt-1">地點：</p>
                   <p
-                    className={`text-xl ${location.length === 0 ? "text-gray-400 italic" : " "
-                      } `}
+                    className={`text-xl ${
+                      location.length === 0 ? "text-gray-400 italic" : " "
+                    } `}
                   >
                     {location.length === 0 ? "上課地點" : location}
                   </p>
@@ -568,8 +605,9 @@ const TrainerThird = () => {
                 <div className="flex items-center">
                   <p className="text-gray-400 text-lg mt-1">價格範圍：</p>
                   <p
-                    className={`text-xl ${priceRange.length === 0 ? "text-gray-400 italic" : " "
-                      } `}
+                    className={`text-xl ${
+                      priceRange.length === 0 ? "text-gray-400 italic" : " "
+                    } `}
                   >
                     {priceRange.length === 0 ? "價格範圍" : priceRange}/hr
                   </p>
@@ -581,20 +619,23 @@ const TrainerThird = () => {
                   <p className="text-gray-400 text-lg">時段</p>
                   <div className="flex space-x-5 ">
                     <div
-                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${firstTime.length === 0 ? "text-white italic" : ""
-                        }`}
+                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${
+                        firstTime.length === 0 ? "text-white italic" : ""
+                      }`}
                     >
                       {firstTime.length === 0 ? "第一個上課時段" : firstTime}
                     </div>
                     <div
-                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${secondTime.length === 0 ? "text-white italic" : ""
-                        }`}
+                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${
+                        secondTime.length === 0 ? "text-white italic" : ""
+                      }`}
                     >
                       {secondTime.length === 0 ? "第二個上課時段" : secondTime}
                     </div>
                     <div
-                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${thirdTime.length === 0 ? "text-white italic" : ""
-                        }`}
+                      className={`p-2 border border-black rounded-xl  bg-[#00d68f] ${
+                        thirdTime.length === 0 ? "text-white italic" : ""
+                      }`}
                     >
                       {thirdTime.length === 0 ? "第三個上課時段" : thirdTime}
                     </div>
@@ -609,8 +650,9 @@ const TrainerThird = () => {
               <div className="flexCenter space-x-6  ">
                 {Navbar.map((item, index) => (
                   <p
-                    className={`text-xl font-bold ${navStep === index ? "text-[#007CEF] border-b-2" : ""
-                      }`}
+                    className={`text-xl font-bold ${
+                      navStep === index ? "text-[#007CEF] border-b-2" : ""
+                    }`}
                     onClick={() => setNavStep(index)}
                   >
                     {item}
@@ -621,16 +663,18 @@ const TrainerThird = () => {
               <div className="px-20 mt-10">
                 {navStep === 0 && (
                   <p
-                    className={`text-center  text-xl ${experience.length === 0 ? "text-gray-400 italic" : ""
-                      }`}
+                    className={`text-center  text-xl ${
+                      experience.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                   >
                     {experience.length === 0 ? "經歷" : experience}
                   </p>
                 )}
                 {navStep === 1 && (
                   <p
-                    className={`text-center  text-xl ${goalInTime.length === 0 ? "text-gray-400 italic" : ""
-                      }`}
+                    className={`text-center  text-xl ${
+                      goalInTime.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                   >
                     {goalInTime.length === 0
                       ? "幫助過學生「在多久時間」解決或達成「問題及目標」"
@@ -639,8 +683,9 @@ const TrainerThird = () => {
                 )}
                 {navStep === 2 && (
                   <p
-                    className={`text-center  text-xl ${trainingMethod.length === 0 ? "text-gray-400 italic" : ""
-                      }`}
+                    className={`text-center  text-xl ${
+                      trainingMethod.length === 0 ? "text-gray-400 italic" : ""
+                    }`}
                   >
                     {trainingMethod.length === 0
                       ? "能帶給學生什麼幫助/學習/成長"
@@ -657,14 +702,14 @@ const TrainerThird = () => {
               </div>
             </div>
             <div className="flexCenter space-x-22">
-
               {videoUpload || videoUrl.length > 0 ? (
                 <video
                   controls
                   src={
                     videoUpload ? URL.createObjectURL(videoUpload) : videoUrl
                   }
-                  className="px-10 pb-10 w-full"
+                  className="px-10 pb-10 w-full h-[700px]"
+                 
                 />
               ) : (
                 <div className="w-full h-[440px] rounded-lg block border ">

@@ -44,9 +44,11 @@ const Navbar = ({}: NavbarProps) => {
 
   return (
     <div className="flexBetween  h-[65px] fixed top-0 z-30 bg-[#fafafa] flex justify-end items-center w-screen sm:pr-20 space-x-6 select-none ">
-      <div className="ml-10 flexCenter space-x-3">
-        <p className="text-3xl font-semibold">FitMeet</p>
-      </div>
+      <Link to="/">
+        <div className="ml-10 flexCenter space-x-3">
+          <p className="text-3xl font-semibold">FitMeet</p>
+        </div>
+      </Link>
       <div className="hidden sm:flex  space-x-4">
         {navOptions.map(({ route, optionTw, optionEn }, index) => (
           <NavLink

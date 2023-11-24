@@ -1,6 +1,7 @@
 import Modal from "@mui/material/Modal";
 import { useClientContext } from "../../ContextProvider/ClientContext";
 import { storage } from "../../features/firebase";
+
 import {
   ref,
   getDownloadURL,
@@ -17,7 +18,6 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import playIcon from "../../assets/play.png";
 import mockImg from "../../assets/modalPic.avif";
 import videoMig from "../../assets/modalMock.avif";
-import { Suspense } from "react";
 interface TrainerModalProps {
   name: string;
 }
@@ -26,6 +26,7 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
   const { modalOpen, setModalOpen } = useClientContext();
   const [videoURL, setVideoURL] = useState<string>("");
   const [userData, setUserData] = useState<any>();
+
   const videoRef = ref(storage, "videos/");
 
   const [navStep, setNavStep] = useState(0);
@@ -42,7 +43,12 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
     }));
     setUserData(newData[0]);
   };
-  const Navbar = ["自我介紹", "幫助過學生解決的問題", "我能如何幫助你", "證照"];
+  const Navbar = [
+    "自我介紹",
+    "幫助過學生解決的問題",
+    "我能如何幫助你",
+    "證照",
+  ];
 
   const getUserVideos = async () => {
     const videosList = await listAll(videoRef);
@@ -52,43 +58,45 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
     });
   };
 
-  console.log(userData);
+  // console.log(userData);
 
   useEffect(() => {
     fetchData();
   }, [name]);
 
-  // const mockData = [
-  //   {
-  //     name: "示範教練",
-  //     title: "自由教練",
-  //     expYear: 6,
-  //     location: "台北 / 新北 / 桃園 ",
-  //     priceRange: " 800 ~ 1200",
-  //     firstTime: "週一 15:00 ~ 19:00",
-  //     secondTime: "週三 15:00 ~ 19:00",
-  //     thirdTime: "週五 15:00 ~ 19:00",
-  //     experience:"大家好，我是一位經驗豐富的專業健身教練，擁有超過6年的個人訓練和團體健身指導經驗。我專注於量身定制的健身計劃，幫助學生實現目標，無論是減重、增肌還是提高整體健康。我注重科學訓練方法，結合營養知識，確保學生以安全有效的方式達成目標。來加入我，一起邁向更健康、更強壯的生活吧！",
-  //     goalInTime:"作為專業健身教練，我幫助過眾多學生達成各種目標，從減脂塑形、增加肌肉質量到改善整體體態。例如，我指導一位學生成功減掉20公斤，並增強體能；另一位學生在我的輔導下，從完全的健身新手變成了馬拉松運動員。我的訓練計劃著重個人化和長期可持續性，確保學生能安全有效地達成他們的健身目標。",
-  //     trainingMethod:"作為專業健身教練，我不僅幫助學生達成健身目標，更重要的是改善他們的整體生活質量。通過定制的訓練計劃和營養建議，我幫助學生提升體能、增加自信，並培養持之以恆的運動習慣。我相信，透過鍛煉，人們不僅能改善體形和健康，還能學會自我管理、耐力和紀律，這些都是寶貴的生活技能。讓我們一起創造一個更健康、更活力的生活方式！",
-  //     certOne:"拿過的證照 1",
-  //     certTwo:"拿過的證照 2",
-  //     certThree:"拿過的證照 3",
-  //     secondImgUrl: mockImg,
-  //     videoUrl: "",
-  //     videoMock:playIcon
-  //   }
-  // ]
+  const mockData = [
+    {
+      name: "示範教練",
+      title: "自由教練",
+      expYear: 6,
+      location: "台北 / 新北 / 桃園 ",
+      priceRange: " 800 ~ 1200",
+      firstTime: "週一 15:00 ~ 19:00",
+      secondTime: "週三 15:00 ~ 19:00",
+      thirdTime: "週五 15:00 ~ 19:00",
+      experience:
+        "大家好，我是一位經驗豐富的專業健身教練，擁有超過6年的個人訓練和團體健身指導經驗。我專注於量身定制的健身計劃，幫助學生實現目標，無論是減重、增肌還是提高整體健康。我注重科學訓練方法，結合營養知識，確保學生以安全有效的方式達成目標。來加入我，一起邁向更健康、更強壯的生活吧！",
+      goalInTime:
+        "作為專業健身教練，我幫助過眾多學生達成各種目標，從減脂塑形、增加肌肉質量到改善整體體態。例如，我指導一位學生成功減掉20公斤，並增強體能；另一位學生在我的輔導下，從完全的健身新手變成了馬拉松運動員。我的訓練計劃著重個人化和長期可持續性，確保學生能安全有效地達成他們的健身目標。",
+      trainingMethod:
+        "作為專業健身教練，我不僅幫助學生達成健身目標，更重要的是改善他們的整體生活質量。通過定制的訓練計劃和營養建議，我幫助學生提升體能、增加自信，並培養持之以恆的運動習慣。我相信，透過鍛煉，人們不僅能改善體形和健康，還能學會自我管理、耐力和紀律，這些都是寶貴的生活技能。讓我們一起創造一個更健康、更活力的生活方式！",
+      certOne: "拿過的證照 1",
+      certTwo: "拿過的證照 2",
+      certThree: "拿過的證照 3",
+      secondImgUrl: mockImg,
+      videoUrl: "",
+      videoMock: playIcon,
+    },
+  ];
 
   const handleModalClose = () => {
-    setModalOpen(false)
-    setUserData("")
-  }
+    setModalOpen(false);
+    setUserData("");
+  };
 
   return (
     <Modal open={modalOpen} onClose={handleModalClose}>
       {
-        
         <div className="TrainerModal overflow-y-auto select-none">
           <div className="2xl:space-y-10">
             {/* 照片及自介 */}
@@ -165,13 +173,13 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
                   <div className="items-center">
                     <p className="text-gray-400 text-lg mb-2">時段</p>
                     <div className="flexBetween ">
-                      <div className="p-1 border border-black rounded-xl  bg-[#00d68f] ">
+                      <div className="p-2 font-semibold border border-black rounded-xl  bg-[#00d68f] ">
                         {userData?.firstTime}
                       </div>
-                      <div className="p-1 border border-black rounded-xl  bg-[#00d68f]">
+                      <div className="p-2 font-semibold border border-black rounded-xl  bg-[#00d68f]">
                         {userData?.secondTime}
                       </div>
-                      <div className="p-1 border border-black rounded-xl  bg-[#00d68f]">
+                      <div className="p-2 font-semibold border border-black rounded-xl  bg-[#00d68f]">
                         {userData?.thirdTime}
                       </div>
                     </div>
@@ -226,13 +234,15 @@ const TrainerModal = ({ name }: TrainerModalProps) => {
                   )}
                 </div>
               </div>
-
-              <video
-                controls
-                src={userData?.videoUrl}
-                className="px-10 pb-10 w-full h-[500px]"
-                poster={userData?.videoMock}
-              />
+              <div className="px-10 pb-10 w-full h-full">
+                <video
+                  controls
+                  controlsList="nodownload" 
+                  src={userData?.videoUrl}
+                  className="px-10 pb-10 w-full h-[500px]"
+                  poster={userData?.videoMock}
+                />
+              </div>
             </div>
           </div>
         </div>

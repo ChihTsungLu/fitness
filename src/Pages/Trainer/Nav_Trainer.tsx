@@ -28,7 +28,7 @@ const Nav_Trainer = () => {
   };
 
   return (
-    <div className="w-1/5  bg-[#051e34] flex flex-col items-center select-none ">
+    <div className="w-1/5  bg-[#051e34] flex-col items-center select-none hidden sm:flex">
       {/* Logo Title */}
       <Link to="/">
         <div className="flexCenter space-x-3 my-2">

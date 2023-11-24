@@ -11,11 +11,11 @@ const TrainerFirst = () => {
   } = useTrainerContext();
 
   return (
-    <div className="flex flex-col space-y-4 select-none">
-      <p className="text-xl ">第一步：建立個人資訊</p>
-      <div className="border border-gray-500 p-4 rounded-xl bg-white space-y-3 ">
+    <div className="flex flex-col space-y-4 select-none max-sm:w-fit">
+      <p className="text-xl max-sm:text-center">第一步：建立個人資訊</p>
+      <div className="border border-gray-500 p-4 rounded-xl bg-white space-y-3 max-sm:w-fit">
         <p className="text-lg ">一目了然您的專業、地點、時間及課程費用</p>
-        <div className="flex space-x-10">
+        <div className="flex-col flex max-sm:space-y-5 sm:flex-row sm:space-x-10">
           <TextField
             id="standard-basic"
             label="名字/暱稱"
@@ -94,9 +94,9 @@ const TrainerFirst = () => {
         </div>
       </div>
 
-      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-2">
+      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-2 w-fit">
         <p className="text-lg">聯絡方式</p>
-        <div className="flex space-x-10">
+        <div className="flex-col flex max-sm:space-y-5 sm:flex-row sm:space-x-10 ">
           <TextField
             id="standard-basic"
             label="LINE 連結"
@@ -149,9 +149,9 @@ const TrainerFirst = () => {
           />
         </div>
       </div>
-      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4">
+      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4 max-sm:w-fit">
         <p className="text-lg">每週可預約時段 (例：週二 15:00 - 18:00)</p>
-        <div className="flex space-x-10">
+        <div className="flex-col flex max-sm:space-y-5 sm:flex-row sm:space-x-10">
           <TextField
             id="standard-basic"
             label="第一個時段"
@@ -160,10 +160,10 @@ const TrainerFirst = () => {
             value={firstTime}
             onChange={(e) => {
               const inputText = e.target.value;
-              if (inputText.length <= 17) {
+              if (inputText.length <= 30) {
                 setFirstTime(e.target.value)
               } else {
-                setFirstTime(inputText.slice(0, 17))
+                setFirstTime(inputText.slice(0, 30))
               }
             }}
           />
@@ -175,10 +175,10 @@ const TrainerFirst = () => {
             value={secondTime}
             onChange={(e) => {
               const inputText = e.target.value;
-              if (inputText.length <= 17) {
+              if (inputText.length <= 30) {
                 setSecondTime(e.target.value)
               } else {
-                setSecondTime(inputText.slice(0, 17))
+                setSecondTime(inputText.slice(0, 30))
               }
             }}
           />
@@ -190,18 +190,18 @@ const TrainerFirst = () => {
             value={thirdTime}
             onChange={(e) => {
               const inputText = e.target.value;
-              if (inputText.length <= 17) {
+              if (inputText.length <= 30) {
                 setThirdTime(e.target.value)
               } else {
-                setThirdTime(inputText.slice(0, 17))
+                setThirdTime(inputText.slice(0, 30))
               }
             }}
           />
         </div>
       </div>
-      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4">
+      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4 max-sm:w-fit">
         <p className="text-lg">專業證照</p>
-        <div className="flex space-x-10">
+        <div className="flex-col flex max-sm:space-y-5 sm:flex-row sm:space-x-10">
           <TextField
             id="standard-basic"
             label="證照1"
@@ -235,7 +235,7 @@ const TrainerFirst = () => {
         </div>
       </div>
             
-      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4">
+      <div className=" border border-gray-500 p-4 rounded-xl bg-white space-y-4 max-sm:w-fit">
         <p className="text-lg">教練核心價值</p>
         <div className="space-y-5">
           <TextField

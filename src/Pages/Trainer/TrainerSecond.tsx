@@ -37,11 +37,11 @@ const TrainerSecond = () => {
 
     // console.log(secondImgUpload,'123123')
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 max-sm:w-screen">
             {/* 照片上傳 */}
-            <div className="flex space-x-2">
+            <div className="sm:flex sm:space-x-2 max-sm:space-y-4">
                 <div
-                    className="w-1/2 rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-4"
+                    className="max-sm:h-[550px] sm:w-1/2 rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-4"
                     onClick={handleFirstImageClick}
                 >
                     <p className="text-xl">教練牆照片</p>
@@ -49,12 +49,12 @@ const TrainerSecond = () => {
                         imageUpload ? (
                             <img
                                 src={URL.createObjectURL(imageUpload)}
-                                className="w-[450px] h-[450px] rounded-lg "
+                                className="w-fit h-[320px] sm:w-[450px] sm:h-[450px] rounded-lg "
                             />)
                             : imgUrl.length > 0 ?
                                 <img
                                     src={imageUpload ? URL.createObjectURL(imageUpload) : imgUrl.length > 0 ? imgUrl : ''}
-                                    className="w-[450px] h-[450px] rounded-lg "
+                                    className="w-fit h-fit sm:w-[450px] sm:h-[450px] rounded-lg "
                                 />
                                 :
                                 <p className="text-lg italic text-gray-400">上傳教練牆個人照片</p>}
@@ -68,7 +68,7 @@ const TrainerSecond = () => {
                     />
                 </div>
                 <div
-                    className="w-1/2 h-[550px] rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-4"
+                    className="max-sm:h-[550px] sm:w-1/2  h-[550px] rounded-xl border-dotted border-2 border-black p-3 bg-white flex flex-col items-center space-y-4"
                     onClick={handleSecondImageClick}
                 >
                     <p className="text-xl">教練個人頁面照片</p>
@@ -104,7 +104,7 @@ const TrainerSecond = () => {
                         <video
                             controls
                             src={URL.createObjectURL(videoUpload)}
-                            className="w-[600] h-[500] rounded-lg"
+                            className="w-[600] h-[500px] rounded-lg"
                         />
                     ) :
                         videoUrl?.length > 0 ? (
