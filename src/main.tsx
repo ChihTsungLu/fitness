@@ -9,7 +9,7 @@ import { ClientProvider } from "./ContextProvider/ClientContext.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Client from "./Pages/Client/Client.tsx";
-import Service from "./Pages/Service.tsx";
+import Service from "./Components/Service.tsx";
 import Home from "./Pages/Home/Home.tsx";
 import Auth from "./features/Auth.tsx";
 import ProtectedRoute from "./Components/ProtectedRoute.tsx";

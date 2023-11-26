@@ -56,9 +56,9 @@ const Feature = ({}: FeatureProps) => {
       {/* 教練 */}
       {isTrainer && (
         <div className="mt-7 px-3 sm:px-20 pb-4 rounded-xl bg-[#eef5ff] ">
-          <div className="sm:space-y-4 sm:ml-20 sm:pt-24 pt-10 max-sm:mb-10">
+          <div className="sm:space-y-4 xl:max-2xl:ml-4  2xl:ml-20 2xl:pt-24 pt-10 max-sm:mb-10">
             <p className="text-4xl text-black font-bold hidden sm:block ">
-              建立訓練知識數位足跡，讓顧客親自找上門
+              建立教練知識數位足跡，讓顧客親自找上門
             </p>
             <p className="text-3xl text-black font-bold text-center block sm:hidden">
               建立訓練知識數位足跡
@@ -71,7 +71,7 @@ const Feature = ({}: FeatureProps) => {
               三步驟打造個人品牌
             </p>
           </div>
-          <div className="sm:ml-20 sx:mb-12 sm:flex sm:justify-between sm:items-center relative flex max-sm:flex-col-reverse ">
+          <div className="xl:max-2xl:space-x-12 xl:max-2xl:ml-4 sm:ml-20 sx:mb-12 sm:flex sm:justify-between sm:items-center relative flex max-sm:flex-col-reverse ">
             <div className="max-sm:space-x-2 sm:space-y-8 sm:z-20 sm:flex-col flex max-sm:mt-7 mb-14">
               <div
                 className={`justify-center home-trainer-feature max-sm:w-[150px] max-sm:h-[80px] ${
@@ -173,7 +173,7 @@ const Feature = ({}: FeatureProps) => {
                 </div>
               </div>
             </div>
-            <div className="flex items-end justify-end ">
+            <div className="flex items-end justify-end xl:max-2xl:pl-10 ">
               {trainerExplainStep === 1 && (
                 <div className="max-sm:space-y-7">
                   <img
@@ -245,7 +245,7 @@ const Feature = ({}: FeatureProps) => {
       {/* 學生 */}
       {isStudent && (
         <div className="mt-7 px-3 sm:px-20 pb-4 rounded-xl bg-[#eef5ff]  ">
-          <div className="sm:space-y-4 sm:ml-20 sm:pt-24 pt-10 max-sm:mb-10">
+          <div className="sm:space-y-4 2xl:ml-20 2xl:pt-24 pt-10 max-sm:mb-10">
             <p className="text-4xl text-black font-bold hidden sm:block">
               透明教練及訓練資訊，達成體態的一站式平台
             </p>
@@ -263,7 +263,7 @@ const Feature = ({}: FeatureProps) => {
               輕鬆找到專屬教練
             </p>
           </div>
-          <div className="sm:ml-20 sx:mb-12 sm:flex sm:justify-between sm:items-center relative flex max-sm:flex-col-reverse">
+          <div className="2xl:ml-20 sx:mb-12 sm:flex sm:justify-between sm:items-center relative flex max-sm:flex-col-reverse">
             <div className="max-sm:space-x-2 sm:space-y-8 sm:z-20 sm:flex-col flex max-sm:mt-7 mb-14">
               <div
                 className={`justify-center home-trainer-feature max-sm:w-[150px] max-sm:h-[80px] ${
@@ -373,7 +373,7 @@ const Feature = ({}: FeatureProps) => {
                 </div>
               </div>
             </div>
-            <div className="flex items-end justify-end relative sm:mr-20">
+            <div className="flex items-end justify-end relative ">
               {clientExplainStep === 1 && (
                 <div className="max-sm:space-y-7">
                   <img
@@ -397,7 +397,7 @@ const Feature = ({}: FeatureProps) => {
                 <div className="max-sm:space-y-7">
                   <img
                     src={ClientSecond}
-                    className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                    className="rounded-xl LgPicSize 2xl:w-full xl:max-2xl:w-[600px] sm:h-[600px]"
                   />
                   <div className="block sm:hidden">
                     <p className="text-center block sm:hidden text-lg font-bold">
@@ -416,7 +416,7 @@ const Feature = ({}: FeatureProps) => {
                 <div className="max-sm:space-y-7">
                   <img
                     src={ClientSecond2}
-                    className="rounded-xl LgPicSize sm:w-full sm:h-[600px]"
+                    className="rounded-xl LgPicSize 2xl:w-full xl:max-2xl:w-[600px] sm:h-[600px]"
                   />
                   <div className="block sm:hidden">
                     <p className="text-center block sm:hidden text-lg font-bold">

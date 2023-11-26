@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   const userNAME = localStorage.getItem('name')
 
-  console.log(emailAuth)
+  
   if (userNAME === null || userNAME.length === 0) {
     return <Navigate to={"/auth"} replace />
   } 

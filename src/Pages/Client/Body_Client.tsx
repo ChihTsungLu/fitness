@@ -107,7 +107,7 @@ const Body_Client = () => {
     <div className="w-full flex-col px-10 select-none gap-5">
       <div className="my-10 flexCenter space-x-2">
         {/* Search bar */}
-        <form className="relative w-2/5 flexCenter">
+        <div className="relative w-2/5 flexCenter">
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2" />
           <input
             className="block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-10 pr-1 text-lg shadow-sm font-medium focus:border-black focus:outline-none focus:ring-0"
@@ -115,11 +115,11 @@ const Body_Client = () => {
             value={searchText}
             onChange={handleSearchChange}
           />
-        </form>
+        </div>
         {/* Filter */}
         {/* <div className="w-1/12 p-3 border border-black rounded-xl">filter</div> */}
       </div>
-      <div className="flexCenter flex-wrap sm:space-x-16 max-sm:space-y-4">
+      <div className="flexCenter flex-wrap sm:gap-12 sm:space-y-2 max-sm:space-y-4">
         {searchedResults.map((item, index) => (
           <div
             key={index}

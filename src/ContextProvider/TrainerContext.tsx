@@ -122,7 +122,7 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
     const q = query(databaseRef, where("email","==",emailAuth))
     const querySnapshot = await getDocs(q);
     const newData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    // console.log(newData)
+   
     setUserData(newData[0])
    
   } 
@@ -131,8 +131,7 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
     fetchData()
   }, [emailAuth]);
 
- console.log(emailAuth)
- console.log(userData)
+
 
   useEffect(()=>{
     if (userData !== undefined) {
@@ -164,7 +163,7 @@ export const TrainerProvider = ({ children }: { children: React.ReactNode }) => 
     }
   },[userData])
 
-  // console.log('userData: ', userData)
+  
 
   return (
     <StateContext.Provider

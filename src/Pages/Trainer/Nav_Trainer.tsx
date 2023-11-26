@@ -3,15 +3,16 @@ import PeopleIcon from "@mui/icons-material/People";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CampaignIcon from "@mui/icons-material/Campaign";
 import { useStateContext } from "../../ContextProvider/Contexts";
-import { auth } from "../../features/firebase";
-import { useState } from "react";
+import { auth } from "../../features/firebase"; 
 import { signOut } from "firebase/auth";
 import { TreeDeciduous } from "lucide-react";
 import { Link } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SmsIcon from "@mui/icons-material/Sms";
+import { useTrainerContext } from "../../ContextProvider/TrainerContext";
 const Nav_Trainer = () => {
   const { buildStep, setBuildStep } = useStateContext();
+  const { setImageUpload, setSecondImgUpload, setVideoUpload} = useTrainerContext();
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -26,11 +27,16 @@ const Nav_Trainer = () => {
         console.log(err.message);
       });
   };
+  const handleLink = () => {
+    setImageUpload(undefined)
+    setSecondImgUpload(undefined)
+    setVideoUpload(undefined)
+  }
 
   return (
     <div className="w-1/5  bg-[#051e34] flex-col items-center select-none hidden sm:flex">
       {/* Logo Title */}
-      <Link to="/">
+      <Link to="/" onClick={handleLink}>
         <div className="flexCenter space-x-3 my-2">
           {/* <TreeDeciduous color="#149e7a" size={40} /> */}
           <p className="text-3xl font-semibold text-white">FitMeet</p>
@@ -127,7 +133,7 @@ const Nav_Trainer = () => {
 
       {/* <p className="text-gray-300 text-1xl pt-6 pl-8">編輯個人檔案</p> */}
 
-      <div className="w-full flexBetween mt-10 px-10">
+      <div className="w-full flexBetween mt-10 px-10 space-x-5">
         <Button
           variant="contained"
           sx={{
